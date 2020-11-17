@@ -19,16 +19,16 @@
 
 prontera,128,200,6	script	Platinum Skill NPC	94,{
 	mes "[Platinum Skill NPC]";
-	mes "I can give you the special skills available to your job.";
-	mes "Would you like these skills now?";
+	mes "ฉันสามารถให้ทักษะพิเศษสำหรับอาชีพของคุณได้";
+	mes "คุณต้องการทักษะเหล่านี้ตอนนี้หรือไม่?";
 	next;
-	if (select("Yes Please:No") == 2) {
+	if (select("ใช่:ไม่") == 2) {
 		mes "[Platinum Skill NPC]";
-		mes "Have a nice day... >.>";
+		mes "ขอให้วันนี้เป็นวันที่ดีของคุณนะ... >.>";
 		close;
 	}
 	callfunc "F_GetPlatinumSkills";
 	mes "[Platinum Skill NPC]";
-	mes "There you go!";
+	mes "นั่นไง!";
 	close;
 }
