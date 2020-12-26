@@ -38,6 +38,8 @@
 #include "instance.hpp"
 #include "intif.hpp"
 #include "itemdb.hpp" // MAX_ITEMGROUP
+#include "item_synthesis.hpp"
+#include "item_upgrade.hpp"
 #include "log.hpp"
 #include "mail.hpp"
 #include "map.hpp"
@@ -1022,7 +1024,7 @@ ACMD_FUNC(storage)
 {
 	nullpo_retr(-1, sd);
 
-	if (sd->npc_id || sd->state.vending || sd->state.buyingstore || sd->state.trading || sd->state.storage_flag)
+	if (sd->npc_id || sd->state.vending || sd->state.buyingstore || sd->state.trading || sd->state.storage_flag || sd->state.lapine_ui)
 		return -1;
 
 	if (storage_storageopen(sd) == 1)
@@ -1044,7 +1046,7 @@ ACMD_FUNC(guildstorage)
 {
 	nullpo_retr(-1, sd);
 
-	if (sd->npc_id || sd->state.vending || sd->state.buyingstore || sd->state.trading)
+	if (sd->npc_id || sd->state.vending || sd->state.buyingstore || sd->state.trading || sd->state.lapine_ui)
 		return -1;
 
 	switch (storage_guild_storageopen(sd)) {
@@ -4057,6 +4059,12 @@ ACMD_FUNC(reload) {
 	} else if (strstr(command, "attendancedb") || strncmp(message, "attendancedb", 4) == 0) {
 		attendance_db.reload();
 		clif_displaymessage(fd, msg_txt(sd, 795)); // Attendance database has been reloaded.
+	} else if (strstr(command, "synthesisdb") || strncmp(message, "synthesisdb", 6) == 0) {
+		item_synthesis_db_reload();
+		clif_displaymessage(fd, msg_txt(sd, 796)); // Item Synthesis database has been reloaded.
+	} else if (strstr(command, "upgradedb") || strncmp(message, "upgradedb", 6) == 0) {
+		item_upgrade_db_reload();
+		clif_displaymessage(fd, msg_txt(sd, 797)); // Item Upgrade database has been reloaded.
 	}
 
 	return 0;
@@ -4752,6 +4760,9 @@ ACMD_FUNC(loadnpc)
 
 	npc_read_event_script();
 
+	ShowStatus( "NPC file '" CL_WHITE "%s" CL_RESET "' was reloaded.\n", message );
+	npc_event_doall_path( script_config.init_event_name, message );
+
 	clif_displaymessage(fd, msg_txt(sd,262)); // Script loaded.
 	return 0;
 }
@@ -4796,6 +4807,9 @@ ACMD_FUNC(reloadnpcfile) {
 	}
 
 	npc_read_event_script();
+
+	ShowStatus( "NPC file '" CL_WHITE "%s" CL_RESET "' was reloaded.\n", message );
+	npc_event_doall_path( script_config.init_event_name, message );
 
 	clif_displaymessage(fd, msg_txt(sd,262)); // Script loaded.
 	return 0;
@@ -7216,6 +7230,10 @@ ACMD_FUNC(mute)
 ACMD_FUNC(refresh)
 {
 	nullpo_retr(-1, sd);
+	if (sd->state.lapine_ui) {
+		clif_displaymessage(sd->fd, msg_txt(sd, 543));
+		return -1;
+	}
 	clif_refresh(sd);
 	return 0;
 }
@@ -7383,12 +7401,14 @@ ACMD_FUNC(mobinfo)
 		}
 #ifdef RENEWAL_EXP
 		if( battle_config.atcommand_mobinfo_type ) {
-			base_exp = base_exp * pc_level_penalty_mod(mob->lv - sd->status.base_level, mob->status.class_, mob->status.mode, 1) / 100;
-			job_exp = job_exp * pc_level_penalty_mod(mob->lv - sd->status.base_level, mob->status.class_, mob->status.mode, 1) / 100;
+			int penalty = pc_level_penalty_mod( sd, PENALTY_EXP, mob );
+
+			base_exp = base_exp * penalty / 100;
+			job_exp = job_exp * penalty / 100;
 		}
 #endif
 		// stats
-		if (mob->mexp)
+		if( mob->get_bosstype() == BOSSTYPE_MVP )
 			sprintf(atcmd_output, msg_txt(sd,1240), mob->name, mob->jname, mob->sprite, mob->vd.class_); // MVP Monster: '%s'/'%s'/'%s' (%d)
 		else
 			sprintf(atcmd_output, msg_txt(sd,1241), mob->name, mob->jname, mob->sprite, mob->vd.class_); // Monster: '%s'/'%s'/'%s' (%d)
@@ -7409,6 +7429,10 @@ ACMD_FUNC(mobinfo)
 		clif_displaymessage(fd, msg_txt(sd,1245)); //  Drops:
 		strcpy(atcmd_output, " ");
 		j = 0;
+#ifdef RENEWAL_DROP
+		int penalty = pc_level_penalty_mod( sd, PENALTY_DROP, mob );
+#endif
+
 		for (i = 0; i < MAX_MOB_DROP_TOTAL; i++) {
 			int droprate;
 			if (mob->dropitem[i].nameid == 0 || mob->dropitem[i].rate < 1 || (item_data = itemdb_exists(mob->dropitem[i].nameid)) == NULL)
@@ -7417,7 +7441,7 @@ ACMD_FUNC(mobinfo)
 
 #ifdef RENEWAL_DROP
 			if( battle_config.atcommand_mobinfo_type ) {
-				droprate = droprate * pc_level_penalty_mod(mob->lv - sd->status.base_level, mob->status.class_, mob->status.mode, 2) / 100;
+				droprate = droprate * penalty / 100;
 				if (droprate <= 0 && !battle_config.drop_rate0item)
 					droprate = 1;
 			}
@@ -7439,9 +7463,9 @@ ACMD_FUNC(mobinfo)
 		else if (j % 3 != 0)
 			clif_displaymessage(fd, atcmd_output);
 		// mvp
-		if (mob->mexp) {
+		if( mob->get_bosstype() == BOSSTYPE_MVP ){
 			float mvppercent, mvpremain;
-			sprintf(atcmd_output, msg_txt(sd,1247), mob->mexp); //  MVP Bonus EXP:%u
+			sprintf(atcmd_output, msg_txt(sd,1247), mob->mexp); //  MVP Bonus EXP:%llu
 			clif_displaymessage(fd, atcmd_output);
 			strcpy(atcmd_output, msg_txt(sd,1248)); //  MVP Items:
 			mvpremain = 100.0; //Remaining drop chance for official mvp drop mode
@@ -7956,7 +7980,7 @@ ACMD_FUNC(whodrops)
 
 #ifdef RENEWAL_DROP
 				if( battle_config.atcommand_mobinfo_type )
-					dropchance = dropchance * pc_level_penalty_mod(mob_db(item_data->mob[j].id)->lv - sd->status.base_level, mob_db(item_data->mob[j].id)->status.class_, mob_db(item_data->mob[j].id)->status.mode, 2) / 100;
+					dropchance = dropchance * pc_level_penalty_mod( sd, PENALTY_DROP, mob_db( item_data->mob[j].id ) ) / 100;
 #endif
 				if (pc_isvip(sd)) // Display item rate increase for VIP
 					dropchance += (dropchance * battle_config.vip_drop_increase) / 100;
@@ -10292,6 +10316,46 @@ ACMD_FUNC(quest) {
 	return 0;
 }
 
+ACMD_FUNC(synthesisui) {
+	nullpo_retr(-1, sd);
+
+#ifdef FEATURE_LAPINE_UI
+	t_itemid itemid;
+
+	if (sscanf(message, "%u", &itemid) < 1) {
+		clif_displaymessage(fd, "Please input itemid of synthesis id.");
+		return -1;
+	}
+	if (!item_synthesis_open(sd, itemid))
+		return -1;
+	sd->state.lapine_ui |= 4;
+	sd->itemid = itemid;
+#else
+	clif_displaymessage(fd, "Client is not supported.");
+#endif
+	return 0;
+}
+
+ACMD_FUNC(upgradeui) {
+	nullpo_retr(-1, sd);
+
+#ifdef FEATURE_LAPINE_UI
+	t_itemid itemid;
+
+	if (sscanf(message, "%u", &itemid) < 1) {
+		clif_displaymessage(fd, "Please input itemid of upgrade id.");
+		return -1;
+	}
+	if (!item_upgrade_open(sd, itemid))
+		return -1;
+	sd->state.lapine_ui |= 4;
+	sd->itemid = itemid;
+#else
+	clif_displaymessage(fd, "Client is not supported.");
+#endif
+	return 0;
+}
+
 #include "../custom/atcommand.inc"
 
 /**
@@ -10600,6 +10664,8 @@ void atcommand_basecommands(void) {
 		ACMD_DEF2("erasequest", quest),
 		ACMD_DEF2("completequest", quest),
 		ACMD_DEF2("checkquest", quest),
+		ACMD_DEFR(synthesisui, ATCMD_NOCONSOLE | ATCMD_NOAUTOTRADE),
+		ACMD_DEFR(upgradeui, ATCMD_NOCONSOLE | ATCMD_NOAUTOTRADE),
 	};
 	AtCommandInfo* atcommand;
 	int i;

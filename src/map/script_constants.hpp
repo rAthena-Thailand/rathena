@@ -813,10 +813,12 @@
 	export_constant(EQP_ACC_RL);
 	export_constant(EQP_SHADOW_ACC_RL);
 
+	export_constant2("EQP_Both_Hand", EQP_ARMS);
 	export_constant2("EQP_Right_Hand", EQP_HAND_R);
 	export_constant2("EQP_Left_Hand", EQP_HAND_L);
 	export_constant2("EQP_Right_Accessory", EQP_ACC_R);
 	export_constant2("EQP_Left_Accessory", EQP_ACC_L);
+	export_constant2("EQP_Both_Accessory", EQP_ACC_RL);
 	export_constant2("EQP_Shadow_Right_Accessory", EQP_SHADOW_ACC_R);
 	export_constant2("EQP_Shadow_Left_Accessory", EQP_SHADOW_ACC_L);
 
@@ -1606,6 +1608,7 @@
 	export_constant(SC_EP16_2_BUFF_SS);
 	export_constant(SC_EP16_2_BUFF_SC);
 	export_constant(SC_EP16_2_BUFF_AC);
+	export_constant(SC_EMERGENCY_MOVE);
 #ifdef RENEWAL
 	export_constant(SC_EXTREMITYFIST2);
 #endif
@@ -3772,6 +3775,7 @@
 	export_constant(AI_ZANZOU);
 	export_constant(AI_LEGION);
 	export_constant(AI_FAW);
+	export_constant(AI_GUILD);
 
 	/* battle flags */
 	export_constant(BF_NONE);
@@ -5146,17 +5150,70 @@
 	export_constant(IG_PRIZEOFHERO);
 	export_constant(IG_PRIVATE_AIRSHIP);
 	export_constant(IG_TOKEN_OF_SIEGFRIED);
-	export_constant(IG_ENCHANT_STONE_BOX5);
-	export_constant(IG_ENCHANT_STONE_BOX6);
-	export_constant(IG_ENCHANT_STONE_BOX7);
-	export_constant(IG_ENCHANT_STONE_BOX8);
-	export_constant(IG_ENCHANT_STONE_BOX9);
-	export_constant(IG_ENCHANT_STONE_BOX10);
-	export_constant(IG_ENCHANT_STONE_BOX11);
-	export_constant(IG_ENCHANT_STONE_BOX12);
-	export_constant(IG_ENCHANT_STONE_BOX13);
-	export_constant(IG_ENCHANT_STONE_BOX14);
-	export_constant(IG_ENCHANT_STONE_BOX15);
+	export_constant(IG_BS_SHA_M_S_1);
+	export_constant(IG_BS_SHA_M_S_17);
+	export_constant(IG_BS_SHA_M_S_18);
+	export_constant(IG_BS_SHA_M_S_19);
+	export_constant(IG_BS_SHA_M_S_20);
+	export_constant(IG_BS_ITEM_M_S_12);
+	export_constant(IG_BS_ITEM_M_S_15);
+	export_constant(IG_BS_SHA_M_S_5);
+	export_constant(IG_BS_SHA_M_S_6);
+	export_constant(IG_BS_SHA_M_S_7);
+	export_constant(IG_BS_SHA_M_S_8);
+	export_constant(IG_BS_SHA_M_S_13);
+	export_constant(IG_BS_SHA_M_S_15);
+	export_constant(IG_BS_SHA_M_S_16);
+	export_constant(IG_BS_SHA_M_S_23);
+	export_constant(IG_BS_ITEM_M_S_5);
+	export_constant(IG_BS_SHA_M_S_9);
+	export_constant(IG_BS_SHA_M_S_10);
+	export_constant(IG_BS_SHA_M_S_11);
+	export_constant(IG_BS_SHA_M_S_21);
+	export_constant(IG_BS_SHA_M_S_22);
+	export_constant(IG_BS_SHA_M_S_3);
+	export_constant(IG_BS_SHA_M_S_4);
+	export_constant(IG_BS_SHA_M_S_12);
+	export_constant(IG_BS_SHA_M_S_14);
+	export_constant(IG_BS_SHA_M_S_24);
+	export_constant(IG_BS_SHA_M_S_25);
+	export_constant(IG_PHYSICALMAGICAL_MIX);
+	export_constant(IG_SILVER_STATUE);
+	export_constant(IG_STABILITY_SHADOW_BOX);
+	export_constant(IG_RACE_SHADOW_BOX);
+	export_constant(IG_BEARERS_S_CONVERSION_BOX);
+	export_constant(IG_GEMSTONE_S_CONVERSION_BOX);
+	export_constant(IG_STATUS_S_CONVERSION_BOX);
+	export_constant(IG_SHADOW_EXCHANGE_BOX);
+	export_constant(IG_COSTUME_ENCHANT_STONE_BOX);
+	export_constant(IG_PIERCING_SHADOW_BOX);
+	export_constant(IG_ENCHANTSTONE_RECIPE_4M);
+	export_constant(IG_ENCHANTSTONE_RECIPE_9M);
+	export_constant(IG_CLASS_SHADOW_PENDANT);
+	export_constant(IG_CLASS_SHADOW_EARRING);
+	export_constant(IG_CLASS_SHADOW_SHIELD);
+	export_constant(IG_CLASS_SHADOW_SHOES);
+	export_constant(IG_CLASS_SHADOW_ARMOR);
+	export_constant(IG_CLASS_SHADOW_WEAPON);
+	export_constant(IG_COSTUME_EXCHANGE_BOX);
+	export_constant(IG_COLLECTIBLES_EXCHANGE_BOX);
+	export_constant(IG_COSTUME_ENCHANT_STONE_BOX5);
+	export_constant(IG_COSTUME_ENCHANT_STONE_BOX6);
+	export_constant(IG_COSTUME_ENCHANT_STONE_BOX7);
+	export_constant(IG_COSTUME_ENCHANT_STONE_BOX8);
+	export_constant(IG_COSTUME_ENCHANT_STONE_BOX9);
+	export_constant(IG_COSTUME_ENCHANT_STONE_BOX10);
+	export_constant(IG_COSTUME_ENCHANT_STONE_BOX11);
+	export_constant(IG_COSTUME_ENCHANT_STONE_BOX12);
+	export_constant(IG_COSTUME_ENCHANT_STONE_BOX13);
+	export_constant(IG_COSTUME_ENCHANT_STONE_BOX14);
+	export_constant(IG_COSTUME_ENCHANT_STONE_BOX15);
+	export_constant(IG_COSTUME_ENCHANT_STONE_BOX16);
+	export_constant(IG_COSTUME_ENCHANT_STONE_BOX17);
+	export_constant(IG_COSTUME_ENCHANT_STONE_BOX18);
+	export_constant(IG_COSTUME_ENCHANT_STONE_BOX19);
+	export_constant(IG_PERFECTSIZE_MIX);
+	export_constant(IG_MAGICPIERCING_MIX);
 
 	/* unit stop walking */
 	export_constant(USW_NONE);
@@ -7965,6 +8022,9 @@
 	export_constant(ITEMJ_THIRD);
 	export_constant(ITEMJ_THIRD_UPPER);
 	export_constant(ITEMJ_THIRD_BABY);
+	export_constant(ITEMJ_ALL_UPPER);
+	export_constant(ITEMJ_ALL_BABY);
+	export_constant(ITEMJ_ALL_THIRD);
 
 	/* item drop effects */
 	export_constant(DROPEFFECT_NONE);
@@ -7974,7 +8034,15 @@
 	export_constant(DROPEFFECT_YELLOW_PILLAR);
 	export_constant(DROPEFFECT_PURPLE_PILLAR);
 	export_constant(DROPEFFECT_ORANGE_PILLAR);
+	export_constant(DROPEFFECT_GREEN_PILLAR);
+	export_constant(DROPEFFECT_RED_PILLAR);
 	export_constant(DROPEFFECT_MAX);
+
+	/* penalty types */
+	export_constant(PENALTY_EXP);
+	export_constant(PENALTY_DROP);
+	export_constant(PENALTY_MVP_EXP);
+	export_constant(PENALTY_MVP_DROP);
 
 	#undef export_constant
 	#undef export_constant2

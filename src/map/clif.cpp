@@ -40,6 +40,8 @@
 #include "instance.hpp"
 #include "intif.hpp"
 #include "itemdb.hpp"
+#include "item_synthesis.hpp"
+#include "item_upgrade.hpp"
 #include "log.hpp"
 #include "mail.hpp"
 #include "map.hpp"
@@ -1169,7 +1171,7 @@ static void clif_set_unit_idle( struct block_list* bl, bool walking, send_target
 		p.maxHP = -1;
 		p.HP = -1;
 	}
-	p.isBoss = ( bl->type == BL_MOB && ( ( ( TBL_MOB *)bl )->db->mexp > 0 ) ) ? 1 : 0;
+	p.isBoss = ( bl->type == BL_MOB ) ? ( (mob_data*)bl )->get_bosstype() : BOSSTYPE_NONE;
 #endif
 #if PACKETVER >= 20150513
 	p.body = vd->body_style;
@@ -1304,7 +1306,7 @@ static void clif_spawn_unit( struct block_list *bl, enum send_target target ){
 		p.HP = -1;
 	}
 
-	p.isBoss = ( bl->type == BL_MOB && ( ( ( TBL_MOB *)bl)->db->mexp > 0 ) ) ? 1 : 0;
+	p.isBoss = ( bl->type == BL_MOB ) ? ( (mob_data*)bl )->get_bosstype() : BOSSTYPE_NONE;
 #endif
 #if PACKETVER >= 20150513
 	p.body = vd->body_style;
@@ -1406,7 +1408,7 @@ static void clif_set_unit_walking( struct block_list *bl, struct map_session_dat
 		p.HP = -1;
 	}
 
-	p.isBoss = ( bl->type == BL_MOB && (((TBL_MOB*)bl)->db->mexp > 0) ) ? 1 : 0;
+	p.isBoss = ( bl->type == BL_MOB ) ? ( (mob_data*)bl )->get_bosstype() : BOSSTYPE_NONE;
 #endif
 #if PACKETVER >= 20150513
 	p.body = vd->body_style;
@@ -8381,7 +8383,7 @@ void clif_mvp_item( struct map_session_data *sd, t_itemid nameid ){
 
 /// MVP EXP reward message (ZC_MVP_GETTING_SPECIAL_EXP).
 /// 010b <exp>.L
-void clif_mvp_exp(struct map_session_data *sd, unsigned int exp) {
+void clif_mvp_exp(struct map_session_data *sd, t_exp exp) {
 #if PACKETVER >= 20131223		// Kro remove this packet [Napster]
 	if (battle_config.mvp_exp_reward_message) {
 		char e_msg[CHAT_SIZE_MAX];
@@ -8396,7 +8398,7 @@ void clif_mvp_exp(struct map_session_data *sd, unsigned int exp) {
 	fd = sd->fd;
 	WFIFOHEAD(fd, packet_len(0x10b));
 	WFIFOW(fd,0) = 0x10b;
-	WFIFOL(fd,2) = min(exp, (unsigned int)INT32_MAX);
+	WFIFOL(fd,2) = (uint32)min( exp, MAX_EXP );
 	WFIFOSET(fd, packet_len(0x10b));
 #endif
 }
@@ -11807,7 +11809,7 @@ void clif_parse_UseItem(int fd, struct map_session_data *sd)
 		return;
 	}
 
-	if ( (!sd->npc_id && pc_istrading(sd)) || sd->chatID || (sd->state.block_action & PCBLOCK_USEITEM) ) {
+	if ( (!sd->npc_id && pc_istrading(sd)) || sd->chatID || sd->state.lapine_ui || (sd->state.block_action & PCBLOCK_USEITEM) ) {
 		clif_msg(sd, WORK_IN_PROGRESS);
 		return;
 	}
@@ -12630,7 +12632,7 @@ void clif_parse_skill_toid( struct map_session_data* sd, uint16 skill_id, uint16
 	sd->skillitem = sd->skillitemlv = 0;
 
 	if( SKILL_CHK_GUILD(skill_id) ) {
-		if( sd->state.gmaster_flag )
+		if( sd->state.gmaster_flag || skill_id == GD_CHARGESHOUT_BEATING )
 			skill_lv = guild_checkskill(sd->guild, skill_id);
 		else
 			skill_lv = 0;
@@ -14873,10 +14875,10 @@ int clif_friendslist_toggle_sub(struct map_session_data *sd,va_list ap)
 void clif_friendslist_send(struct map_session_data *sd)
 {
 	int i = 0, n, fd = sd->fd;
-#if PACKETVER >= 20180221
-	const int size = 8;
-#else
+#if PACKETVER < 20180221 || PACKETVER_RE_NUM >= 20200902
 	const int size = 8 + NAME_LENGTH;
+#else
+	const int size = 8;
 #endif
 
 	// Send friends list
@@ -14885,7 +14887,7 @@ void clif_friendslist_send(struct map_session_data *sd)
 	for(i = 0; i < MAX_FRIENDS && sd->status.friends[i].char_id; i++) {
 		WFIFOL(fd, 4 + size * i + 0) = sd->status.friends[i].account_id;
 		WFIFOL(fd, 4 + size * i + 4) = sd->status.friends[i].char_id;
-#if PACKETVER < 20180221
+#if PACKETVER < 20180221 || PACKETVER_RE_NUM >= 20200902
 		safestrncpy(WFIFOCP(fd, 4 + size * i + 8), sd->status.friends[i].name, NAME_LENGTH);
 #endif
 	}
@@ -21518,17 +21520,17 @@ void clif_parse_equipswitch_request_single( int fd, struct map_session_data* sd 
 #endif
 }
 
-void clif_parse_StartUseSkillToId( int fd, struct map_session_data* sd ){
+void clif_parse_StartUseSkillToId(int fd, struct map_session_data *sd) {
 #if PACKETVER_MAIN_NUM >= 20181002 || PACKETVER_RE_NUM >= 20181002 || PACKETVER_ZERO_NUM >= 20181010
-	const struct PACKET_CZ_START_USE_SKILL *p = (struct PACKET_CZ_START_USE_SKILL *)RFIFOP( fd, 0 );
+	const struct PACKET_CZ_START_USE_SKILL *p = (struct PACKET_CZ_START_USE_SKILL *)RFIFOP(fd, 0);
 
 	// Only rolling cutter is supported for now
-	if( p->skillId != GC_ROLLINGCUTTER ){
+	if (p->skillId != GC_ROLLINGCUTTER) {
 		return;
 	}
 
 	// Already running - cant happen on officials, since only one skill is supported
-	if( sd->skill_keep_using.skill_id != 0 ){
+	if (sd->skill_keep_using.skill_id != 0) {
 		return;
 	}
 
@@ -21537,28 +21539,28 @@ void clif_parse_StartUseSkillToId( int fd, struct map_session_data* sd ){
 	sd->skill_keep_using.level = p->skillLv;
 	sd->skill_keep_using.target = p->targetId;
 
-	clif_parse_skill_toid( sd, sd->skill_keep_using.skill_id, sd->skill_keep_using.level, sd->skill_keep_using.target );
+	clif_parse_skill_toid(sd, sd->skill_keep_using.skill_id, sd->skill_keep_using.level, sd->skill_keep_using.target);
 #endif
 }
 
-void clif_parse_StopUseSkillToId( int fd, struct map_session_data* sd ){
+void clif_parse_StopUseSkillToId(int fd, struct map_session_data *sd) {
 #if PACKETVER_MAIN_NUM >= 20181002 || PACKETVER_RE_NUM >= 20181002 || PACKETVER_ZERO_NUM >= 20181010
-	const struct PACKET_CZ_STOP_USE_SKILL *p = (struct PACKET_CZ_STOP_USE_SKILL *)RFIFOP( fd, 0 );
+	const struct PACKET_CZ_STOP_USE_SKILL *p = (struct PACKET_CZ_STOP_USE_SKILL *)RFIFOP(fd, 0);
 
 	// Not running
-	if( sd->skill_keep_using.skill_id == 0 ){
+	if (sd->skill_keep_using.skill_id == 0) {
 		return;
 	}
 
 #if 0
 	// Hack
-	if( p->skillId != sd->skill_keep_using.skill_id ){
+	if (p->skillId != sd->skill_keep_using.skill_id) {
 		return;
 	}
 #endif
 
-	if( sd->skill_keep_using.tid != INVALID_TIMER ){
-		delete_timer( sd->skill_keep_using.tid, skill_keep_using );
+	if (sd->skill_keep_using.tid != INVALID_TIMER) {
+		delete_timer(sd->skill_keep_using.tid, skill_keep_using);
 		sd->skill_keep_using.tid = INVALID_TIMER;
 	}
 	sd->skill_keep_using.skill_id = 0;
@@ -21567,13 +21569,13 @@ void clif_parse_StopUseSkillToId( int fd, struct map_session_data* sd ){
 #endif
 }
 
-void clif_ping( struct map_session_data* sd ){
+void clif_ping(struct map_session_data *sd) {
 #if PACKETVER_MAIN_NUM >= 20190213 || PACKETVER_RE_NUM >= 20190213 || PACKETVER_ZERO_NUM >= 20190130
-	nullpo_retv( sd );
+	nullpo_retv(sd);
 
 	int fd = sd->fd;
 
-	if( !session_isActive( fd ) ){
+	if (!session_isActive(fd)) {
 		return;
 	}
 
@@ -21581,32 +21583,292 @@ void clif_ping( struct map_session_data* sd ){
 
 	p.packetType = HEADER_ZC_PING;
 
-	clif_send( &p, sizeof( p ), &sd->bl, SELF );
+	clif_send(&p, sizeof(p), &sd->bl, SELF);
 #endif
 }
 
-int clif_ping_timer_sub( struct map_session_data *sd, va_list ap ){
-	nullpo_ret( sd );
+int clif_ping_timer_sub(struct map_session_data *sd, va_list ap) {
+	nullpo_ret(sd);
 
 	int fd = sd->fd;
 
-	if( !session_isActive( fd ) ){
+	if (!session_isActive(fd)) {
 		return 0;
 	}
 
-	t_tick tick = va_arg( ap, t_tick );
+	t_tick tick = va_arg(ap, t_tick);
 
-	if( session[fd]->wdata_tick + battle_config.ping_time < tick ){
-		clif_ping( sd );
+	if (session[fd]->wdata_tick + battle_config.ping_time < tick) {
+		clif_ping(sd);
 	}
 
 	return 0;
 }
 
-TIMER_FUNC( clif_ping_timer ){
-	map_foreachpc( clif_ping_timer_sub, gettick() );
+TIMER_FUNC(clif_ping_timer) {
+	map_foreachpc(clif_ping_timer_sub, gettick());
 
 	return 0;
+}
+
+/**
+ * Reset Lapine UI variables
+ * @param sd: Player
+ */
+static void clif_lapine_ui_reset(map_session_data *sd) {
+	sd->state.lapine_ui = 0;
+	sd->last_lapine_box = 0;
+	sd->itemid = sd->itemindex = -1;
+}
+
+/**
+ * Open Lapine Synthesis UI
+ * @param sd: Player
+ * @param itemid: ID for synthesis item
+ * 0A4E <itemid>.W (ZC_LAPINE_SYNTHESIS_OPEN)
+ * 0A4E <itemid>.L (ZC_LAPINE_SYNTHESIS_OPEN PACKETVER >= 20181121)
+ */
+bool clif_synthesisui_open(struct map_session_data *sd, t_itemid itemid) {
+#ifdef FEATURE_LAPINE_UI
+	nullpo_retr(false, sd);
+
+	PACKET_ZC_LAPINEDDUKDDAK_OPEN p;
+
+	p.packetType = HEADER_ZC_LAPINEDDUKDDAK_OPEN;
+	p.itemId = client_nameid(itemid);
+
+	clif_send(&p, sizeof(p), &sd->bl, SELF);
+	return true;
+#else
+	return false;
+#endif
+}
+
+/**
+ * Send Lapine Synthesis result to player
+ * @param sd: Player
+ * @param result: @see e_item_synthesis_result
+ * 0A50 <result>.W (ZC_LAPINE_SYNTHESIS_RESULT)
+ */
+void clif_synthesisui_result(struct map_session_data *sd, e_item_synthesis_result result) {
+#ifdef FEATURE_LAPINE_UI
+	nullpo_retv(sd);
+
+	clif_lapine_ui_reset(sd);
+
+	PACKET_ZC_LAPINEDDUKDDAK_RESULT p;
+
+	p.packetType = HEADER_ZC_LAPINEDDUKDDAK_RESULT;
+	p.result = result;
+
+	clif_send(&p, sizeof(p), &sd->bl, SELF);
+#endif
+}
+
+/**
+ * Received selected items from Lapine Synthesis UI
+ * @param fd
+ * @param sd
+ * 0A4F <length>.W <itemid>.W { <index>.W <count>.W }.*4B (CZ_LAPINE_SYNTHESIS_ACK)
+ * 0A4F <length>.W <itemid>.L { <index>.W <count>.W }.*4B (CZ_LAPINE_SYNTHESIS_ACK PACKETVER >= 20181121)
+ */
+void clif_parse_lapineSynthesis_submit(int fd, struct map_session_data* sd) {
+#ifdef FEATURE_LAPINE_UI
+	nullpo_retv(sd);
+
+	if (pc_istrading(sd)) {
+		clif_synthesisui_result(sd, SYNTHESIS_INVALID_ITEM);
+		return;
+	}
+
+	if (!(sd->state.lapine_ui&1)) {
+		set_eof(sd->fd);
+		return;
+	}
+
+	s_packet_db* info = &packet_db[RFIFOW(fd, 0)];
+
+	if (!info) {
+		set_eof(sd->fd);
+		return;
+	}
+
+	int len = RFIFOW(fd, info->pos[0]), i = 0, n = (len - info->pos[2]) / info->pos[3];
+#if PACKETVER >= 20181121
+	t_itemid itemid = RFIFOL(fd, info->pos[1]);
+#else
+	t_itemid itemid = RFIFOW(fd, info->pos[1]);
+#endif
+	item_data *id;
+
+	if (n < 1 || n > MAX_SYNTHESIS_SOURCES || sd->last_lapine_box != itemid || sd->last_lapine_box != sd->itemid || !(id = itemdb_exists(itemid))) {
+		//clif_synthesisui_result(sd, SYNTHESIS_INVALID_ITEM);
+		set_eof(sd->fd);
+		return;
+	}
+
+	if (!(sd->state.lapine_ui&4) && id->flag.delay_consume) {
+		item *it;
+		if (sd->itemindex == -1 || sd->itemid == -1 || !(it = &sd->inventory.u.items_inventory[sd->itemindex]) || it->nameid != itemid) {
+			//clif_synthesisui_result(sd, SYNTHESIS_INVALID_ITEM);
+			set_eof(sd->fd);
+			return;
+		}
+		if (id->flag.delay_consume != 2)
+			pc_delitem(sd, sd->itemindex, 1, 0, 0, LOG_TYPE_CONSUME);
+	}
+
+	std::vector<s_item_synthesis_list> items;
+
+	for (; i < n; i++) {
+		int index = RFIFOW(fd, info->pos[2] + i * info->pos[3]) - 2;
+		int amount = RFIFOW(fd, info->pos[2] + i * info->pos[3] + 2);
+
+		if (amount < 1 || index < 0 || index >= MAX_INVENTORY) {
+			//clif_synthesisui_result(sd, SYNTHESIS_INVALID_ITEM);
+			set_eof(sd->fd);
+			return;
+		}
+
+		s_item_synthesis_list item;
+		item.index = (uint16)index;
+		item.amount = (uint16)amount;
+		items.push_back(item);
+	}
+
+	clif_synthesisui_result(sd, item_synthesis_submit(sd, itemid, items));
+	clif_lapine_ui_reset(sd);
+#endif
+}
+
+/**
+ * Close Lapine Synthesis UI
+ * @param fd
+ * @param sd
+ * 0A70 CZ_LAPINE_SYNTHESIS_CLOSE
+ */
+void clif_parse_lapineSynthesis_close(int fd, struct map_session_data* sd) {
+#ifdef FEATURE_LAPINE_UI
+	nullpo_retv(sd);
+	clif_lapine_ui_reset(sd);
+#endif
+}
+
+/**
+ * Open Lapine Upgrade UI
+ * @param sd: Player
+ * @param itemid: ID for upgrade item
+ * 0AB4 <itemid>.W (ZC_LAPINE_UPGRADE_OPEN)
+ * 0AB4 <itemid>.L (ZC_LAPINE_UPGRADE_OPEN PACKETVER >= 20181121)
+ */
+bool clif_lapine_upgrade_open(struct map_session_data *sd, t_itemid itemid) {
+#ifdef FEATURE_LAPINE_UI
+	nullpo_retr(false, sd);
+
+	PACKET_ZC_LAPINEUPGRADE_OPEN p;
+
+	p.packetType = HEADER_ZC_LAPINEUPGRADE_OPEN;
+	p.itemId = client_nameid(itemid);
+
+	clif_send(&p, sizeof(p), &sd->bl, SELF);
+	return true;
+#else
+	return false;
+#endif
+}
+
+/**
+ * Send Lapine Upgrade result to player
+ * @param sd: Player
+ * @param result: @see e_item_upgrade_result
+ * 0AB7 <result>.W (ZC_LAPINE_UPGRADE_RESULT)
+ */
+void clif_lapine_upgrade_result(struct map_session_data *sd, e_item_upgrade_result result) {
+#ifdef FEATURE_LAPINE_UI
+	nullpo_retv(sd);
+
+	clif_lapine_ui_reset(sd);
+
+	PACKET_ZC_LAPINEUPGRADE_RESULT p;
+
+	p.packetType = HEADER_ZC_LAPINEUPGRADE_RESULT;
+	p.result = result;
+
+	clif_send(&p, sizeof(p), &sd->bl, SELF);
+#endif
+}
+
+/**
+ * Received selected item from Lapine Upgrade UI
+ * @param fd
+ * @param sd
+ * 0AB6 <itemid>.W <index>.W (CZ_LAPINE_UPGRADE_ACK)
+ * 0AB6 <itemid>.L <index>.W (CZ_LAPINE_UPGRADE_ACK PACKETVER >= 20181121)
+ */
+void clif_parse_lapineUpgrade_submit(int fd, struct map_session_data* sd) {
+#ifdef FEATURE_LAPINE_UI
+	nullpo_retv(sd);
+
+	if (pc_istrading(sd)) {
+		clif_lapine_upgrade_result(sd, LAPINE_UPRAGDE_FAILURE);
+		return;
+	}
+
+	if (!(sd->state.lapine_ui&2)) {
+		set_eof(sd->fd);
+		return;
+	}
+
+	s_packet_db* info = &packet_db[RFIFOW(fd, 0)];
+
+	if (!info) {
+		set_eof(sd->fd);
+		return;
+	}
+
+	short index = RFIFOW(fd, info->pos[1]) - 2;
+	t_itemid itemid;
+
+#if PACKETVER >= 20181121
+	itemid = RFIFOL(fd, info->pos[0]);
+#else
+	itemid = RFIFOW(fd, info->pos[0]);
+#endif
+
+	item_data *id;
+
+	if (sd->last_lapine_box != itemid || sd->last_lapine_box != sd->itemid || index < 0 || index >= MAX_INVENTORY || !(id = itemdb_search(sd->last_lapine_box))) {
+		//clif_lapine_upgrade_result(sd, LAPINE_UPRAGDE_FAILURE);
+		set_eof(sd->fd);
+		return;
+	}
+
+	if (!(sd->state.lapine_ui&4) && id->flag.delay_consume) {
+		if (sd->itemindex == -1 || sd->itemid == -1) {
+			//clif_lapine_upgrade_result(sd, LAPINE_UPRAGDE_FAILURE);
+			set_eof(sd->fd);
+			return;
+		}
+		if (id->flag.delay_consume != 2)
+			pc_delitem(sd, sd->itemindex, 1, 0, 0, LOG_TYPE_CONSUME);
+	}
+
+	clif_lapine_upgrade_result(sd, item_upgrade_submit(sd, itemid, index));
+	clif_lapine_ui_reset(sd);
+#endif
+}
+
+/**
+ * Close Lapine Upgrade UI
+ * @param fd
+ * @param sd
+ * 0AB5 CZ_LAPINE_UPGRADE_CLOSE
+ */
+void clif_parse_lapineUpgrade_close(int fd, struct map_session_data* sd) {
+#ifdef FEATURE_LAPINE_UI
+	nullpo_retv(sd);
+	clif_lapine_ui_reset(sd);
+#endif
 }
 
 /*==========================================

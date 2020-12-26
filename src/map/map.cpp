@@ -37,6 +37,8 @@
 #include "homunculus.hpp"
 #include "instance.hpp"
 #include "intif.hpp"
+#include "item_upgrade.hpp"
+#include "item_synthesis.hpp"
 #include "log.hpp"
 #include "mapreg.hpp"
 #include "mercenary.hpp"
@@ -2086,6 +2088,7 @@ int map_quit(struct map_session_data *sd) {
 		status_change_end(&sd->bl, SC_GLORYWOUNDS, INVALID_TIMER);
 		status_change_end(&sd->bl, SC_SOULCOLD, INVALID_TIMER);
 		status_change_end(&sd->bl, SC_HAWKEYES, INVALID_TIMER);
+		status_change_end(&sd->bl, SC_EMERGENCY_MOVE, INVALID_TIMER);
 		status_change_end(&sd->bl, SC_CHASEWALK2, INVALID_TIMER);
 		if(sd->sc.data[SC_PROVOKE] && sd->sc.data[SC_PROVOKE]->timer == INVALID_TIMER)
 			status_change_end(&sd->bl, SC_PROVOKE, INVALID_TIMER); //Infinite provoke ends on logout
@@ -2926,7 +2929,7 @@ int map_removemobs_sub(struct block_list *bl, va_list ap)
 	if( !battle_config.mob_remove_damaged && md->status.hp < md->status.max_hp )
 		return 0;
 	// is a mvp
-	if( md->db->mexp > 0 )
+	if( md->get_bosstype() == BOSSTYPE_MVP )
 		return 0;
 
 	unit_free(&md->bl,CLR_OUTSIGHT);
@@ -3558,6 +3561,9 @@ int map_readfromcache(struct map_data *m, char *buffer, char *decode_buffer)
 	for(i = 0; i < header->map_count; i++) {
 		info = (struct map_cache_map_info *)p;
 
+		// name exists in maps_athena.conf but not in map_cache.dat
+		if (info->name == nullptr || info->name[0] == '\0')
+			continue;
 		if( strcmp(m->name, info->name) == 0 )
 			break; // Map found
 
@@ -4922,6 +4928,8 @@ void do_final(void){
 	do_final_channel(); //should be called after final guild
 	do_final_vending();
 	do_final_buyingstore();
+	do_final_item_upgrade();
+	do_final_item_synthesis();
 	do_final_path();
 
 	map_db->destroy(map_db, map_db_final);
@@ -5246,6 +5254,8 @@ int do_init(int argc, char *argv[])
 	do_init_quest();
 	do_init_achievement();
 	do_init_battleground();
+	do_init_item_upgrade();
+	do_init_item_synthesis();
 	do_init_npc();
 	do_init_unit();
 	do_init_duel();
