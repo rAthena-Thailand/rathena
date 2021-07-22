@@ -1,0 +1,8 @@
+// Extra Monster Database
+// Additional monster database
+//
+// Structure:
+// <mobid>,<damagetaken>
+//
+// <mobid>  : Monster ID. See db/[pre-]re/mob_db.txt
+// <damagetaken> : Rate at which the monster will recieve damage from players. (Default 100% / Minimum 1%)

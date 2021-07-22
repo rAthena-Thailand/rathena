@@ -682,6 +682,7 @@ struct Battle_Config
 
 	/* TXT Itemdb */
 	int itemdb_txt;
+	int mobdb_txt;
 
 	int show_skill_scale;
 	int achievement_mob_share;

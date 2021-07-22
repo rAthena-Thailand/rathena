@@ -70,6 +70,8 @@ const t_tick MOB_MAX_DELAY = 24 * 3600 * 1000;
 #define MOB_CLONE_START MAX_MOB_DB
 #define MOB_CLONE_END MIN_MOB_DB2
 
+#define MAX_RACE2_MOBS 100
+
 // holds Monster Spawn informations
 std::unordered_map<uint16, std::vector<spawn_info>> mob_spawn_data;
 
@@ -6200,6 +6202,305 @@ static void mob_skill_db_set(void) {
 	//ShowStatus("Set skills to '%d' monsters.\n", db_size(mob_skill_db));
 }
 
+/*==========================================
+ * mob_db txt -> yaml table reading
+ *------------------------------------------*/
+static bool mob_parse_dbrow(char** str)
+{
+
+	int a;
+	
+	YAML::Node node;
+
+	node["Id"] = std::stoul(str[0]);
+	node["AegisName"] = str[1];
+	node["JapaneseName"] = str[3];
+	node["Name"] = str[3];
+	node["Level"] = max(1 ,atoi(str[4]));
+	node["Hp"] = max(1, atoi(str[5]));
+	node["Sp"] = max(1, atoi(str[6]));
+	node["BaseExp"] = atoi(str[7]);
+	node["JobExp"] = atoi(str[8]);
+	node["MvpExp"] = atoi(str[30]);
+	node["AttackRange"] = max(1, atoi(str[9]));
+	node["Attack"] = max(1, atoi(str[10]));
+	node["Attack2"] = max(1, atoi(str[11]));
+	node["Defense"] = atoi(str[12]);
+	node["MagicDefense"] = atoi(str[13]);
+	node["Str"] = max(1, atoi(str[14]));
+	node["Agi"] = max(1, atoi(str[15]));
+	node["Vit"] = max(1, atoi(str[16]));
+	node["Int"] = max(1, atoi(str[17]));
+	node["Dex"] = max(1, atoi(str[18]));
+	node["Luk"] = max(1, atoi(str[19]));
+	node["SkillRange"] = max(1, atoi(str[20]));
+	node["ChaseRange"] = max(1, atoi(str[21]));
+	
+	std::string size;
+	
+	// Size
+	switch(atoi(str[22])) {
+		case 0: size = "Small"; break;
+		case 1: size = "Medium"; break;
+		case 2: size = "Large"; break;
+		default: size = "Small"; break;
+	}
+
+	node["Size"] = size;
+	
+	std::string race;
+	
+	// Race
+	switch(atoi(str[23])) {
+		case 0: race = "Formless"; break;
+		case 1: race = "Undead"; break;
+		case 2: race = "Brute"; break;
+		case 3: race = "Plant"; break;
+		case 4: race = "Insect"; break;
+		case 6: race = "Demon"; break;
+		case 7: race = "Demihuman"; break;
+		case 8: race = "Angel"; break;
+		case 9: race = "Dragon"; break;
+		default: race = "Formless"; break;
+	}
+	node["Race"] = race;
+
+	// Element
+	a = atoi(str[24]); //Element
+	if (a < 20) a = 20;
+	std::string ele;
+	
+	switch(a%20) {
+		case 1: ele = "Neutral"; break; case 2: ele = "Water"; break; case 3: ele = "Earth"; break;
+		case 4: ele = "Fire"; break; case 5: ele = "Wind"; break; case 6: ele = "Poison"; break;
+		case 7: ele = "Holy"; break; case 8: ele = "Dark"; break; case 9: ele = "Ghost"; break; case 10: ele = "Undead"; break;
+		default: ele = "Neutral";
+	}
+	
+	node["Element"] = ele;
+	node["ElementLevel"] = (unsigned long)(a/20);
+	if (atoi(str[26]) > MAX_WALK_SPEED)
+		node["WalkSpeed"] = MAX_WALK_SPEED;
+	else
+		node["WalkSpeed"] = max(MIN_WALK_SPEED, atoi(str[26]));
+	node["AttackDelay"] = std::stoul(str[27]);
+	node["AttackMotion"] = std::stoul(str[28]);
+	node["DamageMotion"] = std::stoul(str[29]);
+
+	YAML::Node modes;
+	enum e_mode mode;
+	
+	mode = static_cast<enum e_mode>(strtol(str[25], NULL, 0));
+
+	modes["CanMove"] = (mode & 0x1) ? "true" : "false";
+	modes["Looter"] = (mode & 0x2) ? "true" : "false";
+	modes["Aggressive"] = (mode & 0x4) ? "true" : "false";
+	modes["Assist"] = (mode & 0x8) ? "true" : "false";
+	modes["CastSensorIdle"] = (mode & 0x10) ? "true" : "false";
+	modes["NoRandomWalk"] = (mode & 0x20) ? "true" : "false";
+	modes["NoCast"] = (mode & 0x40) ? "true" : "false";
+	modes["CanAttack"] = (mode & 0x80) ? "true" : "false";
+	modes["CastSensorChase"] = (mode & 0x200) ? "true" : "false";
+	modes["ChangeChase"] = (mode & 0x400) ? "true" : "false";
+	modes["Angry"] = (mode & 0x800) ? "true" : "false";
+	modes["ChangeTargetMelee"] = (mode & 0x1000) ? "true" : "false";
+	modes["ChangeTargetChase"] = (mode & 0x2000) ? "true" : "false";
+	modes["TargetWeak"] = (mode & 0x4000) ? "true" : "false";
+	modes["RandomTarget"] = (mode & 0x8000) ? "true" : "false";
+	modes["IgnoreMelee"] = (mode & 0x10000) ? "true" : "false";
+	modes["IgnoreMagic"] = (mode & 0x20000) ? "true" : "false";
+	modes["IgnoreRanged"] = (mode & 0x40000) ? "true" : "false";
+	modes["Mvp"] = (mode & 0x80000) ? "true" : "false";
+	modes["IgnoreMisc"] = (mode & 0x100000) ? "true" : "false";
+	modes["KnockBackImmune"] = (mode & 0x200000) ? "true" : "false";
+	modes["TeleportBlock"] = (mode & 0x400000) ? "true" : "false";
+	modes["FixedItemDrop"] = (mode & 0x1000000) ? "true" : "false";
+	modes["Detector"] = (mode & 0x2000000) ? "true" : "false";
+	modes["StatusImmune"] = (mode & 0x4000000) ? "true" : "false";
+	modes["SkillImmune"] = (mode & 0x8000000) ? "true" : "false";
+	node["Modes"] = modes;
+	
+	for (uint8 i = 0, c = 0; i < MAX_MVP_DROP; i++) {
+		YAML::Node mvpdrops;
+		struct item_data* id = itemdb_exists(atoi(str[31 + i * 2]));
+		
+		if (strtoul(str[31+i*2], nullptr, 10)) {
+			mvpdrops["Item"] = id->name;
+			mvpdrops["Rate"] = max(1, atoi(str[32+i*2]));
+		}
+
+		if (!mvpdrops.IsNull()) {
+			node["MvpDrops"][c] = mvpdrops;
+			c++;
+		}
+	}
+	
+	for (uint8 i = 0, c = 0; i < MAX_MOB_DROP; i++) {
+		int k = 31 + MAX_MVP_DROP*2 + i*2;
+		YAML::Node drops;
+		struct item_data* id = itemdb_exists(atoi(str[k]));
+		
+		if (strtoul(str[k], nullptr, 10)) {
+			drops["Item"] = id->name;
+			drops["Rate"] = max(1, atoi(str[k+1]));
+			if ((MAX_MOB_DROP - i) == 1)
+				drops["StealProtected"] = "true";
+		}
+
+		if (!drops.IsNull()) {
+			node["Drops"][c] = drops;
+			c++;
+		}
+	}
+	
+	return mob_db.parseBodyNode(node) > 0;
+}
+
+static bool mob_readdb_sub(char* fields[], int columns, int current)
+{
+	return mob_parse_dbrow(fields);
+}
+
+/*==========================================
+ * mob_race2_db.txt reading
+ *------------------------------------------*/
+static bool mob_readdb_race2(char* fields[], int columns, int current)
+{
+	int64 race;
+	int i;
+
+	if( ISDIGIT(fields[0][0]) )
+		race = atoi(fields[0]);
+	else if( !script_get_constant( fields[0], &race ) ){
+		ShowWarning("mob_readdb_race2: Unknown race2 constant \"%s\".\n", fields[0]);
+		return false;
+	}
+
+	if (!CHK_RACE2(race)) {
+		ShowWarning("mob_readdb_race2: Unknown race2 %lld.\n", race);
+		return false;
+	}
+
+	for(i = 1; i < columns; i++) {
+		int mob_id = atoi(fields[i]);
+		std::shared_ptr<s_mob_db> mob = mob_db.find(mob_id);
+
+		if (mob == nullptr) {
+			ShowWarning("mob_readdb_race2: Unknown mob id %d for race2 %lld.\n", mob_id, race);
+			continue;
+		}
+		mob->race2.push_back(static_cast<e_race2>(race));
+	}
+	return true;
+}
+
+/**
+ * Read additional monster drop from db file
+ * @author [Cydh]
+ **/
+static bool mob_readdb_drop(char* str[], int columns, int current) {
+	unsigned short mobid;
+	t_itemid nameid;
+	int rate, i, size, flag = 0;
+	struct s_mob_drop* drop;
+
+	mobid = atoi(str[0]);
+	std::shared_ptr<s_mob_db> mob = mob_db.find(mobid);
+	if (mob == nullptr) {
+		ShowError("mob_readdb_drop: Invalid monster ID %s.\n", str[0]);
+		return false;
+	}
+
+	nameid = strtoul(str[1], nullptr, 10);
+	if (itemdb_exists(nameid) == NULL) {
+		ShowWarning("mob_readdb_drop: Invalid item ID %s.\n", str[1]);
+		return false;
+	}
+
+	rate = atoi(str[2]);
+	if (columns > 4 && (flag = atoi(str[4])) == 2) {
+		drop = mob->mvpitem;
+		size = ARRAYLENGTH(mob->mvpitem);
+	}
+	else {
+		drop = mob->dropitem;
+		size = ARRAYLENGTH(mob->dropitem);
+	}
+
+	if (rate == 0) {
+		for (i = 0; i < size; i++) {
+			if (drop[i].nameid == nameid) {
+				memset(&drop[i], 0, sizeof(struct s_mob_drop));
+				ShowInfo("mob_readdb_drop: Removed item '%u' from monster '%hu'.\n", nameid, mobid);
+				return true;
+			}
+		}
+	}
+	else {
+		ARR_FIND(0, size, i, drop[i].nameid == nameid);
+		if (i == size) { // Item is not dropped at all (search all item slots)
+			ARR_FIND(0, size, i, drop[i].nameid == 0);
+			if (i == size) { // No empty slots
+				ShowError("mob_readdb_drop: Cannot add item '%u' to monster '%hu'. Max drop reached (%d).\n", nameid, mobid, size);
+				return true;
+			}
+		}
+
+		drop[i].nameid = nameid;
+		drop[i].rate = rate;
+		drop[i].steal_protected = (flag) ? 1 : 0;
+
+		// DroupItemGroup
+		if (columns > 3) {
+			uint16 group = 0;
+			std::string group_name;
+
+			group_name = trim(str[3]);
+
+			if (group_name.c_str() == "None")
+				drop[i].randomopt_group = group;
+			else {
+				if (!random_option_group.option_get_id(group_name.c_str(), group)) {
+					ShowError("Unknown random option group %s for monster %s, defaulting to no group.\n", group_name.c_str(), mob->jname.c_str());
+					return false;
+				}
+
+				drop[i].randomopt_group = group;
+			}
+		}
+	}
+
+	return true;
+}
+
+/**
+ * Read additional monster database from db file
+ * @author [Joam]
+ **/
+static bool mob_readdb_extra(char* str[], int columns, int current) {
+	unsigned short mobid;
+	int damagetaken = 0;
+
+	mobid = atoi(str[0]);
+
+	std::shared_ptr<s_mob_db> mob = mob_db.find(mobid);
+	if (mob == nullptr) {
+		ShowError("mob_readdb_drop: Invalid monster ID %s.\n", str[0]);
+		return false;
+	}
+
+	// Damage Taken
+	damagetaken = cap_value(atoi(str[1]),0,100);
+	if (!damagetaken) {
+		damagetaken = 100;
+		ShowWarning("mob_readdb_extra: Monster (%s) has zero damagetaken. change to 100.\n", mob->jname.c_str());
+	}
+
+	mob->damagetaken = damagetaken;
+
+	return true;
+}
+
 /**
  * read all mob-related databases
  */
@@ -6213,8 +6514,28 @@ static void mob_load(void)
 	// First we parse all the possible monsters to add additional data in the second loop
 	if( db_use_sqldbs )
 		mob_read_sqldb();
-	else
-		mob_db.load();
+	else {
+		if (battle_config.mobdb_txt == 1) {
+			for(int i = 0; i < ARRAYLENGTH(dbsubpath); i++){
+				int n2 = strlen(db_path)+strlen(DBPATH)+strlen(dbsubpath[i])+1;
+				char* dbsubpath2 = (char*)aMalloc(n2+1);
+				bool silent = i > 0;
+
+				if( i == 0 ) {
+					safesnprintf(dbsubpath2,n2,"%s/%s%s",db_path,DBPATH,dbsubpath[i]);
+				} else {
+					safesnprintf(dbsubpath2,n2,"%s%s",db_path,dbsubpath[i]);
+				}
+
+				sv_readdb(dbsubpath2, "mob_db.txt", ',', 31+2*MAX_MVP_DROP+2*MAX_MOB_DROP, 31+2*MAX_MVP_DROP+2*MAX_MOB_DROP, -1, &mob_readdb_sub, silent);
+
+				aFree(dbsubpath2);
+				mob_db.loadingFinished();
+			}
+		}
+		else
+			mob_db.load();
+	}
 
 	mob_chat_db.load();	// load before mob_skill_db
 
@@ -6239,7 +6560,12 @@ static void mob_load(void)
 		else
 			mob_readskilldb(dbsubpath2, silent);
 
-		sv_readdb(dbsubpath1, "mob_item_ratio.txt", ',', 2, 2+MAX_ITEMRATIO_MOBS, -1, &mob_readdb_itemratio, silent);
+		if (battle_config.mobdb_txt == 1) {
+			sv_readdb(dbsubpath2, "mob_extra.txt", ',', 2, 2, -1, &mob_readdb_extra, silent);
+			sv_readdb(dbsubpath2, "mob_race2_db.txt", ',', 2, MAX_RACE2_MOBS, -1, &mob_readdb_race2, silent);
+			sv_readdb(dbsubpath2, "mob_drop.txt", ',', 3, 5, -1, &mob_readdb_drop, silent);
+		}
+		sv_readdb(dbsubpath1, "mob_item_ratio.txt", ',', 2, 2 + MAX_ITEMRATIO_MOBS, -1, &mob_readdb_itemratio, silent);
 
 		aFree(dbsubpath1);
 		aFree(dbsubpath2);
