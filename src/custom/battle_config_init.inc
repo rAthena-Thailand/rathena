@@ -11,3 +11,6 @@
  *	 { "name", &battle_config.<variable name>, <default value>, <minimum value>, <maximum value> },
  **/
 
+	// Announce First for Success or Failure [@Tactics#8220 & @null#6385]
+	{ "announce_refine_success",                  &battle_config.announce_refine_success,                   1,    0,      INT_MAX,        },
+	{ "announce_refine_failure",                  &battle_config.announce_refine_failure,                   1,    0,      INT_MAX,        },
