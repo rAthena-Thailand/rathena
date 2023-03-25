@@ -13815,7 +13815,7 @@ Body:
         Element: Ghost
       - Level: 10
         Element: Undead
-    Duration1: 1200000
+    Duration1: 300000
     Requires:
       SpCost: 1
     Status: EnchantArms
@@ -17659,7 +17659,6 @@ Body:
       Interval: 500
       Target: Enemy
       Flag:
-        NoOverlap: true
         PathCheck: true
   - Id: 737
     Name: NPC_RAYOFGENESIS
@@ -19863,6 +19862,7 @@ Body:
     Range: 11
     Hit: Single
     HitCount: 1
+    Element: Wind
     CopyFlags:
       Skill:
         Reproduce: true
@@ -22389,6 +22389,7 @@ Body:
         Pilebuncker_S: true
         Pilebuncker_P: true
         Pilebuncker_T: true
+        Engine_Pilebuncker: true
   - Id: 2258
     Name: NC_VULCANARM
     Description: Vulcan Arm
@@ -22530,11 +22531,11 @@ Body:
       - Level: 2
         Area: 1
       - Level: 3
-        Area: 1
+        Area: 2
       - Level: 4
         Area: 2
       - Level: 5
-        Area: 2
+        Area: 3
     CastTime:
       - Level: 1
         Time: 1000
@@ -22546,18 +22547,18 @@ Body:
         Time: 1800
       - Level: 5
         Time: 2000
-    AfterCastActDelay: 1000
+    AfterCastActDelay: 500
     Cooldown:
       - Level: 1
-        Time: 100
+        Time: 50
       - Level: 2
-        Time: 150
+        Time: 75
       - Level: 3
-        Time: 200
+        Time: 100
       - Level: 4
-        Time: 250
+        Time: 125
       - Level: 5
-        Time: 300 
+        Time: 150
     FixedCastTime:
       - Level: 1
         Time: 500
@@ -23041,7 +23042,7 @@ Body:
     MaxLevel: 10
   - Id: 2277
     Name: NC_RESEARCHFE
-    Description: Research Fire/Earth
+    Description: Fire Earth Research
     MaxLevel: 5
   - Id: 2278
     Name: NC_AXEBOOMERANG
@@ -23348,7 +23349,7 @@ Body:
     TargetType: Attack
     DamageFlags:
       Splash: true
-    Range: 1
+    Range: 2
     Hit: Single
     HitCount: 1
     Element: Weapon
@@ -24297,13 +24298,13 @@ Body:
       - Level: 2
         Area: 1
       - Level: 3
-        Area: 1
+        Area: 2
       - Level: 4
         Area: 2
       - Level: 5
-        Area: 2
+        Area: 3
     ActiveInstance: 11
-    Cooldown: 2000
+    Cooldown: 1700
     Requires:
       SpCost:
         - Level: 1
@@ -24334,23 +24335,23 @@ Body:
         - Level: 1
           Amount: 20
         - Level: 2
-          Amount: 20
+          Amount: 22
         - Level: 3
-          Amount: 20
+          Amount: 24
         - Level: 4
-          Amount: 20
+          Amount: 26
         - Level: 5
-          Amount: 20
+          Amount: 28
         - Level: 6
-          Amount: 25
+          Amount: 30
         - Level: 7
-          Amount: 25
+          Amount: 32
         - Level: 8
-          Amount: 25
+          Amount: 34
         - Level: 9
-          Amount: 25
+          Amount: 36
         - Level: 10
-          Amount: 25
+          Amount: 38
       Weapon:
         1hSpear: true
         2hSpear: true
@@ -24555,7 +24556,9 @@ Body:
     Element: Weapon
     SplashArea: 3
     CastCancel: true
-    AfterCastActDelay: 2000
+    AfterCastActDelay: 1000
+    FixedCastTime: 500
+    Cooldown: 350
     Requires:
       SpCost:
         - Level: 1
@@ -24750,25 +24753,25 @@ Body:
     Requires:
       SpCost:
         - Level: 1
-          Amount: 30
+          Amount: 45
         - Level: 2
-          Amount: 40
-        - Level: 3
           Amount: 50
+        - Level: 3
+          Amount: 55
         - Level: 4
           Amount: 60
         - Level: 5
-          Amount: 70
+          Amount: 65
         - Level: 6
-          Amount: 80
+          Amount: 70
         - Level: 7
-          Amount: 90
+          Amount: 75
         - Level: 8
-          Amount: 100
+          Amount: 80
         - Level: 9
-          Amount: 110
+          Amount: 85
         - Level: 10
-          Amount: 120
+          Amount: 90
   - Id: 2322
     Name: LG_PIETY
     Description: Piety
@@ -24862,15 +24865,15 @@ Body:
         Time: 15000
     Cooldown:
       - Level: 1
-        Time: 7000
+        Time: 6500
       - Level: 2
-        Time: 6000
+        Time: 5500
       - Level: 3
-        Time: 5000
+        Time: 4500
       - Level: 4
-        Time: 4000
+        Time: 3500
       - Level: 5
-        Time: 3000
+        Time: 2500
     Requires:
       SpCost:
         - Level: 1
@@ -24895,9 +24898,8 @@ Body:
     HitCount: 3
     Element: Weapon
     CastCancel: true
-    CastTime: 1000
-    AfterCastActDelay: 3000
-    Cooldown: 20000
+    AfterCastActDelay: 500
+    Cooldown: 200
     Requires:
       SpCost:
         - Level: 1
@@ -27733,7 +27735,6 @@ Body:
       Interval: 500
       Target: Enemy
       Flag:
-        NoOverlap: true
         PathCheck: true
   - Id: 2450
     Name: SO_CLOUD_KILL
@@ -28637,7 +28638,6 @@ Body:
     HitCount: 3
     Element: Weapon
     SplashArea: 2
-    Knockback: 2
     AfterCastActDelay: 1000
     Duration1: 5000
     Cooldown: 2000
@@ -29038,6 +29038,7 @@ Body:
       Splash: true
     Flags:
       TargetTrap: true
+      TargetHidden: true
       IgnoreLandProtector: true
     Range: 5
     Hit: Multi_Hit
@@ -34690,8 +34691,6 @@ Body:
     TargetType: Self
     DamageFlags:
       NoDamage: true
-    Hit: Single
-    HitCount: 1
     GiveAp:
       - Level: 1
         Amount: 6
@@ -34704,6 +34703,7 @@ Body:
       - Level: 5
         Amount: 30
     CastCancel: true
+    AfterCastActDelay: 500
     Duration1:
       - Level: 1
         Time: 30000
@@ -34757,13 +34757,15 @@ Body:
     Type: Weapon
     TargetType: Attack
     DamageFlags:
+      Splash: true
       Critical: true
     Range: 1
-    Hit: Single
-    HitCount: 1
+    Hit: Multi_Hit
+    HitCount: 2
     Element: Weapon
     Requires:
       SpCost: 1
+    SplashArea: 4
   - Id: 5203
     Name: DK_SERVANT_W_SIGN
     Description: Servant Weapon Sign
@@ -34805,10 +34807,8 @@ Body:
     Element: Weapon
     SplashArea: 2
     CastCancel: true
-    AfterCastActDelay: 500
     Duration1: 20000
-    Cooldown: 2000
-    FixedCastTime: 500
+    Cooldown: 500
     Requires:
       SpCost: 40
       SpiritSphereCost: 5
@@ -34826,10 +34826,10 @@ Body:
     HitCount: 5
     Element: Weapon
     SplashArea: 6
-    GiveAp: 3
+    GiveAp: 2
     CastCancel: true
     AfterCastActDelay: 500
-    Cooldown: 3000
+    Cooldown: 500
     Requires:
       SpCost:
         - Level: 1
@@ -34853,6 +34853,7 @@ Body:
     Hit: Single
     HitCount: 1
     CastCancel: true
+    CastTime: 800
     AfterCastActDelay: 500
     Duration1:
       - Level: 1
@@ -34877,6 +34878,7 @@ Body:
         Time: 180000
     Duration2: 5000
     Cooldown: 60000
+    FixedCastTime: 400
     Requires:
       SpCost:
         - Level: 1
@@ -34914,34 +34916,58 @@ Body:
     MaxLevel: 10
     Type: Weapon
     TargetType: Attack
+    DamageFlags:
+      Splash: true
     Range: 2
-    Hit: Single
-    HitCount: 1
+    Hit: Multi_Hit
+    HitCount: 2
     Element: Weapon
+    SplashArea:
+      - Level: 1
+        Area: 1
+      - Level: 2
+        Area: 1
+      - Level: 3
+        Area: 1
+      - Level: 4
+        Area: 2
+      - Level: 5
+        Area: 2
+      - Level: 6
+        Area: 2
+      - Level: 7
+        Area: 3
+      - Level: 8
+        Area: 3
+      - Level: 9
+        Area: 3
+      - Level: 10
+        Area: 4
     CastCancel: true
-    AfterCastActDelay: 500
+    AfterCastActDelay: 250
+    Cooldown: 700
     Requires:
       SpCost:
         - Level: 1
-          Amount: 34
+          Amount: 36
         - Level: 2
-          Amount: 38
+          Amount: 40
         - Level: 3
-          Amount: 42
+          Amount: 44
         - Level: 4
-          Amount: 46
+          Amount: 48
         - Level: 5
-          Amount: 50
+          Amount: 52
         - Level: 6
-          Amount: 54
+          Amount: 56
         - Level: 7
-          Amount: 58
+          Amount: 60
         - Level: 8
-          Amount: 62
+          Amount: 64
         - Level: 9
-          Amount: 66
+          Amount: 68
         - Level: 10
-          Amount: 70
+          Amount: 72
       Weapon:
         2hSword: true
         2hSpear: true
@@ -34954,8 +34980,8 @@ Body:
     DamageFlags:
       Splash: true
     Range: 2
-    Hit: Single
-    HitCount: 1
+    Hit: Multi_Hit
+    HitCount: 2
     Element: Weapon
     SplashArea:
       - Level: 1
@@ -34965,19 +34991,19 @@ Body:
       - Level: 3
         Area: 1
       - Level: 4
-        Area: 1
+        Area: 2
       - Level: 5
         Area: 2
       - Level: 6
         Area: 2
       - Level: 7
-        Area: 2
+        Area: 3
       - Level: 8
-        Area: 2
+        Area: 3
       - Level: 9
         Area: 3
       - Level: 10
-        Area: 3
+        Area: 4
     Requires:
       SpCost: 1
   - Id: 5210
@@ -34991,9 +35017,10 @@ Body:
     HitCount: 1
     Element: Weapon
     CastCancel: true
-    AfterCastActDelay: 1000
+    AfterCastActDelay: 500
     Duration1: 300000
-    Cooldown: 60000
+    Cooldown: 120000
+    FixedCastTime: 500
     Requires:
       SpCost: 100
       ApCost: 150
@@ -35021,23 +35048,23 @@ Body:
         Area: 3
       - Level: 5
         Area: 3
-    GiveAp: 2
+    GiveAp: 3
     CastCancel: true
     AfterCastActDelay: 500
-    Cooldown: 2000
+    Cooldown: 350
     FixedCastTime: 500
     Requires:
       SpCost:
         - Level: 1
-          Amount: 34
+          Amount: 36
         - Level: 2
-          Amount: 38
+          Amount: 44
         - Level: 3
-          Amount: 42
+          Amount: 52
         - Level: 4
-          Amount: 46
+          Amount: 60
         - Level: 5
-          Amount: 50
+          Amount: 68
       Weapon:
         2hSword: true
         2hSpear: true
@@ -35075,7 +35102,7 @@ Body:
     Cooldown: 60000
     Requires:
       SpCost: 100
-      ApCost: 150
+      ApCost: 125
     Status: Vigor
   - Id: 5213
     Name: DK_STORMSLASH
@@ -35099,22 +35126,22 @@ Body:
       - Level: 5
         Count: 5
     Element: Weapon
-    GiveAp: 1
+    GiveAp: 2
     CastCancel: true
     AfterCastActDelay: 500
-    Cooldown: 1000
+    Cooldown: 300
     Requires:
       SpCost:
         - Level: 1
-          Amount: 30
-        - Level: 2
-          Amount: 35
-        - Level: 3
           Amount: 40
-        - Level: 4
+        - Level: 2
           Amount: 45
-        - Level: 5
+        - Level: 3
           Amount: 50
+        - Level: 4
+          Amount: 55
+        - Level: 5
+          Amount: 60
       Weapon:
         2hSword: true
         2hAxe: true
@@ -35131,7 +35158,7 @@ Body:
     HitCount: 1
     Element: Undead
     CastCancel: true
-    CastTime: 4000
+    CastTime: 3000
     AfterCastActDelay: 500
     Duration1:
       - Level: 1
@@ -35149,15 +35176,15 @@ Body:
     Requires:
       SpCost:
         - Level: 1
-          Amount: 80
+          Amount: 70
         - Level: 2
-          Amount: 90
+          Amount: 75
         - Level: 3
-          Amount: 100
+          Amount: 80
         - Level: 4
-          Amount: 110
+          Amount: 85
         - Level: 5
-          Amount: 120
+          Amount: 90
     Status: Deadly_Defeasance
   - Id: 5215
     Name: AG_DESTRUCTIVE_HURRICANE
@@ -35183,22 +35210,22 @@ Body:
         Area: 5
     CastCancel: true
     CastTime: 4000
-    AfterCastActDelay: 1000
+    AfterCastActDelay: 500
     Duration2: 900000
-    Cooldown: 6000
+    Cooldown: 2000
     FixedCastTime: 1500
     Requires:
       SpCost:
         - Level: 1
-          Amount: 80
+          Amount: 108
         - Level: 2
-          Amount: 90
+          Amount: 114
         - Level: 3
-          Amount: 100
-        - Level: 4
-          Amount: 110
-        - Level: 5
           Amount: 120
+        - Level: 4
+          Amount: 126
+        - Level: 5
+          Amount: 132
     Status: Climax_Des_Hu
   - Id: 5216
     Name: AG_RAIN_OF_CRYSTAL
@@ -35211,22 +35238,22 @@ Body:
     Element: Water
     CastCancel: true
     CastTime: 3000
-    AfterCastActDelay: 500
+    AfterCastActDelay: 250
     Duration1: 4000
     Cooldown: 5000
     FixedCastTime: 1500
     Requires:
       SpCost:
         - Level: 1
-          Amount: 40
+          Amount: 84
         - Level: 2
-          Amount: 50
+          Amount: 88
         - Level: 3
-          Amount: 60
+          Amount: 92
         - Level: 4
-          Amount: 70
+          Amount: 96
         - Level: 5
-          Amount: 80
+          Amount: 100
     Unit:
       Id: Rain_Of_Crystal
       Range:
@@ -35251,28 +35278,29 @@ Body:
     MaxLevel: 5
     Type: Magic
     TargetType: Ground
+    GiveAp: 5
     Range: 9
     Hit: Single
     HitCount: 1
     Element: Dark
     CastCancel: true
     CastTime: 4000
-    AfterCastActDelay: 1000
+    AfterCastActDelay: 500
     Duration1: 4000
     Cooldown: 4000
     FixedCastTime: 1500
     Requires:
       SpCost:
         - Level: 1
-          Amount: 80
+          Amount: 78
         - Level: 2
-          Amount: 90
+          Amount: 86
         - Level: 3
-          Amount: 100
+          Amount: 94
         - Level: 4
-          Amount: 110
+          Amount: 102
         - Level: 5
-          Amount: 120
+          Amount: 110
     Unit:
       Id: Mystery_Illusion
       Range:
@@ -35314,7 +35342,7 @@ Body:
         Area: 4
     CastCancel: true
     CastTime: 4000
-    AfterCastActDelay: 1000
+    AfterCastActDelay: 500
     Duration1:
       - Level: 1
         Time: 1200
@@ -35332,15 +35360,15 @@ Body:
     Requires:
       SpCost:
         - Level: 1
-          Amount: 80
-        - Level: 2
-          Amount: 90
-        - Level: 3
-          Amount: 100
-        - Level: 4
           Amount: 110
+        - Level: 2
+          Amount: 114
+        - Level: 3
+          Amount: 118
+        - Level: 4
+          Amount: 122
         - Level: 5
-          Amount: 120
+          Amount: 126
     Unit:
       Id: Violent_Quake
       Range:
@@ -35421,15 +35449,15 @@ Body:
     Requires:
       SpCost:
         - Level: 1
-          Amount: 80
-        - Level: 2
           Amount: 90
+        - Level: 2
+          Amount: 95
         - Level: 3
           Amount: 100
         - Level: 4
-          Amount: 110
+          Amount: 105
         - Level: 5
-          Amount: 120
+          Amount: 110
   - Id: 5221
     Name: AG_STRANTUM_TREMOR
     Description: Strantum Tremor
@@ -35442,22 +35470,22 @@ Body:
     Element: Earth
     CastCancel: true
     CastTime: 3000
-    AfterCastActDelay: 500
+    AfterCastActDelay: 250
     Duration1: 4000
-    Cooldown: 5000
+    Cooldown: 4000
     FixedCastTime: 1500
     Requires:
       SpCost:
         - Level: 1
-          Amount: 35
+          Amount: 74
         - Level: 2
-          Amount: 45
+          Amount: 79
         - Level: 3
-          Amount: 55
+          Amount: 84
         - Level: 4
-          Amount: 65
+          Amount: 89
         - Level: 5
-          Amount: 75
+          Amount: 94
     Unit:
       Id: Strantum_Tremor
       Range:
@@ -35499,7 +35527,7 @@ Body:
         Area: 4
     CastCancel: true
     CastTime: 4000
-    AfterCastActDelay: 1000
+    AfterCastActDelay: 500
     Duration1:
       - Level: 1
         Time: 1200
@@ -35517,15 +35545,15 @@ Body:
     Requires:
       SpCost:
         - Level: 1
-          Amount: 80
+          Amount: 94
         - Level: 2
-          Amount: 90
+          Amount: 102
         - Level: 3
-          Amount: 100
-        - Level: 4
           Amount: 110
+        - Level: 4
+          Amount: 118
         - Level: 5
-          Amount: 120
+          Amount: 126
     Unit:
       Id: All_Bloom
       Range:
@@ -35619,22 +35647,22 @@ Body:
         Area: 7
     CastCancel: true
     CastTime: 4000
-    AfterCastActDelay: 1000
+    AfterCastActDelay: 500
     Duration2: 900000
-    Cooldown: 6000
+    Cooldown: 2000
     FixedCastTime: 1500
     Requires:
       SpCost:
         - Level: 1
-          Amount: 80
-        - Level: 2
-          Amount: 90
-        - Level: 3
           Amount: 100
+        - Level: 2
+          Amount: 108
+        - Level: 3
+          Amount: 116
         - Level: 4
-          Amount: 110
+          Amount: 124
         - Level: 5
-          Amount: 120
+          Amount: 132
     Status: Climax_CryImp
   - Id: 5226
     Name: AG_CRYSTAL_IMPACT_ATK
@@ -35661,22 +35689,22 @@ Body:
     Element: Wind
     CastCancel: true
     CastTime: 3000
-    AfterCastActDelay: 500
+    AfterCastActDelay: 250
     Duration1: 3000
     Cooldown: 5000
     FixedCastTime: 1500
     Requires:
       SpCost:
         - Level: 1
-          Amount: 45
+          Amount: 78
         - Level: 2
-          Amount: 55
+          Amount: 82
         - Level: 3
-          Amount: 65
+          Amount: 86
         - Level: 4
-          Amount: 75
+          Amount: 90
         - Level: 5
-          Amount: 85
+          Amount: 94
     Unit:
       Id: Tornado_Storm
       Range:
@@ -35712,22 +35740,22 @@ Body:
     Element: Fire
     CastCancel: true
     CastTime: 3000
-    AfterCastActDelay: 500
+    AfterCastActDelay: 250
     Duration1: 5000
     Cooldown: 5000
     FixedCastTime: 1500
     Requires:
       SpCost:
         - Level: 1
-          Amount: 30
-        - Level: 2
-          Amount: 40
-        - Level: 3
-          Amount: 50
-        - Level: 4
-          Amount: 60
-        - Level: 5
           Amount: 70
+        - Level: 2
+          Amount: 76
+        - Level: 3
+          Amount: 82
+        - Level: 4
+          Amount: 88
+        - Level: 5
+          Amount: 94
     Unit:
       Id: Floral_Flare_Road
       Range:
@@ -35779,14 +35807,14 @@ Body:
       - Level: 10
         Area: 5
     CastCancel: true
-    CastTime: 8000
+    CastTime: 4000
     AfterCastActDelay: 500
-    Duration1: 15000
-    Cooldown: 60000
+    Duration1: 6000
+    Cooldown: 6000
     FixedCastTime: 2000
     Requires:
-      SpCost: 150
-      ApCost: 150
+      SpCost: 130
+      ApCost: 25
     Unit:
       Id: Astral_Strike
       Range:
@@ -35837,13 +35865,14 @@ Body:
     Hit: Single
     HitCount: 1
     CastCancel: true
-    AfterCastActDelay: 300
+    CastTime: 2000
+    AfterCastActDelay: 500
     Duration1: 300000
     Cooldown: 300000
-    FixedCastTime: 4000
+    FixedCastTime: 2500
     Requires:
       SpCost: 60
-      ApCost: 200
+      ApCost: 150
     Status: Climax
   - Id: 5233
     Name: AG_ROCK_DOWN
@@ -35857,25 +35886,45 @@ Body:
     Hit: Multi_Hit
     HitCount: -5
     Element: Earth
-    SplashArea: 1
-    GiveAp: 4
+    SplashArea:
+      - Level: 1
+        Area: 2
+      - Level: 2
+        Area: 2
+      - Level: 3
+        Area: 2
+      - Level: 4
+        Area: 3
+      - Level: 5
+        Area: 3
+    GiveAp: 2
     CastCancel: true
     CastTime: 4000
-    AfterCastActDelay: 1000
-    Cooldown: 4000
+    AfterCastActDelay: 500
+    Cooldown:
+      - Level: 1
+        Time: 3000
+      - Level: 2
+        Time: 2100
+      - Level: 3
+        Time: 1500
+      - Level: 4
+        Time: 900
+      - Level: 5
+        Time: 300
     FixedCastTime: 1500
     Requires:
       SpCost:
         - Level: 1
-          Amount: 65
+          Amount: 68
         - Level: 2
-          Amount: 70
+          Amount: 74
         - Level: 3
-          Amount: 75
-        - Level: 4
           Amount: 80
+        - Level: 4
+          Amount: 86
         - Level: 5
-          Amount: 85
+          Amount: 92
   - Id: 5234
     Name: AG_STORM_CANNON
     Description: Storm Cannon
@@ -35888,24 +35937,34 @@ Body:
     Element: Wind
     SplashArea: 1
     ActiveInstance: 14
-    GiveAp: 4
+    GiveAp: 2
     CastCancel: true
     CastTime: 4000
-    AfterCastActDelay: 1000
-    Cooldown: 4000
+    AfterCastActDelay: 500
+    Cooldown:
+      - Level: 1
+        Time: 3000
+      - Level: 2
+        Time: 2100
+      - Level: 3
+        Time: 1500
+      - Level: 4
+        Time: 900
+      - Level: 5
+        Time: 300
     FixedCastTime: 1500
     Requires:
       SpCost:
         - Level: 1
-          Amount: 60
+          Amount: 78
         - Level: 2
-          Amount: 70
+          Amount: 82
         - Level: 3
-          Amount: 80
+          Amount: 86
         - Level: 4
           Amount: 90
         - Level: 5
-          Amount: 100
+          Amount: 94
   - Id: 5235
     Name: AG_CRIMSON_ARROW
     Description: Crimson Arrow
@@ -35918,34 +35977,57 @@ Body:
     Element: Fire
     SplashArea: 1
     ActiveInstance: 14
-    GiveAp: 4
+    GiveAp: 2
     CastCancel: true
     CastTime: 4000
-    AfterCastActDelay: 1000
-    Cooldown: 4000
+    AfterCastActDelay: 500
+    Cooldown:
+      - Level: 1
+        Time: 3000
+      - Level: 2
+        Time: 2100
+      - Level: 3
+        Time: 1500
+      - Level: 4
+        Time: 900
+      - Level: 5
+        Time: 300
     FixedCastTime: 1500
     Requires:
       SpCost:
         - Level: 1
-          Amount: 65
+          Amount: 86
         - Level: 2
-          Amount: 75
+          Amount: 88
         - Level: 3
-          Amount: 85
+          Amount: 90
         - Level: 4
-          Amount: 95
+          Amount: 92
         - Level: 5
-          Amount: 105
+          Amount: 94
   - Id: 5236
     Name: AG_CRIMSON_ARROW_ATK
     Description: Crimson Arrow Attack
     MaxLevel: 5
     Type: Magic
     TargetType: Attack
+    DamageFlags:
+      Splash: true
     Range: 9
     Hit: Multi_Hit
-    HitCount: -2
+    HitCount: 1
     Element: Fire
+    SplashArea:
+      - Level: 1
+        Area: 2
+      - Level: 2
+        Area: 2
+      - Level: 3
+        Area: 2
+      - Level: 4
+        Area: 3
+      - Level: 5
+        Area: 3
     Requires:
       SpCost: 1
   - Id: 5237
@@ -35961,33 +36043,33 @@ Body:
     Element: Water
     SplashArea:
       - Level: 1
-        Area: 2
-      - Level: 2
-        Area: 2
-      - Level: 3
-        Area: 3
-      - Level: 4
-        Area: 3
-      - Level: 5
         Area: 4
-    GiveAp: 4
+      - Level: 2
+        Area: 4
+      - Level: 3
+        Area: 5
+      - Level: 4
+        Area: 5
+      - Level: 5
+        Area: 6
+    GiveAp: 2
     CastCancel: true
     CastTime: 4000
-    AfterCastActDelay: 1000
-    Cooldown: 4000
+    AfterCastActDelay: 500
+    Cooldown: 450
     FixedCastTime: 1500
     Requires:
       SpCost:
         - Level: 1
-          Amount: 45
+          Amount: 84
         - Level: 2
-          Amount: 55
+          Amount: 87
         - Level: 3
-          Amount: 65
+          Amount: 90
         - Level: 4
-          Amount: 75
+          Amount: 93
         - Level: 5
-          Amount: 85
+          Amount: 96
   - Id: 5238
     Name: IQ_POWERFUL_FAITH
     Description: Powerful Faith
@@ -35998,8 +36080,7 @@ Body:
     Hit: Single
     HitCount: 1
     CastCancel: true
-    CastTime: 2000
-    AfterCastActDelay: 500
+    CastTime: 1500
     Duration1:
       - Level: 1
         Time: 120000
@@ -36012,7 +36093,7 @@ Body:
       - Level: 5
         Time: 240000
     Cooldown: 60000
-    FixedCastTime: 1000
+    FixedCastTime: 1500
     Requires:
       SpCost:
         - Level: 1
@@ -36036,8 +36117,7 @@ Body:
     Hit: Single
     HitCount: 1
     CastCancel: true
-    CastTime: 2000
-    AfterCastActDelay: 500
+    CastTime: 1500
     Duration1:
       - Level: 1
         Time: 120000
@@ -36050,7 +36130,7 @@ Body:
       - Level: 5
         Time: 240000
     Cooldown: 60000
-    FixedCastTime: 1000
+    FixedCastTime: 1500
     Requires:
       SpCost:
         - Level: 1
@@ -36083,17 +36163,16 @@ Body:
     Element: Weapon
     SplashArea:
       - Level: 1
-        Area: 1
-      - Level: 2
-        Area: 1
-      - Level: 3
-        Area: 2
-      - Level: 4
-        Area: 2
-      - Level: 5
         Area: 3
+      - Level: 2
+        Area: 3
+      - Level: 3
+        Area: 4
+      - Level: 4
+        Area: 4
+      - Level: 5
+        Area: 5
     CastCancel: true
-    AfterCastActDelay: 500
     Duration1:
       - Level: 1
         Time: 3000
@@ -36105,19 +36184,19 @@ Body:
         Time: 6000
       - Level: 5
         Time: 7000
-    Cooldown: 5000
+    Cooldown: 2000
     Requires:
       SpCost:
         - Level: 1
-          Amount: 30
+          Amount: 45
         - Level: 2
-          Amount: 40
+          Amount: 55
         - Level: 3
-          Amount: 50
+          Amount: 65
         - Level: 4
-          Amount: 60
+          Amount: 75
         - Level: 5
-          Amount: 70
+          Amount: 85
       ItemCost:
         - Item: Holy_Water
           Amount: 1
@@ -36132,8 +36211,7 @@ Body:
     Hit: Single
     HitCount: 1
     CastCancel: true
-    CastTime: 2000
-    AfterCastActDelay: 500
+    CastTime: 1500
     Duration1:
       - Level: 1
         Time: 120000
@@ -36146,7 +36224,7 @@ Body:
       - Level: 5
         Time: 240000
     Cooldown: 60000
-    FixedCastTime: 1000
+    FixedCastTime: 1500
     Requires:
       SpCost:
         - Level: 1
@@ -36168,58 +36246,69 @@ Body:
     TargetType: Self
     DamageFlags:
       Splash: true
+      Critical: true
     Range: 9
     Hit: Single
     HitCount: 1
     Element: Weapon
-    SplashArea: 4
+    SplashArea: 5
     CastCancel: true
-    AfterCastActDelay: 500
-    Duration1: 300000
-    Cooldown: 60000
+    Duration1: 150000
+    Cooldown: 5000
     Requires:
       SpCost: 100
-      ApCost: 150
+      ApCost: 12
     Status: Massive_F_Blaster
   - Id: 5244
     Name: IQ_EXPOSION_BLASTER
-    Description: Exposion Blaster
+    Description: Explosion Blaster
     MaxLevel: 5
     Type: Weapon
     TargetType: Self
     DamageFlags:
       Splash: true
+      Critical: true
     Range: 9
     Hit: Single
     HitCount: 1
     Element: Weapon
     SplashArea:
       - Level: 1
-        Area: 2
+        Area: 3
       - Level: 2
-        Area: 2
+        Area: 3
       - Level: 3
-        Area: 3
-      - Level: 4
-        Area: 3
-      - Level: 5
         Area: 4
-    GiveAp: 5
+      - Level: 4
+        Area: 4
+      - Level: 5
+        Area: 5
+    GiveAp: 4
     CastCancel: true
-    AfterCastActDelay: 500
-    Cooldown: 5000
+    AfterCastActDelay:
+      - Level: 1
+        Time: 500
+      - Level: 2
+        Time: 400
+      - Level: 3
+        Time: 300
+      - Level: 4
+        Time: 200
+      - Level: 5
+        Time: 0
+    Cooldown: 700
     Requires:
       SpCost:
         - Level: 1
-          Amount: 80
+          Amount: 70
         - Level: 2
-          Amount: 90
+          Amount: 75
         - Level: 3
-          Amount: 100
+          Amount: 80
         - Level: 4
-          Amount: 110
+          Amount: 85
         - Level: 5
-          Amount: 120
+          Amount: 90
   - Id: 5245
     Name: IQ_FIRST_BRAND
     Description: First Brand
@@ -36228,46 +36317,26 @@ Body:
     TargetType: Attack
     DamageFlags:
       Splash: true
-    Range: 2
+    Range: 3
     Hit: Single
     HitCount: 1
     Element: Weapon
-    SplashArea:
-      - Level: 1
-        Area: 1
-      - Level: 2
-        Area: 1
-      - Level: 3
-        Area: 2
-      - Level: 4
-        Area: 2
-      - Level: 5
-        Area: 3
+    SplashArea: 3
     CastCancel: true
-    Duration1:
-      - Level: 1
-        Time: 1000
-      - Level: 2
-        Time: 2000
-      - Level: 3
-        Time: 3000
-      - Level: 4
-        Time: 4000
-      - Level: 5
-        Time: 5000
-    Cooldown: 500
+    Duration1: 5000
+    Cooldown: 300
     Requires:
       SpCost:
         - Level: 1
-          Amount: 22
+          Amount: 46
         - Level: 2
-          Amount: 29
-        - Level: 3
-          Amount: 36
-        - Level: 4
-          Amount: 43
-        - Level: 5
           Amount: 50
+        - Level: 3
+          Amount: 54
+        - Level: 4
+          Amount: 58
+        - Level: 5
+          Amount: 62
     Status: First_Brand
   - Id: 5246
     Name: IQ_FIRST_FAITH_POWER
@@ -36279,20 +36348,19 @@ Body:
     Hit: Single
     HitCount: 1
     CastCancel: true
-    CastTime: 2000
     AfterCastActDelay: 500
-    Duration1:
+    Duration1: 300000
+    Cooldown:
       - Level: 1
-        Time: 60000
-      - Level: 2
-        Time: 120000
-      - Level: 3
         Time: 180000
+      - Level: 2
+        Time: 150000
+      - Level: 3
+        Time: 120000
       - Level: 4
-        Time: 240000
+        Time: 90000
       - Level: 5
-        Time: 300000
-    Cooldown: 150000
+        Time: 60000
     FixedCastTime: 1000
     Requires:
       SpCost: 60
@@ -36307,24 +36375,33 @@ Body:
     Hit: Single
     HitCount: 1
     CastCancel: true
-    CastTime: 2000
     AfterCastActDelay: 500
-    Duration1:
+    Duration1: 300000
+    Cooldown:
       - Level: 1
-        Time: 60000
-      - Level: 2
-        Time: 120000
-      - Level: 3
         Time: 180000
+      - Level: 2
+        Time: 150000
+      - Level: 3
+        Time: 120000
       - Level: 4
-        Time: 240000
+        Time: 90000
       - Level: 5
-        Time: 300000
-    Cooldown: 150000
+        Time: 60000
     FixedCastTime: 1000
     Requires:
       SpCost: 60
-      ApCost: 100
+      ApCost:
+        - Level: 1
+          Amount: 80
+        - Level: 2
+          Amount: 70
+        - Level: 3
+          Amount: 60
+        - Level: 4
+          Amount: 50
+        - Level: 5
+          Amount: 40
       Status:
         First_Faith_Power: true
     Status: Second_Judge
@@ -36340,33 +36417,23 @@ Body:
     Hit: Single
     HitCount: 1
     Element: Weapon
-    SplashArea:
-      - Level: 1
-        Area: 1
-      - Level: 2
-        Area: 1
-      - Level: 3
-        Area: 2
-      - Level: 4
-        Area: 2
-      - Level: 5
-        Area: 3
-    GiveAp: 3
+    SplashArea: 3
+    GiveAp: 4
     CastCancel: true
     Duration1: 5000
-    Cooldown: 1000
+    Cooldown: 700
     Requires:
       SpCost:
         - Level: 1
-          Amount: 46
+          Amount: 51
         - Level: 2
-          Amount: 52
+          Amount: 57
         - Level: 3
-          Amount: 58
+          Amount: 63
         - Level: 4
-          Amount: 64
+          Amount: 69
         - Level: 5
-          Amount: 70
+          Amount: 75
     Status: Second_Brand
   - Id: 5249
     Name: IQ_SECOND_FAITH
@@ -36380,33 +36447,23 @@ Body:
     Hit: Multi_Hit
     HitCount: -2
     Element: Weapon
-    SplashArea:
-      - Level: 1
-        Area: 1
-      - Level: 2
-        Area: 1
-      - Level: 3
-        Area: 2
-      - Level: 4
-        Area: 2
-      - Level: 5
-        Area: 3
-    GiveAp: 1
+    SplashArea: 3
+    GiveAp: 4
     CastCancel: true
     Duration1: 5000
-    Cooldown: 1000
+    Cooldown: 700
     Requires:
       SpCost:
         - Level: 1
-          Amount: 36
+          Amount: 41
         - Level: 2
-          Amount: 42
+          Amount: 47
         - Level: 3
-          Amount: 48
+          Amount: 53
         - Level: 4
-          Amount: 54
+          Amount: 59
         - Level: 5
-          Amount: 60
+          Amount: 65
     Status: Second_Brand
   - Id: 5250
     Name: IQ_SECOND_JUDGEMENT
@@ -36420,33 +36477,23 @@ Body:
     Hit: Multi_Hit
     HitCount: -3
     Element: Weapon
-    SplashArea:
-      - Level: 1
-        Area: 1
-      - Level: 2
-        Area: 1
-      - Level: 3
-        Area: 2
-      - Level: 4
-        Area: 2
-      - Level: 5
-        Area: 3
-    GiveAp: 2
+    SplashArea: 3
+    GiveAp: 4
     CastCancel: true
     Duration1: 5000
-    Cooldown: 1000
+    Cooldown: 700
     Requires:
       SpCost:
         - Level: 1
-          Amount: 45
-        - Level: 2
           Amount: 50
-        - Level: 3
+        - Level: 2
           Amount: 55
-        - Level: 4
+        - Level: 3
           Amount: 60
-        - Level: 5
+        - Level: 4
           Amount: 65
+        - Level: 5
+          Amount: 70
     Status: Second_Brand
   - Id: 5251
     Name: IQ_THIRD_PUNISH
@@ -36456,24 +36503,15 @@ Body:
     TargetType: Attack
     DamageFlags:
       Splash: true
+      Critical: true
     Range: 3
     Hit: Multi_Hit
-    HitCount: -2
+    HitCount: 3
     Element: Weapon
-    SplashArea:
-      - Level: 1
-        Area: 1
-      - Level: 2
-        Area: 1
-      - Level: 3
-        Area: 2
-      - Level: 4
-        Area: 2
-      - Level: 5
-        Area: 3
+    SplashArea: 3
     CastCancel: true
     Duration1: 600000
-    Cooldown: 2000
+    Cooldown: 1000
     Requires:
       SpCost:
         - Level: 1
@@ -36498,19 +36536,9 @@ Body:
     Hit: Multi_Hit
     HitCount: 1
     Element: Weapon
-    SplashArea:
-      - Level: 1
-        Area: 1
-      - Level: 2
-        Area: 1
-      - Level: 3
-        Area: 2
-      - Level: 4
-        Area: 2
-      - Level: 5
-        Area: 3
+    SplashArea: 3
     CastCancel: true
-    Cooldown: 2000
+    Cooldown: 1000
     Requires:
       SpCost:
         - Level: 1
@@ -36533,21 +36561,11 @@ Body:
       Splash: true
     Range: 3
     Hit: Multi_Hit
-    HitCount: -3
+    HitCount: 5
     Element: Weapon
-    SplashArea:
-      - Level: 1
-        Area: 1
-      - Level: 2
-        Area: 1
-      - Level: 3
-        Area: 2
-      - Level: 4
-        Area: 2
-      - Level: 5
-        Area: 3
+    SplashArea: 3
     CastCancel: true
-    Cooldown: 2000
+    Cooldown: 1000
     Requires:
       SpCost:
         - Level: 1
@@ -36570,24 +36588,33 @@ Body:
     Hit: Single
     HitCount: 1
     CastCancel: true
-    CastTime: 2000
     AfterCastActDelay: 500
-    Duration1:
+    Duration1: 300000
+    Cooldown:
       - Level: 1
-        Time: 30000
+        Time: 180000
       - Level: 2
-        Time: 60000
-      - Level: 3
-        Time: 90000
-      - Level: 4
-        Time: 120000
-      - Level: 5
         Time: 150000
-    Cooldown: 150000
+      - Level: 3
+        Time: 120000
+      - Level: 4
+        Time: 90000
+      - Level: 5
+        Time: 60000
     FixedCastTime: 1000
     Requires:
       SpCost: 60
-      ApCost: 150
+      ApCost:
+        - Level: 1
+          Amount: 120
+        - Level: 2
+          Amount: 105
+        - Level: 3
+          Amount: 90
+        - Level: 4
+          Amount: 75
+        - Level: 5
+          Amount: 60
       Status:
         Second_Judge: true
     Status: Third_Exor_Flame
@@ -36603,7 +36630,8 @@ Body:
     Hit: Single
     HitCount: 1
     CastCancel: true
-    FixedCastTime: 500
+    CastTime: 1000
+    FixedCastTime: 1000
     Requires:
       SpCost: 50
       State: Shield
@@ -36620,10 +36648,11 @@ Body:
       Toggleable: true
     Hit: Single
     HitCount: 1
+    GiveAp: 15
     SplashArea: 10
     CastCancel: true
     CastTime: 2000
-    AfterCastActDelay: 500
+    AfterCastActDelay: 1000
     Duration1: 60000
     Cooldown: 15000
     FixedCastTime: 1000
@@ -36643,7 +36672,7 @@ Body:
     HitCount: 1
     CastCancel: true
     CastTime: 2000
-    AfterCastActDelay: 500
+    AfterCastActDelay: 1000
     Duration1: 60000
     Cooldown: 15000
     FixedCastTime: 1000
@@ -36670,7 +36699,8 @@ Body:
     Hit: Single
     HitCount: 1
     CastCancel: true
-    FixedCastTime: 500
+    CastTime: 1000
+    FixedCastTime: 1000
     Requires:
       SpCost: 50
     Status: Attack_Stance
@@ -36695,8 +36725,7 @@ Body:
       - Level: 5
         Area: 3
     CastCancel: true
-    CastTime: 2000
-    AfterCastActDelay: 500
+    AfterCastActDelay: 1000
     Duration1: 300000
     Cooldown:
       - Level: 1
@@ -36709,7 +36738,11 @@ Body:
         Time: 80000
       - Level: 5
         Time: 100000
-    FixedCastTime: 1000
+    FixedCastTime: 2000
+    CastTimeFlags:
+      IgnoreDex: true
+      IgnoreStatus: true
+      IgnoreItemBonus: true
     Requires:
       SpCost: 120
       Status:
@@ -36725,10 +36758,10 @@ Body:
     Hit: Single
     HitCount: 1
     CastCancel: true
-    CastTime: 2000
-    AfterCastActDelay: 500
+    CastTime: 2500
+    AfterCastActDelay: 1000
     Duration1: 180000
-    Cooldown: 120000
+    Cooldown: 40000
     FixedCastTime: 1000
     Requires:
       SpCost: 60
@@ -36749,33 +36782,32 @@ Body:
     SplashArea: 3
     CastCancel: true
     CastTime: 1000
-    AfterCastActDelay: 500
-    Duration1: 300000
-    Cooldown: 60000
+    Duration1: 150000
+    Cooldown: 5000
     FixedCastTime: 1000
     Requires:
       SpCost:
         - Level: 1
-          Amount: 41
+          Amount: 51
         - Level: 2
-          Amount: 44
+          Amount: 54
         - Level: 3
-          Amount: 47
+          Amount: 57
         - Level: 4
-          Amount: 50
+          Amount: 60
         - Level: 5
-          Amount: 53
+          Amount: 63
         - Level: 6
-          Amount: 56
+          Amount: 66
         - Level: 7
-          Amount: 59
+          Amount: 69
         - Level: 8
-          Amount: 62
+          Amount: 72
         - Level: 9
-          Amount: 65
+          Amount: 75
         - Level: 10
-          Amount: 68
-      ApCost: 150
+          Amount: 78
+      ApCost: 15
       Weapon:
         1hSpear: true
         2hSpear: true
@@ -36794,12 +36826,31 @@ Body:
     Element: Holy
     CastCancel: true
     CastTime: 2000
-    AfterCastActDelay: 1000
-    Cooldown: 60000
+    Cooldown: 500
     FixedCastTime: 1000
     Requires:
-      SpCost: 150
-      ApCost: 150
+      SpCost:
+        - Level: 1
+          Amount: 60
+        - Level: 2
+          Amount: 65
+        - Level: 3
+          Amount: 70
+        - Level: 4
+          Amount: 75
+        - Level: 5
+          Amount: 80
+        - Level: 6
+          Amount: 85
+        - Level: 7
+          Amount: 90
+        - Level: 8
+          Amount: 95
+        - Level: 9
+          Amount: 100
+        - Level: 10
+          Amount: 105
+      ApCost: 10
   - Id: 5265
     Name: IG_SHIELD_SHOOTING
     Description: Shield Shooting
@@ -36810,12 +36861,12 @@ Body:
     Hit: Multi_Hit
     HitCount: -7
     Element: Weapon
-    GiveAp: 2
+    GiveAp: 3
     CastCancel: true
     CastTime: 500
     AfterCastActDelay: 500
     Duration1: 10000
-    Cooldown: 2000
+    Cooldown: 700
     FixedCastTime: 500
     Requires:
       SpCost:
@@ -36841,39 +36892,39 @@ Body:
     TargetType: Attack
     DamageFlags:
       Splash: true
-    Range: 1
+    Range: 3
     Hit: Multi_Hit
-    HitCount: 2
+    HitCount: 3
     Element: Weapon
     SplashArea: 3
     GiveAp: 3
     CastCancel: true
     CastTime: 1000
     AfterCastActDelay: 500
-    Cooldown: 3000
-    FixedCastTime: 1000
+    Cooldown: 700
+    FixedCastTime: 500
     Requires:
       SpCost:
         - Level: 1
-          Amount: 41
+          Amount: 38
         - Level: 2
-          Amount: 44
+          Amount: 41
         - Level: 3
-          Amount: 47
+          Amount: 44
         - Level: 4
-          Amount: 50
+          Amount: 47
         - Level: 5
-          Amount: 53
+          Amount: 50
         - Level: 6
-          Amount: 56
+          Amount: 53
         - Level: 7
-          Amount: 59
+          Amount: 56
         - Level: 8
-          Amount: 62
+          Amount: 59
         - Level: 9
-          Amount: 65
+          Amount: 62
         - Level: 10
-          Amount: 68
+          Amount: 65
       Status:
         Attack_Stance: true
   - Id: 5267
@@ -36886,35 +36937,34 @@ Body:
     Hit: Single
     HitCount: 1
     Element: Holy
-    GiveAp: 5
+    GiveAp: 7
     CastCancel: true
-    CastTime: 1000
-    AfterCastActDelay: 500
+    AfterCastActDelay: 150
     Duration1: 4500
-    Cooldown: 5000
-    FixedCastTime: 1000
+    Cooldown: 4500
+    FixedCastTime: 1500
     Requires:
       SpCost:
         - Level: 1
-          Amount: 50
+          Amount: 67
         - Level: 2
-          Amount: 54
-        - Level: 3
-          Amount: 58
-        - Level: 4
-          Amount: 62
-        - Level: 5
-          Amount: 66
-        - Level: 6
           Amount: 70
-        - Level: 7
-          Amount: 74
-        - Level: 8
-          Amount: 78
-        - Level: 9
+        - Level: 3
+          Amount: 73
+        - Level: 4
+          Amount: 76
+        - Level: 5
+          Amount: 79
+        - Level: 6
           Amount: 82
+        - Level: 7
+          Amount: 85
+        - Level: 8
+          Amount: 88
+        - Level: 9
+          Amount: 91
         - Level: 10
-          Amount: 86
+          Amount: 94
     Unit:
       Id: Cross_Rain
       Range:
@@ -36954,8 +37004,6 @@ Body:
     Hit: Single
     HitCount: 1
     CastCancel: true
-    CastTime: 2000
-    AfterCastActDelay: 500
     Cooldown:
       - Level: 1
         Time: 150000
@@ -36967,7 +37015,7 @@ Body:
         Time: 30000
       - Level: 5
         Time: 10000
-    FixedCastTime: 1000
+    FixedCastTime: 2000
     Requires:
       SpCost: 120
   - Id: 5269
@@ -36986,7 +37034,6 @@ Body:
     SplashArea: 4
     CastCancel: true
     CastTime: 2000
-    AfterCastActDelay: 500
     Duration1:
       - Level: 1
         Time: 40000
@@ -36999,7 +37046,7 @@ Body:
       - Level: 5
         Time: 120000
     Cooldown: 60000
-    FixedCastTime: 1000
+    FixedCastTime: 1500
     Requires:
       SpCost:
         - Level: 1
@@ -37031,7 +37078,7 @@ Body:
     HitCount: 1
     CastCancel: true
     CastTime: 2000
-    AfterCastActDelay: 500
+    AfterCastActDelay: 1000
     Duration1:
       - Level: 1
         Time: 120000
@@ -37043,8 +37090,7 @@ Body:
         Time: 210000
       - Level: 5
         Time: 240000
-    Cooldown: 1000
-    FixedCastTime: 1000
+    FixedCastTime: 1500
     Requires:
       SpCost:
         - Level: 1
@@ -37072,7 +37118,7 @@ Body:
     HitCount: 1
     CastCancel: true
     CastTime: 2000
-    AfterCastActDelay: 500
+    AfterCastActDelay: 1000
     Duration1:
       - Level: 1
         Time: 120000
@@ -37084,8 +37130,7 @@ Body:
         Time: 210000
       - Level: 5
         Time: 240000
-    Cooldown: 1000
-    FixedCastTime: 1000
+    FixedCastTime: 1500
     Requires:
       SpCost:
         - Level: 1
@@ -37110,33 +37155,33 @@ Body:
     HitCount: 1
     Element: Holy
     CastCancel: true
-    CastTime: 2000
+    CastTime: 4000
     AfterCastActDelay: 500
     Duration1: 20000
-    Cooldown: 3000
+    Cooldown: 1500
     FixedCastTime: 1000
     Requires:
       SpCost:
         - Level: 1
-          Amount: 50
+          Amount: 94
         - Level: 2
-          Amount: 60
+          Amount: 96
         - Level: 3
-          Amount: 70
+          Amount: 98
         - Level: 4
-          Amount: 80
-        - Level: 5
-          Amount: 90
-        - Level: 6
           Amount: 100
+        - Level: 5
+          Amount: 102
+        - Level: 6
+          Amount: 104
         - Level: 7
-          Amount: 110
+          Amount: 106
         - Level: 8
-          Amount: 120
+          Amount: 108
         - Level: 9
-          Amount: 130
+          Amount: 110
         - Level: 10
-          Amount: 140
+          Amount: 112
     Status: HandicapState_DeepSilence
   - Id: 5274
     Name: CD_ARBITRIUM_ATK
@@ -37150,27 +37195,7 @@ Body:
     Hit: Single
     HitCount: 1
     Element: Holy
-    SplashArea:
-      - Level: 1
-        Area: 1
-      - Level: 2
-        Area: 1
-      - Level: 3
-        Area: 1
-      - Level: 4
-        Area: 2
-      - Level: 5
-        Area: 2
-      - Level: 6
-        Area: 2
-      - Level: 7
-        Area: 3
-      - Level: 8
-        Area: 3
-      - Level: 9
-        Area: 3
-      - Level: 10
-        Area: 4
+    SplashArea: 4
     Requires:
       SpCost: 1
   - Id: 5275
@@ -37187,7 +37212,7 @@ Body:
     HitCount: 1
     CastCancel: true
     CastTime: 2000
-    AfterCastActDelay: 500
+    AfterCastActDelay: 1000
     Duration1:
       - Level: 1
         Time: 120000
@@ -37199,8 +37224,7 @@ Body:
         Time: 210000
       - Level: 5
         Time: 240000
-    Cooldown: 1000
-    FixedCastTime: 1000
+    FixedCastTime: 1500
     Requires:
       SpCost:
         - Level: 1
@@ -37224,16 +37248,17 @@ Body:
     MaxLevel: 10
     Type: Weapon
     TargetType: Attack
+    DamageFlags:
+      Critical: true
     Range: 2
     Hit: Multi_Hit
     HitCount: -7
     Element: Weapon
     CastCancel: true
-    AfterCastActDelay: 500
-    Cooldown: 60000
+    Cooldown: 500
     Requires:
-      SpCost: 60
-      ApCost: 100
+      SpCost: 75
+      ApCost: 12
       Weapon:
         Mace: true
         2hMace: true
@@ -37250,24 +37275,33 @@ Body:
     HitCount: 1
     SplashArea: 10
     CastCancel: true
-    CastTime: 8000
     AfterCastActDelay: 500
     Duration1:
       - Level: 1
-        Time: 120000
-      - Level: 2
-        Time: 150000
-      - Level: 3
         Time: 180000
-      - Level: 4
+      - Level: 2
         Time: 210000
-      - Level: 5
+      - Level: 3
         Time: 240000
+      - Level: 4
+        Time: 270000
+      - Level: 5
+        Time: 300000
     Cooldown: 60000
-    FixedCastTime: 2000
+    FixedCastTime: 4000
     Requires:
       SpCost: 60
-      ApCost: 200
+      ApCost:
+        - Level: 1
+          Amount: 200
+        - Level: 2
+          Amount: 190
+        - Level: 3
+          Amount: 180
+        - Level: 4
+          Amount: 170
+        - Level: 5
+          Amount: 160
     Status: Competentia
   - Id: 5279
     Name: CD_PNEUMATICUS_PROCELLA
@@ -37281,13 +37315,12 @@ Body:
     Element: Holy
     CastCancel: true
     CastTime: 3000
-    AfterCastActDelay: 500
     Duration1: 12000
-    Cooldown: 60000
+    Cooldown: 5000
     FixedCastTime: 2000
     Requires:
       SpCost: 150
-      ApCost: 150
+      ApCost: 30
     Unit:
       Id: Pneumaticus_Procella
       Range:
@@ -37342,9 +37375,9 @@ Body:
         Area: 3
     GiveAp: 1
     CastCancel: true
-    CastTime: 2000
     AfterCastActDelay: 500
-    FixedCastTime: 1000
+    Cooldown: 300
+    FixedCastTime: 1500
     Requires:
       SpCost:
         - Level: 1
@@ -37369,8 +37402,7 @@ Body:
     HitCount: 1
     GiveAp: 1
     CastCancel: true
-    CastTime: 2000
-    AfterCastActDelay: 500
+    AfterCastActDelay: 700
     Duration1:
       - Level: 1
         Time: 120000
@@ -37382,6 +37414,7 @@ Body:
         Time: 210000
       - Level: 5
         Time: 240000
+    Cooldown: 250
     FixedCastTime: 1000
     Requires:
       SpCost:
@@ -37408,8 +37441,7 @@ Body:
     HitCount: 1
     GiveAp: 1
     CastCancel: true
-    CastTime: 2000
-    AfterCastActDelay: 500
+    AfterCastActDelay: 700
     Duration1:
       - Level: 1
         Time: 120000
@@ -37421,6 +37453,7 @@ Body:
         Time: 210000
       - Level: 5
         Time: 240000
+    Cooldown: 250
     FixedCastTime: 1000
     Requires:
       SpCost:
@@ -37443,6 +37476,7 @@ Body:
     TargetType: Attack
     DamageFlags:
       Splash: true
+      Critical: true
     Range: 2
     Hit: Single
     HitCount: 1
@@ -37468,32 +37502,32 @@ Body:
         Area: 3
       - Level: 10
         Area: 4
-    GiveAp: 2
+    GiveAp: 3
     CastCancel: true
     AfterCastActDelay: 500
-    Cooldown: 2000
+    Cooldown: 500
     Requires:
       SpCost:
         - Level: 1
-          Amount: 32
-        - Level: 2
-          Amount: 34
-        - Level: 3
-          Amount: 36
-        - Level: 4
           Amount: 38
-        - Level: 5
-          Amount: 40
-        - Level: 6
-          Amount: 42
-        - Level: 7
+        - Level: 2
+          Amount: 41
+        - Level: 3
           Amount: 44
-        - Level: 8
-          Amount: 46
-        - Level: 9
-          Amount: 48
-        - Level: 10
+        - Level: 4
+          Amount: 47
+        - Level: 5
           Amount: 50
+        - Level: 6
+          Amount: 53
+        - Level: 7
+          Amount: 56
+        - Level: 8
+          Amount: 59
+        - Level: 9
+          Amount: 62
+        - Level: 10
+          Amount: 65
       Weapon:
         Mace: true
         2hMace: true
@@ -37521,24 +37555,34 @@ Body:
         Area: 3
       - Level: 5
         Area: 3
-    GiveAp: 3
+    GiveAp: 2
     CastCancel: true
-    CastTime: 2000
+    CastTime: 5000
     AfterCastActDelay: 500
-    Cooldown: 3000
+    Cooldown:
+      - Level: 1
+        Time: 3000
+      - Level: 2
+        Time: 2100
+      - Level: 3
+        Time: 1500
+      - Level: 4
+        Time: 900
+      - Level: 5
+        Time: 300
     FixedCastTime: 1000
     Requires:
       SpCost:
         - Level: 1
-          Amount: 40
+          Amount: 80
         - Level: 2
-          Amount: 45
+          Amount: 83
         - Level: 3
-          Amount: 50
+          Amount: 86
         - Level: 4
-          Amount: 55
+          Amount: 89
         - Level: 5
-          Amount: 60
+          Amount: 92
   - Id: 5285
     Name: SHC_SHADOW_EXCEED
     Description: Shadow Exceed
@@ -37549,34 +37593,53 @@ Body:
     Hit: Single
     HitCount: 1
     CastCancel: true
-    CastTime: 1000
-    AfterCastActDelay: 500
+    AfterCastActDelay: 1000
     Duration1:
       - Level: 1
-        Time: 60000
+        Time: 30000
       - Level: 2
-        Time: 80000
+        Time: 60000
       - Level: 3
-        Time: 100000
+        Time: 90000
       - Level: 4
         Time: 120000
       - Level: 5
-        Time: 140000
+        Time: 150000
       - Level: 6
-        Time: 160000
-      - Level: 7
         Time: 180000
+      - Level: 7
+        Time: 210000
       - Level: 8
-        Time: 200000
-      - Level: 9
-        Time: 220000
-      - Level: 10
         Time: 240000
+      - Level: 9
+        Time: 270000
+      - Level: 10
+        Time: 300000
     Cooldown: 60000
     FixedCastTime: 1000
     Requires:
       SpCost: 100
-      ApCost: 150
+      ApCost:
+        - Level: 1
+          Amount: 152
+        - Level: 2
+          Amount: 149
+        - Level: 3
+          Amount: 146
+        - Level: 4
+          Amount: 143
+        - Level: 5
+          Amount: 140
+        - Level: 6
+          Amount: 137
+        - Level: 7
+          Amount: 134
+        - Level: 8
+          Amount: 131
+        - Level: 9
+          Amount: 128
+        - Level: 10
+          Amount: 125
     Status: Shadow_Exceed
   - Id: 5286
     Name: SHC_DANCING_KNIFE
@@ -37592,7 +37655,7 @@ Body:
     SplashArea: 2
     CastCancel: true
     CastTime: 1000
-    AfterCastActDelay: 500
+    AfterCastActDelay: 1000
     Duration1: 120000
     Cooldown: 30000
     FixedCastTime: 1000
@@ -37622,37 +37685,56 @@ Body:
       Critical: true
     Range: 7
     Hit: Multi_Hit
-    HitCount: -8
+    HitCount: 3
     Element: Weapon
-    SplashArea: 1
+    SplashArea: 2
     CastCancel: true
-    AfterCastActDelay: 500
-    Cooldown: 3000
+    AfterCastActDelay: 300
+    Cooldown:
+      - Level: 1
+        Time: 3000
+      - Level: 2
+        Time: 2800
+      - Level: 3
+        Time: 2600
+      - Level: 4
+        Time: 2400
+      - Level: 5
+        Time: 2200
+      - Level: 6
+        Time: 2000
+      - Level: 7
+        Time: 1800
+      - Level: 8
+        Time: 1600
+      - Level: 9
+        Time: 1400
+      - Level: 10
+        Time: 1000
     Requires:
       SpCost:
         - Level: 1
-          Amount: 28
+          Amount: 45
         - Level: 2
-          Amount: 31
+          Amount: 48
         - Level: 3
-          Amount: 34
+          Amount: 51
         - Level: 4
-          Amount: 37
+          Amount: 54
         - Level: 5
-          Amount: 40
+          Amount: 57
         - Level: 6
-          Amount: 43
+          Amount: 60
         - Level: 7
-          Amount: 46
+          Amount: 63
         - Level: 8
-          Amount: 49
+          Amount: 66
         - Level: 9
-          Amount: 52
+          Amount: 69
         - Level: 10
-          Amount: 55
+          Amount: 72
       Weapon:
         Katar: true
-      State: Hidden
   - Id: 5288
     Name: SHC_SHADOW_SENSE
     Description: Shadow Sense
@@ -37665,16 +37747,16 @@ Body:
     TargetType: Attack
     DamageFlags:
       Critical: true
-    Range: 2
+    Range: 3
     Hit: Multi_Hit
     HitCount: 1
     Element: Weapon
     CastCancel: true
     AfterCastActDelay: 500
     Duration1: 3000
-    Cooldown: 1500
+    Cooldown: 500
     Requires:
-      SpCost: 40
+      SpCost: 60
       Status:
         Weaponblock_On: true
     Status: E_Slash_Count
@@ -37688,28 +37770,27 @@ Body:
     Hit: Single
     HitCount: 1
     CastCancel: true
-    AfterCastActDelay: 500
     Duration1:
       - Level: 1
-        Time: 30000
+        Time: 75000
       - Level: 2
-        Time: 40000
-      - Level: 3
-        Time: 50000
-      - Level: 4
-        Time: 60000
-      - Level: 5
-        Time: 70000
-      - Level: 6
-        Time: 80000
-      - Level: 7
-        Time: 90000
-      - Level: 8
         Time: 100000
+      - Level: 3
+        Time: 125000
+      - Level: 4
+        Time: 150000
+      - Level: 5
+        Time: 175000
+      - Level: 6
+        Time: 200000
+      - Level: 7
+        Time: 225000
+      - Level: 8
+        Time: 250000
       - Level: 9
-        Time: 110000
+        Time: 275000
       - Level: 10
-        Time: 120000
+        Time: 300000
     Cooldown: 3000
     Requires:
       SpCost:
@@ -37748,22 +37829,21 @@ Body:
     Hit: Multi_Hit
     HitCount: 1
     Element: Weapon
-    GiveAp: 3
+    GiveAp: 2
     CastCancel: true
-    AfterCastActDelay: 500
-    Cooldown: 3000
+    Cooldown: 350
     Requires:
       SpCost:
         - Level: 1
-          Amount: 45
+          Amount: 40
         - Level: 2
-          Amount: 50
+          Amount: 45
         - Level: 3
-          Amount: 55
+          Amount: 50
         - Level: 4
-          Amount: 60
+          Amount: 55
         - Level: 5
-          Amount: 65
+          Amount: 60
       Weapon:
         Dagger: true
   - Id: 5292
@@ -37789,23 +37869,22 @@ Body:
         Area: 2
       - Level: 5
         Area: 3
-    GiveAp: 5
+    GiveAp: 3
     CastCancel: true
-    AfterCastActDelay: 500
     Duration1: 10000
-    Cooldown: 5000
+    Cooldown: 1500
     Requires:
       SpCost:
         - Level: 1
-          Amount: 43
-        - Level: 2
           Amount: 46
+        - Level: 2
+          Amount: 54
         - Level: 3
-          Amount: 49
+          Amount: 62
         - Level: 4
-          Amount: 52
+          Amount: 70
         - Level: 5
-          Amount: 55
+          Amount: 78
       Weapon:
         Katar: true
       Status:
@@ -37821,11 +37900,11 @@ Body:
     Hit: Single
     HitCount: 1
     CastCancel: true
-    AfterCastActDelay: 500
+    AfterCastActDelay: 1000
     Duration1: 180000
     Duration2: 15000
-    Cooldown: 150000
-    FixedCastTime: 2000
+    Cooldown: 30000
+    FixedCastTime: 1500
     Requires:
       SpCost:
         - Level: 1
@@ -37851,11 +37930,32 @@ Body:
     Hit: Single
     HitCount: 1
     Element: Weapon
-    SplashArea: 3
+    SplashArea:
+      - Level: 1
+        Area: 1
+      - Level: 2
+        Area: 1
+      - Level: 3
+        Area: 1
+      - Level: 4
+        Area: 1
+      - Level: 5
+        Area: 2
+      - Level: 6
+        Area: 2
+      - Level: 7
+        Area: 2
+      - Level: 8
+        Area: 2
+      - Level: 9
+        Area: 3
+      - Level: 10
+        Area: 3
     CastCancel: true
-    AfterCastActDelay: 500
     Duration1: 20000
     Cooldown: 60000
+    CastTime: 500
+    FixedCastTime: 500
     Requires:
       SpCost: 150
       ApCost: 150
@@ -37884,23 +37984,33 @@ Body:
         Area: 2
       - Level: 5
         Area: 3
-    GiveAp: 2
+    GiveAp: 3
     CastCancel: true
-    AfterCastActDelay: 500
-    Duration1: 5000
-    Cooldown: 2000
+    AfterCastActDelay: 250
+    Duration1:
+      - Level: 1
+        Time: 10000
+      - Level: 2
+        Time: 15000
+      - Level: 3
+        Time: 20000
+      - Level: 4
+        Time: 25000
+      - Level: 5
+        Time: 30000
+    Cooldown: 700
     Requires:
       SpCost:
         - Level: 1
-          Amount: 25
+          Amount: 46
         - Level: 2
-          Amount: 30
+          Amount: 53
         - Level: 3
-          Amount: 35
+          Amount: 60
         - Level: 4
-          Amount: 40
+          Amount: 67
         - Level: 5
-          Amount: 45
+          Amount: 74
       Weapon:
         1hAxe: true
         2hAxe: true
@@ -37941,11 +38051,33 @@ Body:
       - Level: 10
         Area: 3
     CastCancel: true
-    AfterCastActDelay: 500
     Cooldown: 60000
+    Duration1: 30000
+    Duration2: 
+      - Level: 1
+        Time: 30000
+      - Level: 2
+        Time: 60000
+      - Level: 3
+        Time: 90000
+      - Level: 4
+        Time: 120000
+      - Level: 5
+        Time: 150000
+      - Level: 6
+        Time: 180000
+      - Level: 7
+        Time: 210000
+      - Level: 8
+        Time: 240000
+      - Level: 9
+        Time: 270000
+      - Level: 10
+        Time: 300000
     Requires:
       SpCost: 150
       ApCost: 150
+    Status: Rush_Quake2
   - Id: 5297
     Name: MT_M_MACHINE
     Description: Manufacture Machine
@@ -37958,7 +38090,6 @@ Body:
     Hit: Single
     HitCount: 1
     CastCancel: true
-    AfterCastActDelay: 500
     Requires:
       SpCost:
         - Level: 1
@@ -38001,7 +38132,6 @@ Body:
       - Level: 5
         Area: 3
     CastCancel: true
-    AfterCastActDelay: 500
     Duration1:
       - Level: 1
         Time: 80000
@@ -38043,7 +38173,6 @@ Body:
     Hit: Single
     HitCount: 1
     CastCancel: true
-    AfterCastActDelay: 500
     Duration1:
       - Level: 1
         Time: 80000
@@ -38093,6 +38222,7 @@ Body:
     ActiveInstance: 1
     GiveAp: 20
     CastCancel: true
+    CastTime: 1000
     AfterCastActDelay: 500
     Duration1:
       - Level: 1
@@ -38103,8 +38233,8 @@ Body:
         Time: 240000
       - Level: 4
         Time: 300000
-    Cooldown: 60000
-    FixedCastTime: 3000
+    Cooldown: 30000
+    FixedCastTime: 1000
     Requires:
       SpCost:
         - Level: 1
@@ -38133,6 +38263,7 @@ Body:
     ActiveInstance: 1
     GiveAp: 20
     CastCancel: true
+    CastTime: 1000
     AfterCastActDelay: 500
     Duration1:
       - Level: 1
@@ -38143,8 +38274,8 @@ Body:
         Time: 240000
       - Level: 4
         Time: 300000
-    Cooldown: 60000
-    FixedCastTime: 3000
+    Cooldown: 30000
+    FixedCastTime: 1000
     Requires:
       SpCost:
         - Level: 1
@@ -38173,6 +38304,7 @@ Body:
     ActiveInstance: 1
     GiveAp: 20
     CastCancel: true
+    CastTime: 1000
     AfterCastActDelay: 500
     Duration1:
       - Level: 1
@@ -38183,8 +38315,8 @@ Body:
         Time: 240000
       - Level: 4
         Time: 300000
-    Cooldown: 60000
-    FixedCastTime: 3000
+    Cooldown: 30000
+    FixedCastTime: 1000
     Requires:
       SpCost:
         - Level: 1
@@ -38212,6 +38344,7 @@ Body:
     HitCount: 1
     ActiveInstance: 1
     CastCancel: true
+    CastTime: 1000
     AfterCastActDelay: 500
     Duration1:
       - Level: 1
@@ -38223,7 +38356,7 @@ Body:
       - Level: 4
         Time: 300000
     Cooldown: 60000
-    FixedCastTime: 3000
+    FixedCastTime: 1000
     Requires:
       SpCost:
         - Level: 1
@@ -38334,6 +38467,8 @@ Body:
         Time: 90000
       - Level: 5
         Time: 100000
+    Cooldown: 2000
+    FixedCastTime: 1000
     Requires:
       SpCost:
         - Level: 1
@@ -38356,35 +38491,45 @@ Body:
     DamageFlags:
       Splash: true
     Hit: Single
-    HitCount: 1
+    HitCount: 2
     Element: Weapon
-    SplashArea: 2
+    SplashArea: 3
     CastCancel: true
     AfterCastActDelay: 500
     Duration1:
       - Level: 1
-        Time: 2000
+        Time: 3000
       - Level: 2
-        Time: 4000
-      - Level: 3
         Time: 6000
+      - Level: 3
+        Time: 9000
       - Level: 4
-        Time: 8000
+        Time: 12000
       - Level: 5
-        Time: 10000
-    Cooldown: 3000
+        Time: 15000
+    Cooldown:
+      - Level: 1
+        Time: 3000
+      - Level: 2
+        Time: 2100
+      - Level: 3
+        Time: 1500
+      - Level: 4
+        Time: 900
+      - Level: 5
+        Time: 300
     Requires:
       SpCost:
         - Level: 1
-          Amount: 40
+          Amount: 48
         - Level: 2
-          Amount: 45
+          Amount: 52
         - Level: 3
-          Amount: 50
+          Amount: 56
         - Level: 4
-          Amount: 55
-        - Level: 5
           Amount: 60
+        - Level: 5
+          Amount: 64
       Weapon:
         Dagger: true
         1hSword: true
@@ -38400,11 +38545,19 @@ Body:
     HitCount: 1
     Element: Weapon
     CastCancel: true
-    CastTime: 1000
     AfterCastActDelay: 500
     Duration1: 20000
-    Cooldown: 2000
-    FixedCastTime: 1000
+    Cooldown:
+      - Level: 1
+        Time: 2000
+      - Level: 2
+        Time: 1750
+      - Level: 3
+        Time: 1250
+      - Level: 4
+        Time: 750
+      - Level: 5
+        Time: 250
     Requires:
       SpCost:
         - Level: 1
@@ -38432,32 +38585,31 @@ Body:
     Element: Weapon
     SplashArea:
       - Level: 1
-        Area: 1
+        Area: 2
       - Level: 2
-        Area: 1
+        Area: 2
       - Level: 3
-        Area: 2
-      - Level: 4
-        Area: 2
-      - Level: 5
         Area: 3
+      - Level: 4
+        Area: 3
+      - Level: 5
+        Area: 4
     CastCancel: true
     CastTime: 1000
-    AfterCastActDelay: 500
-    Cooldown: 3000
+    Cooldown: 1000
     FixedCastTime: 1000
     Requires:
       SpCost:
         - Level: 1
-          Amount: 40
+          Amount: 35
         - Level: 2
-          Amount: 50
+          Amount: 45
         - Level: 3
-          Amount: 60
+          Amount: 55
         - Level: 4
-          Amount: 70
+          Amount: 65
         - Level: 5
-          Amount: 80
+          Amount: 75
       Weapon:
         Bow: true
       Ammo:
@@ -38472,6 +38624,17 @@ Body:
       NoDamage: true
     Hit: Single
     HitCount: 1
+    GiveAp:
+      - Level: 1
+        Amount: 4
+      - Level: 2
+        Amount: 8
+      - Level: 3
+        Amount: 12
+      - Level: 4
+        Amount: 16
+      - Level: 5
+        Amount: 20
     CastCancel: true
     Duration1:
       - Level: 1
@@ -38486,15 +38649,15 @@ Body:
         Time: 150000
     Duration2:
       - Level: 1
-        Time: 10000
+        Time: 3000
       - Level: 2
-        Time: 8000
+        Time: 2500
       - Level: 3
-        Time: 6000
-      - Level: 4
-        Time: 4000
-      - Level: 5
         Time: 2000
+      - Level: 4
+        Time: 1500
+      - Level: 5
+        Time: 1000
     Cooldown: 60000
     Requires:
       SpCost:
@@ -38521,7 +38684,7 @@ Body:
     CastCancel: true
     CastTime: 2000
     AfterCastActDelay: 500
-    Duration1: 60000
+    Duration1: 300000
     Cooldown: 60000
     FixedCastTime: 1000
     Requires:
@@ -38530,7 +38693,7 @@ Body:
     Status: Abyss_Slayer
   - Id: 5319
     Name: ABC_ABYSS_STRIKE
-    Description: Abyss Strike
+    Description: Omega Abyss Strike
     MaxLevel: 10
     Type: Magic
     TargetType: Ground
@@ -38538,14 +38701,14 @@ Body:
     Hit: Single
     HitCount: 1
     CastCancel: true
-    CastTime: 2000
+    CastTime: 4000
     AfterCastActDelay: 500
     Duration1: 100
-    Cooldown: 60000
+    Cooldown: 3000
     FixedCastTime: 1000
     Requires:
-      SpCost: 150
-      ApCost: 150
+      SpCost: 125
+      ApCost: 15
     Unit:
       Id: Dummyskill
       Range: 4
@@ -38567,51 +38730,71 @@ Body:
     Element: Weapon
     SplashArea:
       - Level: 1
-        Area: 1
+        Area: 2
       - Level: 2
-        Area: 1
+        Area: 2
       - Level: 3
-        Area: 1
+        Area: 2
       - Level: 4
-        Area: 1
+        Area: 2
       - Level: 5
-        Area: 1
+        Area: 2
       - Level: 6
-        Area: 2
+        Area: 3
       - Level: 7
-        Area: 2
+        Area: 3
       - Level: 8
-        Area: 2
+        Area: 3
       - Level: 9
-        Area: 2
+        Area: 3
       - Level: 10
-        Area: 2
-    GiveAp: 2
+        Area: 3
+    GiveAp: 3
     CastCancel: true
     AfterCastActDelay: 500
-    Cooldown: 2000
+    Cooldown:
+      - Level: 1
+        Time: 2000
+      - Level: 2
+        Time: 1900
+      - Level: 3
+        Time: 1700
+      - Level: 4
+        Time: 1500
+      - Level: 5
+        Time: 1300
+      - Level: 6
+        Time: 1100
+      - Level: 7
+        Time: 900
+      - Level: 8
+        Time: 700
+      - Level: 9
+        Time: 500
+      - Level: 10
+        Time: 300
     Requires:
       SpCost:
         - Level: 1
-          Amount: 28
+          Amount: 35
         - Level: 2
-          Amount: 31
+          Amount: 38
         - Level: 3
-          Amount: 34
+          Amount: 41
         - Level: 4
-          Amount: 37
+          Amount: 44
         - Level: 5
-          Amount: 40
+          Amount: 47
         - Level: 6
-          Amount: 43
+          Amount: 50
         - Level: 7
-          Amount: 46
+          Amount: 53
         - Level: 8
-          Amount: 49
+          Amount: 56
         - Level: 9
-          Amount: 52
+          Amount: 59
         - Level: 10
-          Amount: 55
+          Amount: 62
   - Id: 5321
     Name: ABC_ABYSS_SQUARE
     Description: Abyss Square
@@ -38621,12 +38804,12 @@ Body:
     Range: 9
     Hit: Multi_Hit
     HitCount: 1
-    GiveAp: 4
+    GiveAp: 5
     CastCancel: true
-    CastTime: 2000
+    CastTime: 5000
     AfterCastActDelay: 500
-    Duration1: 4000
-    Cooldown: 4000
+    Duration1: 3000
+    Cooldown: 3000
     FixedCastTime: 1000
     Requires:
       SpCost:
@@ -38643,7 +38826,7 @@ Body:
     Unit:
       Id: Abyss_Square
       Range: 3
-      Interval: 700
+      Interval: 300
       Target: Enemy
       Flag:
         NoOverlap: true
@@ -38658,39 +38841,59 @@ Body:
       Critical: true
     Range: 9
     Hit: Multi_Hit
-    HitCount: -10
+    HitCount: 1
     Element: Weapon
-    GiveAp: 2
+    GiveAp: 1
     CastCancel: true
     AfterCastActDelay: 500
-    Cooldown: 2000
+    Cooldown:
+      - Level: 1
+        Time: 2000
+      - Level: 2
+        Time: 1800
+      - Level: 3
+        Time: 1600
+      - Level: 4
+        Time: 1400
+      - Level: 5
+        Time: 1200
+      - Level: 6
+        Time: 1000
+      - Level: 7
+        Time: 800
+      - Level: 8
+        Time: 600
+      - Level: 9
+        Time: 400
+      - Level: 10
+        Time: 200
     Requires:
       SpCost:
         - Level: 1
-          Amount: 40
+          Amount: 37
         - Level: 2
-          Amount: 45
+          Amount: 39
         - Level: 3
-          Amount: 50
+          Amount: 41
         - Level: 4
-          Amount: 55
+          Amount: 43
         - Level: 5
-          Amount: 60
+          Amount: 45
         - Level: 6
-          Amount: 65
+          Amount: 47
         - Level: 7
-          Amount: 70
+          Amount: 49
         - Level: 8
-          Amount: 75
+          Amount: 51
         - Level: 9
-          Amount: 80
+          Amount: 53
         - Level: 10
-          Amount: 85
+          Amount: 55
       Weapon:
         Bow: true
       Ammo:
         Arrow: true
-      AmmoAmount: 10
+      AmmoAmount: 3
   - Id: 5323
     Name: WH_ADVANCED_TRAP
     Description: Advanced Trap
@@ -38706,6 +38909,7 @@ Body:
     Hit: Single
     HitCount: 1
     CastCancel: true
+    AfterCastActDelay: 150
     Duration1:
       - Level: 1
         Time: 20000
@@ -38747,6 +38951,7 @@ Body:
     Hit: Multi_Hit
     HitCount: -2
     CastCancel: true
+    Cooldown: 150
     Requires:
       SpCost:
         - Level: 1
@@ -38788,10 +38993,10 @@ Body:
     Hit: Single
     HitCount: 1
     CastCancel: true
-    AfterCastActDelay: 500
+    AfterCastActDelay: 150
     Duration1: 60000
     Cooldown: 300000
-    FixedCastTime: 1000
+    FixedCastTime: 1750
     Requires:
       SpCost: 300
       ApCost: 200
@@ -38809,12 +39014,12 @@ Body:
     HitCount: 1
     CastCancel: true
     CastTime: 800
+    Cooldown: 150
     AfterCastActDelay: 500
-    Cooldown: 30000
     FixedCastTime: 200
     Requires:
-      SpCost: 120
-      ApCost: 50
+      SpCost: 80
+      ApCost: 12
       Weapon:
         Bow: true
       State: Falcon
@@ -38855,30 +39060,30 @@ Body:
     CastCancel: true
     CastTime: 3500
     AfterCastActDelay: 500
-    Cooldown: 2000
+    Cooldown: 1500
     FixedCastTime: 500
     Requires:
       SpCost:
         - Level: 1
-          Amount: 80
+          Amount: 64
         - Level: 2
-          Amount: 91
+          Amount: 68
         - Level: 3
-          Amount: 102
+          Amount: 72
         - Level: 4
-          Amount: 113
+          Amount: 76
         - Level: 5
-          Amount: 124
+          Amount: 80
         - Level: 6
-          Amount: 135
+          Amount: 84
         - Level: 7
-          Amount: 146
+          Amount: 88
         - Level: 8
-          Amount: 157
+          Amount: 92
         - Level: 9
-          Amount: 168
+          Amount: 96
         - Level: 10
-          Amount: 179
+          Amount: 100
       Weapon:
         Bow: true
       Ammo:
@@ -38896,47 +39101,55 @@ Body:
     Hit: Single
     HitCount: 1
     Element: Dark
-    GiveAp: 3
+    GiveAp:
+      - Level: 1
+        Amount: 1
+      - Level: 2
+        Amount: 1
+      - Level: 3
+        Amount: 2
+      - Level: 4
+        Amount: 2
+      - Level: 5
+        Amount: 3
     CastCancel: true
     CastTime: 1000
     AfterCastActDelay: 500
-    Duration1:
-      - Level: 1
-        Time: 12000
-      - Level: 2
-        Time: 24000
-      - Level: 3
-        Time: 36000
-      - Level: 4
-        Time: 48000
-      - Level: 5
-        Time: 60000
-    Duration2: 20000
-    Cooldown: 30000
+    Duration1: 5000
+    Cooldown: 2500
     Requires:
       SpCost:
         - Level: 1
-          Amount: 50
+          Amount: 68
         - Level: 2
-          Amount: 53
+          Amount: 72
         - Level: 3
-          Amount: 56
+          Amount: 76
         - Level: 4
-          Amount: 59
+          Amount: 80
         - Level: 5
-          Amount: 62
+          Amount: 84
       ItemCost:
         - Item: Special_Alloy_Trap
           Amount: 2
     Unit:
       Id: Deepblindtrap
-      Range: 1
-      Interval: 3000
+      Range:
+        - Level: 1
+          Size: 1
+        - Level: 2
+          Size: 1
+        - Level: 3
+          Size: 2
+        - Level: 4
+          Size: 2
+        - Level: 5
+          Size: 3
+      Interval: 500
       Target: Enemy
       Flag:
         NoOverlap: true
         PathCheck: true
-    Status: Handicapstate_Deepblind
   - Id: 5332
     Name: WH_SOLIDTRAP
     Description: Solid Trap
@@ -38949,43 +39162,51 @@ Body:
     Hit: Single
     HitCount: 1
     Element: Earth
-    GiveAp: 3
+    GiveAp:
+      - Level: 1
+        Amount: 1
+      - Level: 2
+        Amount: 1
+      - Level: 3
+        Amount: 2
+      - Level: 4
+        Amount: 2
+      - Level: 5
+        Amount: 3
     CastCancel: true
     CastTime: 1000
     AfterCastActDelay: 500
-    Duration1:
-      - Level: 1
-        Time: 12000
-      - Level: 2
-        Time: 24000
-      - Level: 3
-        Time: 36000
-      - Level: 4
-        Time: 48000
-      - Level: 5
-        Time: 60000
-    Duration2: 10000
-    Cooldown: 30000
+    Duration1: 5000
+    Cooldown: 2500
     Requires:
       SpCost:
         - Level: 1
-          Amount: 70
+          Amount: 68
         - Level: 2
-          Amount: 80
+          Amount: 72
         - Level: 3
-          Amount: 90
+          Amount: 76
         - Level: 4
-          Amount: 100
+          Amount: 80
         - Level: 5
-          Amount: 110
+          Amount: 84
       ItemCost:
         - Item: Special_Alloy_Trap
           Amount: 2
-    Status: HandicapState_Crystallization
     Unit:
       Id: Solidtrap
-      Range: 1
-      Interval: 3000
+      Range:
+        - Level: 1
+          Size: 1
+        - Level: 2
+          Size: 1
+        - Level: 3
+          Size: 2
+        - Level: 4
+          Size: 2
+        - Level: 5
+          Size: 3
+      Interval: 500
       Target: Enemy
       Flag:
         NoOverlap: true
@@ -39002,43 +39223,51 @@ Body:
     Hit: Single
     HitCount: 1
     Element: Wind
-    GiveAp: 3
+    GiveAp:
+      - Level: 1
+        Amount: 1
+      - Level: 2
+        Amount: 1
+      - Level: 3
+        Amount: 2
+      - Level: 4
+        Amount: 2
+      - Level: 5
+        Amount: 3
     CastCancel: true
     CastTime: 1000
     AfterCastActDelay: 500
-    Duration1:
-      - Level: 1
-        Time: 12000
-      - Level: 2
-        Time: 24000
-      - Level: 3
-        Time: 36000
-      - Level: 4
-        Time: 48000
-      - Level: 5
-        Time: 60000
-    Duration2: 10000
-    Cooldown: 30000
+    Duration1: 5000
+    Cooldown: 2500
     Requires:
       SpCost:
         - Level: 1
-          Amount: 60
-        - Level: 2
-          Amount: 62
-        - Level: 3
-          Amount: 64
-        - Level: 4
-          Amount: 66
-        - Level: 5
           Amount: 68
+        - Level: 2
+          Amount: 72
+        - Level: 3
+          Amount: 76
+        - Level: 4
+          Amount: 80
+        - Level: 5
+          Amount: 84
       ItemCost:
         - Item: Special_Alloy_Trap
           Amount: 2
-    Status: HandicapState_LightningStrike
     Unit:
       Id: Swifttrap
-      Range: 1
-      Interval: 3000
+      Range:
+        - Level: 1
+          Size: 1
+        - Level: 2
+          Size: 1
+        - Level: 3
+          Size: 2
+        - Level: 4
+          Size: 2
+        - Level: 5
+          Size: 3
+      Interval: 500
       Target: Enemy
       Flag:
         NoOverlap: true
@@ -39058,31 +39287,32 @@ Body:
     GiveAp: 1
     CastCancel: true
     CastTime: 800
-    AfterCastActDelay: 500
+    AfterCastActDelay: 300
     Duration1: 10000
-    FixedCastTime: 200
+    Cooldown: 150
+    FixedCastTime: 1000
     Requires:
       SpCost:
         - Level: 1
-          Amount: 55
+          Amount: 47
         - Level: 2
-          Amount: 60
+          Amount: 49
         - Level: 3
-          Amount: 65
+          Amount: 51
         - Level: 4
-          Amount: 70
+          Amount: 53
         - Level: 5
-          Amount: 75
+          Amount: 55
         - Level: 6
-          Amount: 80
+          Amount: 57
         - Level: 7
-          Amount: 85
+          Amount: 59
         - Level: 8
-          Amount: 90
+          Amount: 61
         - Level: 9
-          Amount: 95
+          Amount: 63
         - Level: 10
-          Amount: 100
+          Amount: 65
       Weapon:
         Bow: true
       Ammo:
@@ -39101,47 +39331,55 @@ Body:
     Hit: Single
     HitCount: 1
     Element: Fire
-    GiveAp: 3
+    GiveAp:
+      - Level: 1
+        Amount: 1
+      - Level: 2
+        Amount: 1
+      - Level: 3
+        Amount: 2
+      - Level: 4
+        Amount: 2
+      - Level: 5
+        Amount: 3
     CastCancel: true
     CastTime: 1000
     AfterCastActDelay: 500
-    Duration1:
-      - Level: 1
-        Time: 12000
-      - Level: 2
-        Time: 24000
-      - Level: 3
-        Time: 36000
-      - Level: 4
-        Time: 48000
-      - Level: 5
-        Time: 60000
-    Duration2: 20000
-    Cooldown: 30000
+    Duration1: 5000
+    Cooldown: 2500
     Requires:
       SpCost:
         - Level: 1
-          Amount: 40
+          Amount: 68
         - Level: 2
-          Amount: 44
+          Amount: 72
         - Level: 3
-          Amount: 48
+          Amount: 76
         - Level: 4
-          Amount: 52
+          Amount: 80
         - Level: 5
-          Amount: 56
+          Amount: 84
       ItemCost:
         - Item: Special_Alloy_Trap
           Amount: 2
     Unit:
       Id: Flametrap
-      Range: 1
-      Interval: 3000
+      Range:
+        - Level: 1
+          Size: 1
+        - Level: 2
+          Size: 1
+        - Level: 3
+          Size: 2
+        - Level: 4
+          Size: 2
+        - Level: 5
+          Size: 3
+      Interval: 500
       Target: Enemy
       Flag:
         NoOverlap: true
         PathCheck: true
-    Status: HandicapState_Conflagration
   - Id: 5336
     Name: BO_BIONIC_PHARMACY
     Description: Bionic Pharmacy
@@ -39152,7 +39390,6 @@ Body:
     Hit: Single
     HitCount: 1
     CastCancel: true
-    AfterCastActDelay: 500
     Requires:
       SpCost: 30
   - Id: 5337
@@ -39182,7 +39419,7 @@ Body:
         Area: 15
     GiveAp: 20
     CastCancel: true
-    CastTime: 2000
+    CastTime: 1000
     AfterCastActDelay: 500
     Duration1:
       - Level: 1
@@ -39196,7 +39433,7 @@ Body:
       - Level: 5
         Time: 180000
     Cooldown: 10000
-    FixedCastTime: 1000
+    FixedCastTime: 500
     Requires:
       SpCost:
         - Level: 1
@@ -39214,7 +39451,7 @@ Body:
           Amount: 3
   - Id: 5339
     Name: BO_ADVANCE_PROTECTION
-    Description: Advance Protection
+    Description: Full Shadow Protection
     MaxLevel: 4
     TargetType: Support
     DamageFlags:
@@ -39232,17 +39469,17 @@ Body:
       - Level: 4
         Amount: 3
     CastCancel: true
-    CastTime: 2000
+    CastTime: 1000
     AfterCastActDelay: 500
     Duration1:
       - Level: 1
-        Time: 30000
+        Time: 90000
       - Level: 2
-        Time: 40000
+        Time: 120000
       - Level: 3
-        Time: 50000
+        Time: 150000
       - Level: 4
-        Time: 60000
+        Time: 180000
     FixedCastTime: 1000
     Requires:
       SpCost:
@@ -39268,7 +39505,7 @@ Body:
       Splash: true
     Range: 7
     Hit: Multi_Hit
-    HitCount: -3
+    HitCount: 7
     Element: Water
     SplashArea:
       - Level: 1
@@ -39294,22 +39531,22 @@ Body:
         Amount: 5
     CastCancel: true
     CastTime: 1000
-    AfterCastActDelay: 500
+    AfterCastActDelay: 150
     Duration1: 10000
-    Cooldown: 2000
+    Cooldown: 500
     FixedCastTime: 500
     Requires:
       SpCost:
         - Level: 1
-          Amount: 40
+          Amount: 51
         - Level: 2
-          Amount: 52
+          Amount: 54
         - Level: 3
-          Amount: 64
+          Amount: 57
         - Level: 4
-          Amount: 76
+          Amount: 60
         - Level: 5
-          Amount: 88
+          Amount: 63
       ItemCost:
         - Item: Icicle_Acid_Bottle
           Amount: 2
@@ -39330,7 +39567,7 @@ Body:
       Splash: true
     Range: 7
     Hit: Multi_Hit
-    HitCount: -3
+    HitCount: 7
     Element: Earth
     SplashArea:
       - Level: 1
@@ -39356,22 +39593,22 @@ Body:
         Amount: 5
     CastCancel: true
     CastTime: 1000
-    AfterCastActDelay: 500
+    AfterCastActDelay: 150
     Duration1: 10000
-    Cooldown: 2000
+    Cooldown: 500
     FixedCastTime: 500
     Requires:
       SpCost:
         - Level: 1
-          Amount: 40
+          Amount: 51
         - Level: 2
-          Amount: 52
+          Amount: 54
         - Level: 3
-          Amount: 64
+          Amount: 57
         - Level: 4
-          Amount: 76
+          Amount: 60
         - Level: 5
-          Amount: 88
+          Amount: 63
       ItemCost:
         - Item: Earth_Acid_Bottle
           Amount: 2
@@ -39392,7 +39629,7 @@ Body:
       Splash: true
     Range: 7
     Hit: Multi_Hit
-    HitCount: -3
+    HitCount: 7
     Element: Wind
     SplashArea:
       - Level: 1
@@ -39418,22 +39655,22 @@ Body:
         Amount: 5
     CastCancel: true
     CastTime: 1000
-    AfterCastActDelay: 500
+    AfterCastActDelay: 150
     Duration1: 10000
-    Cooldown: 2000
+    Cooldown: 500
     FixedCastTime: 500
     Requires:
       SpCost:
         - Level: 1
-          Amount: 40
+          Amount: 51
         - Level: 2
-          Amount: 52
+          Amount: 54
         - Level: 3
-          Amount: 64
+          Amount: 57
         - Level: 4
-          Amount: 76
+          Amount: 60
         - Level: 5
-          Amount: 88
+          Amount: 63
       ItemCost:
         - Item: Gale_Acid_Bottle
           Amount: 2
@@ -39454,7 +39691,7 @@ Body:
       Splash: true
     Range: 7
     Hit: Multi_Hit
-    HitCount: -3
+    HitCount: 7
     Element: Fire
     SplashArea:
       - Level: 1
@@ -39480,22 +39717,22 @@ Body:
         Amount: 5
     CastCancel: true
     CastTime: 1000
-    AfterCastActDelay: 500
+    AfterCastActDelay: 150
     Duration1: 10000
-    Cooldown: 2000
+    Cooldown: 500
     FixedCastTime: 500
     Requires:
       SpCost:
         - Level: 1
-          Amount: 40
+          Amount: 51
         - Level: 2
-          Amount: 52
+          Amount: 54
         - Level: 3
-          Amount: 64
+          Amount: 57
         - Level: 4
-          Amount: 76
+          Amount: 60
         - Level: 5
-          Amount: 88
+          Amount: 63
       ItemCost:
         - Item: Flame_Acid_Bottle
           Amount: 2
@@ -39518,6 +39755,7 @@ Body:
     ActiveInstance: 1
     GiveAp: 20
     CastCancel: true
+    CastTime: 1000
     AfterCastActDelay: 500
     Duration1:
       - Level: 1
@@ -39531,7 +39769,7 @@ Body:
       - Level: 5
         Time: 360000
     Cooldown: 30000
-    FixedCastTime: 4000
+    FixedCastTime: 1000
     Requires:
       SpCost:
         - Level: 1
@@ -39560,6 +39798,7 @@ Body:
     ActiveInstance: 1
     GiveAp: 20
     CastCancel: true
+    CastTime: 1000
     AfterCastActDelay: 500
     Duration1:
       - Level: 1
@@ -39573,7 +39812,7 @@ Body:
       - Level: 5
         Time: 360000
     Cooldown: 30000
-    FixedCastTime: 4000
+    FixedCastTime: 1000
     Requires:
       SpCost:
         - Level: 1
@@ -39602,6 +39841,7 @@ Body:
     ActiveInstance: 1
     GiveAp: 10
     CastCancel: true
+    CastTime: 1000
     AfterCastActDelay: 500
     Duration1:
       - Level: 1
@@ -39615,7 +39855,7 @@ Body:
       - Level: 5
         Time: 360000
     Cooldown: 30000
-    FixedCastTime: 4000
+    FixedCastTime: 1000
     Requires:
       SpCost:
         - Level: 1
@@ -39644,9 +39884,9 @@ Body:
     CastCancel: true
     CastTime: 2000
     AfterCastActDelay: 500
-    Duration1: 60000
-    Cooldown: 120000
-    FixedCastTime: 1000
+    Duration1: 150000
+    Cooldown: 60000
+    FixedCastTime: 500
     Requires:
       SpCost: 60
       ApCost: 100
@@ -39662,6 +39902,7 @@ Body:
     HitCount: 1
     ActiveInstance: 1
     CastCancel: true
+    CastTime: 1000
     AfterCastActDelay: 500
     Duration1:
       - Level: 1
@@ -39675,10 +39916,20 @@ Body:
       - Level: 5
         Time: 180000
     Cooldown: 60000
-    FixedCastTime: 4000
+    FixedCastTime: 1000
     Requires:
       SpCost: 100
-      ApCost: 100
+      ApCost:
+        - Level: 1
+          Amount: 100
+        - Level: 2
+          Amount: 90
+        - Level: 3
+          Amount: 80
+        - Level: 4
+          Amount: 70
+        - Level: 5
+          Amount: 60
       ItemCost:
         - Item: High_Plant_Bottle
           Amount: 3
@@ -39698,6 +39949,8 @@ Body:
     Hit: Single
     HitCount: 1
     CastCancel: true
+    AfterCastActDelay: 500
+    Cooldown: 5000
     Requires:
       SpCost: 1
   - Id: 5351
@@ -39712,12 +39965,12 @@ Body:
     CastCancel: true
     CastTime: 2000
     AfterCastActDelay: 500
-    Duration1: 60000
-    Cooldown: 120000
+    Duration1: 150000
+    Cooldown: 60000
     FixedCastTime: 1000
     Requires:
       SpCost: 250
-      ApCost: 100
+      ApCost: 125
       Weapon:
         Bow: true
         Musical: true
@@ -39734,10 +39987,9 @@ Body:
     HitCount: 1
     CastCancel: true
     CastTime: 2000
-    AfterCastActDelay: 500
+    AfterCastActDelay: 150
     Duration1: 60000
     Cooldown: 120000
-    FixedCastTime: 1000
     Requires:
       SpCost: 300
       ApCost: 100
@@ -39756,25 +40008,24 @@ Body:
     Hit: Multi_Hit
     HitCount: -2
     Element: Weapon
-    GiveAp: 5
+    GiveAp: 3
     CastCancel: true
-    CastTime: 1000
-    AfterCastActDelay: 500
+    CastTime: 2000
+    AfterCastActDelay: 150
     Duration1: 500
-    Cooldown: 3000
-    FixedCastTime: 1000
+    Cooldown: 700
     Requires:
       SpCost:
         - Level: 1
-          Amount: 215
+          Amount: 70
         - Level: 2
-          Amount: 230
+          Amount: 76
         - Level: 3
-          Amount: 245
+          Amount: 82
         - Level: 4
-          Amount: 260
+          Amount: 88
         - Level: 5
-          Amount: 275
+          Amount: 94
       Weapon:
         Bow: true
         Musical: true
@@ -39830,22 +40081,19 @@ Body:
       - Level: 5
         Amount: 2
     CastCancel: true
-    CastTime: 1000
-    AfterCastActDelay: 500
-    Cooldown: 1000
-    FixedCastTime: 1000
+    CastTime: 150
     Requires:
       SpCost:
         - Level: 1
-          Amount: 80
+          Amount: 36
         - Level: 2
-          Amount: 92
+          Amount: 40
         - Level: 3
-          Amount: 104
+          Amount: 44
         - Level: 4
-          Amount: 116
+          Amount: 48
         - Level: 5
-          Amount: 128
+          Amount: 52
       Weapon:
         Bow: true
         Musical: true
@@ -39855,7 +40103,7 @@ Body:
       AmmoAmount: 1
   - Id: 5356
     Name: TR_METALIC_FURY
-    Description: Metalic Fury
+    Description: Metallic Fury
     MaxLevel: 5
     Type: Magic
     TargetType: Attack
@@ -39875,32 +40123,22 @@ Body:
       - Level: 4
         Area: 3
       - Level: 5
-        Area: 3
-    GiveAp:
-      - Level: 1
-        Amount: 4
-      - Level: 2
-        Amount: 4
-      - Level: 3
-        Amount: 4
-      - Level: 4
-        Amount: 5
-      - Level: 5
-        Amount: 5
+        Area: 4
+    GiveAp: 2
     CastCancel: true
-    Cooldown: 1000
+    Cooldown: 300
     Requires:
       SpCost:
         - Level: 1
-          Amount: 120
+          Amount: 70
         - Level: 2
-          Amount: 132
+          Amount: 76
         - Level: 3
-          Amount: 144
+          Amount: 82
         - Level: 4
-          Amount: 156
+          Amount: 88
         - Level: 5
-          Amount: 168
+          Amount: 94
       Weapon:
         Musical: true
         Whip: true
@@ -39921,17 +40159,27 @@ Body:
     Element: Weapon
     GiveAp:
       - Level: 1
-        Amount: 2
+        Amount: 1
       - Level: 2
-        Amount: 2
+        Amount: 1
       - Level: 3
-        Amount: 2
+        Amount: 1
       - Level: 4
-        Amount: 3
+        Amount: 2
       - Level: 5
-        Amount: 3
+        Amount: 2
     CastCancel: true
-    CastTime: 1000
+    CastTime:
+      - Level: 1
+        Time: 2000
+      - Level: 2
+        Time: 1750
+      - Level: 3
+        Time: 1500
+      - Level: 4
+        Time: 1250
+      - Level: 5
+        Time: 1000
     Duration1:
       - Level: 1
         Time: 10000
@@ -39944,19 +40192,29 @@ Body:
       - Level: 5
         Time: 20000
     Cooldown: 1000
-    FixedCastTime: 1000
+    FixedCastTime:
+      - Level: 1
+        Time: 1000
+      - Level: 2
+        Time: 750
+      - Level: 3
+        Time: 500
+      - Level: 4
+        Time: 250
+      - Level: 5
+        Time: 0
     Requires:
       SpCost:
         - Level: 1
-          Amount: 80
+          Amount: 40
         - Level: 2
-          Amount: 92
+          Amount: 50
         - Level: 3
-          Amount: 104
+          Amount: 60
         - Level: 4
-          Amount: 116
+          Amount: 70
         - Level: 5
-          Amount: 128
+          Amount: 80
       Weapon:
         Musical: true
         Whip: true
@@ -39984,11 +40242,9 @@ Body:
         Area: 11
     GiveAp: 20
     CastCancel: true
-    CastTime: 2000
-    AfterCastActDelay: 500
+    CastTime: 1000
     Duration1: 30000
     Cooldown: 10000
-    FixedCastTime: 1000
     Requires:
       SpCost:
         - Level: 1
@@ -40031,12 +40287,10 @@ Body:
         Area: 11
     GiveAp: 20
     CastCancel: true
-    CastTime: 2000
-    AfterCastActDelay: 500
+    CastTime: 1000
     Duration1: 20000
     Duration2: 20000
     Cooldown: 10000
-    FixedCastTime: 1000
     Requires:
       SpCost:
         - Level: 1
@@ -40078,11 +40332,9 @@ Body:
         Area: 11
     GiveAp: 20
     CastCancel: true
-    CastTime: 2000
-    AfterCastActDelay: 500
+    CastTime: 1000
     Duration1: 30000
     Cooldown: 10000
-    FixedCastTime: 1000
     Requires:
       SpCost:
         - Level: 1
@@ -40125,11 +40377,9 @@ Body:
         Area: 11
     GiveAp: 10
     CastCancel: true
-    CastTime: 2000
-    AfterCastActDelay: 500
+    CastTime: 1000
     Duration1: 180000
     Cooldown: 10000
-    FixedCastTime: 1000
     Requires:
       SpCost:
         - Level: 1
@@ -40172,11 +40422,9 @@ Body:
         Area: 11
     GiveAp: 10
     CastCancel: true
-    CastTime: 2000
-    AfterCastActDelay: 500
+    CastTime: 1000
     Duration1: 180000
     Cooldown: 10000
-    FixedCastTime: 1000
     Requires:
       SpCost:
         - Level: 1
@@ -40219,12 +40467,10 @@ Body:
         Area: 11
     GiveAp: 20
     CastCancel: true
-    CastTime: 2000
-    AfterCastActDelay: 500
+    CastTime: 1000
     Duration1: 20000
     Duration2: 20000
     Cooldown: 10000
-    FixedCastTime: 1000
     Requires:
       SpCost:
         - Level: 1
@@ -40266,11 +40512,9 @@ Body:
         Area: 11
     GiveAp: 10
     CastCancel: true
-    CastTime: 2000
-    AfterCastActDelay: 500
+    CastTime: 1000
     Duration1: 180000
     Cooldown: 10000
-    FixedCastTime: 1000
     Requires:
       SpCost:
         - Level: 1
@@ -40307,7 +40551,6 @@ Body:
     Hit: Single
     HitCount: 1
     CastCancel: true
-    AfterCastActDelay: 500
     Duration1:
       - Level: 1
         Time: 80000
@@ -40344,9 +40587,9 @@ Body:
     HitCount: 1
     CastCancel: true
     CastTime: 2000
-    AfterCastActDelay: 500
-    Cooldown: 60000
-    FixedCastTime: 1000
+    AfterCastActDelay: 1000
+    Cooldown: 8000
+    FixedCastTime: 2000
     Requires:
       SpCost:
         - Level: 1
@@ -40373,9 +40616,8 @@ Body:
     Hit: Single
     HitCount: 1
     CastCancel: true
-    CastTime: 2000
     AfterCastActDelay: 500
-    Cooldown: 5000
+    Cooldown: 2500
     FixedCastTime: 1000
     Requires:
       SpCost:
@@ -40400,26 +40642,26 @@ Body:
     Hit: Multi_Hit
     HitCount: -5
     Element: Water
-    GiveAp: 4
+    GiveAp: 5
     CastCancel: true
-    CastTime: 4000
+    CastTime: 5000
     AfterCastActDelay: 500
     Duration1: 100
     Duration2: 10000
-    Cooldown: 4000
+    Cooldown: 1000
     FixedCastTime: 1000
     Requires:
       SpCost:
         - Level: 1
-          Amount: 84
+          Amount: 80
         - Level: 2
-          Amount: 88
+          Amount: 84
         - Level: 3
-          Amount: 92
+          Amount: 88
         - Level: 4
-          Amount: 96
+          Amount: 92
         - Level: 5
-          Amount: 100
+          Amount: 96
     Unit:
       Id: Dummyskill
       Range: 4
@@ -40438,30 +40680,30 @@ Body:
     Hit: Single
     HitCount: 1
     Element: Wind
-    GiveAp: 4
+    GiveAp: 5
     CastCancel: true
-    CastTime: 4000
+    CastTime: 5000
     AfterCastActDelay: 500
-    Duration1: 4000
+    Duration1: 3000
     Duration2: 10000
-    Cooldown: 4000
+    Cooldown: 2000
     FixedCastTime: 1000
     Requires:
       SpCost:
         - Level: 1
-          Amount: 65
+          Amount: 94
         - Level: 2
-          Amount: 70
+          Amount: 98
         - Level: 3
-          Amount: 80
+          Amount: 102
         - Level: 4
-          Amount: 85
+          Amount: 106
         - Level: 5
-          Amount: 95
+          Amount: 110
     Unit:
       Id: Lightning_Land
       Range: 4
-      Interval: 500
+      Interval: 300
       Target: Enemy
       Flag:
         NoOverlap: true
@@ -40477,30 +40719,30 @@ Body:
     Hit: Single
     HitCount: 1
     Element: Poison
-    GiveAp: 4
+    GiveAp: 5
     CastCancel: true
-    CastTime: 4000
+    CastTime: 5000
     AfterCastActDelay: 500
-    Duration1: 4000
+    Duration1: 3000
     Duration2: 20000
-    Cooldown: 4000
+    Cooldown: 2000
     FixedCastTime: 1000
     Requires:
       SpCost:
         - Level: 1
-          Amount: 84
-        - Level: 2
-          Amount: 88
-        - Level: 3
           Amount: 92
+        - Level: 2
+          Amount: 97
+        - Level: 3
+          Amount: 102
         - Level: 4
-          Amount: 96
+          Amount: 107
         - Level: 5
-          Amount: 100
+          Amount: 112
     Unit:
       Id: Venom_Swamp
       Range: 4
-      Interval: 500
+      Interval: 300
       Target: Enemy
       Flag:
         NoOverlap: true
@@ -40516,30 +40758,30 @@ Body:
     Hit: Single
     HitCount: 1
     Element: Fire
-    GiveAp: 4
+    GiveAp: 5
     CastCancel: true
-    CastTime: 4000
+    CastTime: 5000
     AfterCastActDelay: 500
-    Duration1: 4000
+    Duration1: 3000
     Duration2: 20000
-    Cooldown: 4000
+    Cooldown: 2000
     FixedCastTime: 1000
     Requires:
       SpCost:
         - Level: 1
-          Amount: 70
+          Amount: 97
         - Level: 2
-          Amount: 80
+          Amount: 101
         - Level: 3
-          Amount: 90
+          Amount: 105
         - Level: 4
-          Amount: 100
+          Amount: 109
         - Level: 5
-          Amount: 110
+          Amount: 113
     Unit:
       Id: Conflagration
       Range: 4
-      Interval: 500
+      Interval: 300
       Target: Enemy
       Flag:
         NoOverlap: true
@@ -40555,26 +40797,26 @@ Body:
     Hit: Multi_Hit
     HitCount: -5
     Element: Earth
-    GiveAp: 4
+    GiveAp: 5
     CastCancel: true
-    CastTime: 4000
+    CastTime: 5000
     AfterCastActDelay: 500
     Duration1: 100
     Duration2: 10000
-    Cooldown: 4000
+    Cooldown: 1000
     FixedCastTime: 1000
     Requires:
       SpCost:
         - Level: 1
-          Amount: 84
+          Amount: 80
         - Level: 2
-          Amount: 88
+          Amount: 84
         - Level: 3
-          Amount: 92
+          Amount: 88
         - Level: 4
-          Amount: 96
+          Amount: 92
         - Level: 5
-          Amount: 100
+          Amount: 96
     Unit:
       Id: Dummyskill
       Range: 4
@@ -40597,11 +40839,11 @@ Body:
     Hit: Single
     HitCount: 1
     CastCancel: true
-    CastTime: 3000
-    AfterCastActDelay: 500
+    CastTime: 5000
+    AfterCastActDelay: 1000
     Duration1: 1500000
     Cooldown: 900000
-    FixedCastTime: 2000
+    FixedCastTime: 3000
     Requires:
       SpCost: 100
       ItemCost:
@@ -40618,11 +40860,11 @@ Body:
     Hit: Single
     HitCount: 1
     CastCancel: true
-    CastTime: 3000
-    AfterCastActDelay: 500
+    CastTime: 5000
+    AfterCastActDelay: 1000
     Duration1: 1500000
     Cooldown: 900000
-    FixedCastTime: 2000
+    FixedCastTime: 3000
     Requires:
       SpCost: 100
       ItemCost:
@@ -40639,11 +40881,11 @@ Body:
     Hit: Single
     HitCount: 1
     CastCancel: true
-    CastTime: 3000
-    AfterCastActDelay: 500
+    CastTime: 5000
+    AfterCastActDelay: 1000
     Duration1: 1500000
     Cooldown: 900000
-    FixedCastTime: 2000
+    FixedCastTime: 3000
     Requires:
       SpCost: 100
       ItemCost:
@@ -40660,11 +40902,11 @@ Body:
     Hit: Single
     HitCount: 1
     CastCancel: true
-    CastTime: 3000
-    AfterCastActDelay: 500
+    CastTime: 5000
+    AfterCastActDelay: 1000
     Duration1: 1500000
     Cooldown: 900000
-    FixedCastTime: 2000
+    FixedCastTime: 3000
     Requires:
       SpCost: 100
       ItemCost:
@@ -40681,11 +40923,11 @@ Body:
     Hit: Single
     HitCount: 1
     CastCancel: true
-    CastTime: 3000
-    AfterCastActDelay: 500
+    CastTime: 5000
+    AfterCastActDelay: 1000
     Duration1: 1500000
     Cooldown: 900000
-    FixedCastTime: 2000
+    FixedCastTime: 3000
     Requires:
       SpCost: 100
       ItemCost:
@@ -40703,11 +40945,11 @@ Body:
     CastCancel: true
     CastTime: 8000
     AfterCastActDelay: 500
-    Cooldown: 60000
-    FixedCastTime: 2000
+    Cooldown: 5000
+    FixedCastTime: 1500
     Requires:
-      SpCost: 150
-      ApCost: 150
+      SpCost: 140
+      ApCost: 30
   - Id: 5381
     Name: EM_ELEMENTAL_VEIL
     Description: Elemental Veil
@@ -40718,8 +40960,8 @@ Body:
     Hit: Single
     HitCount: 1
     CastCancel: true
-    CastTime: 2000
-    AfterCastActDelay: 500
+    CastTime: 4000
+    AfterCastActDelay: 1000
     Duration1:
       - Level: 1
         Time: 120000
@@ -40732,7 +40974,7 @@ Body:
       - Level: 5
         Time: 240000
     Cooldown: 10000
-    FixedCastTime: 1000
+    FixedCastTime: 2000
     Requires:
       SpCost:
         - Level: 1
@@ -40754,6 +40996,8 @@ Body:
     TargetType: Attack
     DamageFlags:
       IgnoreFlee: true
+      Splash: true
+    SplashArea: 3
     Range: 9
     Hit: Multi_Hit
     HitCount: -2
@@ -40769,15 +41013,16 @@ Body:
     DamageFlags:
       Splash: true
     Range: 1
-    Hit: Single
-    HitCount: 1
-    SplashArea: 3
+    Hit: Multi_Hit
+    HitCount: 2
+    SplashArea: 4
     Requires:
       SpCost: 1
   - Id: 5384
     Name: BO_WOODEN_THROWROCK
     Description: Wooden Throw Rock
     MaxLevel: 1
+    Type: Weapon
     TargetType: Attack
     Range: 9
     Hit: Single
@@ -40792,6 +41037,7 @@ Body:
     Name: BO_WOODEN_ATTACK
     Description: Wooden Attack
     MaxLevel: 1
+    Type: Weapon
     TargetType: Attack
     Range: 1
     Hit: Single
@@ -40806,7 +41052,12 @@ Body:
     Name: BO_HELL_HOWLING
     Description: Hell Howling
     MaxLevel: 1
+    Type: Weapon
     Hit: Single
+    TargetType: Self
+    DamageFlags:
+      Splash: true
+    SplashArea: 3
     HitCount: 1
     CastCancel: true
     AfterCastActDelay: 500
@@ -40819,6 +41070,7 @@ Body:
     Description: Hell Dusty
     MaxLevel: 1
     Hit: Single
+    TargetType: Self
     HitCount: 1
     CastCancel: true
     AfterCastActDelay: 500
@@ -40827,10 +41079,12 @@ Body:
     FixedCastTime: 500
     Requires:
       SpCost: 1
+    Status: Bo_Hell_Dusty
   - Id: 5388
     Name: BO_FAIRY_DUSTY
     Description: Fairy Dusty
     MaxLevel: 1
+    Type: Weapon
     Hit: Single
     HitCount: 1
     CastCancel: true
@@ -40909,6 +41163,4072 @@ Body:
     SplashArea: 6
     Requires:
       SpCost: 1
+  - Id: 5401
+    Name: NW_P_F_I
+    Description: P.F.I
+    MaxLevel: 10
+  - Id: 5402
+    Name: NW_GRENADE_MASTERY
+    Description: Grenade Mastery
+    MaxLevel: 10
+  - Id: 5403
+    Name: NW_INTENSIVE_AIM
+    Description: Intensive Aim
+    MaxLevel: 1
+    Type: Weapon
+    TargetType: Self
+    DamageFlags:
+      NoDamage: true
+    Hit: Single
+    HitCount: 1
+    Duration1: -1
+    Requires:
+      SpCost:
+        - Level: 1
+          Amount: 10
+    Status: Intensive_Aim
+  - Id: 5404
+    Name: NW_GRENADE_FRAGMENT
+    Description: Grenade Fragment
+    MaxLevel: 7
+    Type: Weapon
+    TargetType: Self
+    DamageFlags:
+      NoDamage: true
+    Hit: Single
+    HitCount: 1
+    Duration1: 300000
+    Cooldown: 2000
+    Requires:
+      SpCost: 50
+  - Id: 5405
+    Name: NW_THE_VIGILANTE_AT_NIGHT
+    Description: The Vigilante at Night
+    MaxLevel: 5
+    Type: Weapon
+    TargetType: Self
+    DamageFlags:
+      Splash: true
+    Hit: Multi_Hit
+    HitCount: 4
+    Element: Weapon
+    SplashArea:
+      - Level: 1
+        Area: 2
+      - Level: 2
+        Area: 2
+      - Level: 3
+        Area: 2
+      - Level: 4
+        Area: 3
+      - Level: 5
+        Area: 3
+    GiveAp: 1
+    AfterCastActDelay: 1000
+    Cooldown: 500
+    CastCancel: true
+    FixedCastTime: 1500
+    Requires:
+      SpCost:
+        - Level: 1
+          Amount: 49
+        - Level: 2
+          Amount: 53
+        - Level: 3
+          Amount: 57
+        - Level: 4
+          Amount: 61
+        - Level: 5
+          Amount: 65
+      Weapon:
+        Gatling: true
+        Shotgun: true
+      Ammo:
+        Bullet: true
+      AmmoAmount: 10
+  - Id: 5406
+    Name: NW_ONLY_ONE_BULLET
+    Description: Only One Bullet
+    MaxLevel: 5
+    Type: Weapon
+    TargetType: Attack
+    DamageFlags:
+      Critical: true
+    Range: -9
+    Hit: Single
+    HitCount: 1
+    Element: Weapon
+    GiveAp: 1
+    AfterCastActDelay: 500
+    Cooldown: 300
+    CastCancel: true
+    FixedCastTime: 1000
+    Requires:
+      SpCost:
+        - Level: 1
+          Amount: 39
+        - Level: 2
+          Amount: 43
+        - Level: 3
+          Amount: 47
+        - Level: 4
+          Amount: 51
+        - Level: 5
+          Amount: 55
+      Weapon:
+        Revolver: true
+        Rifle: true
+      Ammo:
+        Bullet: true
+      AmmoAmount: 1
+  - Id: 5407
+    Name: NW_SPIRAL_SHOOTING
+    Description: Spiral Shooting
+    MaxLevel: 5
+    Type: Weapon
+    TargetType: Attack
+    DamageFlags:
+      Critical: true
+      Splash: true
+    Range: -9
+    Hit: Multi_Hit
+    HitCount: 1
+    Element: Weapon
+    SplashArea:
+      - Level: 1
+        Area: 2
+      - Level: 2
+        Area: 2
+      - Level: 3
+        Area: 2
+      - Level: 4
+        Area: 3
+      - Level: 5
+        Area: 3
+    GiveAp: 1
+    AfterCastActDelay: 1000
+    Cooldown: 500
+    CastCancel: true
+    FixedCastTime: 1000
+    Requires:
+      SpCost:
+        - Level: 1
+          Amount: 48
+        - Level: 2
+          Amount: 53
+        - Level: 3
+          Amount: 58
+        - Level: 4
+          Amount: 63
+        - Level: 5
+          Amount: 68
+      Weapon:
+        Grenade: true
+        Rifle: true
+      Ammo:
+        Bullet: true
+      AmmoAmount: 6
+  - Id: 5408
+    Name: NW_MAGAZINE_FOR_ONE
+    Description: Magazine for One
+    MaxLevel: 5
+    Type: Weapon
+    TargetType: Attack
+    DamageFlags:
+      Critical: true
+    Range: -9
+    Hit: Multi_Hit
+    HitCount: 6
+    Element: Weapon
+    GiveAp: 1
+    AfterCastActDelay: 1000
+    Cooldown: 500
+    CastCancel: true
+    FixedCastTime: 1000
+    Requires:
+      SpCost:
+        - Level: 1
+          Amount: 42
+        - Level: 2
+          Amount: 46
+        - Level: 3
+          Amount: 50
+        - Level: 4
+          Amount: 54
+        - Level: 5
+          Amount: 58
+      Weapon:
+        Revolver: true
+        Gatling: true
+      Ammo:
+        Bullet: true
+      AmmoAmount: 6
+  - Id: 5409
+    Name: NW_WILD_FIRE
+    Description: Wild Fire
+    MaxLevel: 5
+    Type: Weapon
+    TargetType: Ground
+    Range: -9
+    Hit: Single
+    HitCount: -3
+    Element: Weapon
+    DamageFlags:
+      Splash: true
+    SplashArea:
+      - Level: 1
+        Area: 2
+      - Level: 2
+        Area: 2
+      - Level: 3
+        Area: 2
+      - Level: 4
+        Area: 3
+      - Level: 5
+        Area: 3
+    GiveAp: 1
+    AfterCastActDelay: 1000
+    Cooldown: 500
+    CastCancel: true
+    FixedCastTime: 1000
+    Requires:
+      SpCost:
+        - Level: 1
+          Amount: 51
+        - Level: 2
+          Amount: 55
+        - Level: 3
+          Amount: 59
+        - Level: 4
+          Amount: 63
+        - Level: 5
+          Amount: 67
+      Weapon:
+        Shotgun: true
+        Grenade: true
+      Ammo:
+        Bullet: true
+      AmmoAmount: 5
+  - Id: 5410
+    Name: NW_BASIC_GRENADE
+    Description: Basic Grenade
+    MaxLevel: 5
+    Type: Weapon
+    TargetType: Ground
+    Range: -9
+    Hit: Single
+    HitCount: -2
+    Element: Weapon
+    DamageFlags:
+      Splash: true
+    SplashArea:
+      - Level: 1
+        Area: 1
+      - Level: 2
+        Area: 1
+      - Level: 3
+        Area: 1
+      - Level: 4
+        Area: 2
+      - Level: 5
+        Area: 2
+    GiveAp: 2
+    Cooldown: 300
+    CastCancel: true
+    FixedCastTime: 1000
+    Requires:
+      SpCost:
+        - Level: 1
+          Amount: 36
+        - Level: 2
+          Amount: 42
+        - Level: 3
+          Amount: 48
+        - Level: 4
+          Amount: 54
+        - Level: 5
+          Amount: 60
+      ItemCost:
+        - Item: Nw_Grenade
+          Amount: 1
+  - Id: 5411
+    Name: NW_HASTY_FIRE_IN_THE_HOLE
+    Description: Hasty Fire in the Hole
+    MaxLevel: 5
+    Type: Weapon
+    TargetType: Ground
+    Range: -9
+    Hit: Multi_Hit
+    HitCount: -2
+    Element: Weapon
+    DamageFlags:
+      Splash: true
+    SplashArea: 2
+    GiveAp: 3
+    Cooldown: 1000
+    CastCancel: true
+    FixedCastTime: 1000
+    AfterCastActDelay: 1500
+    Requires:
+      SpCost:
+        - Level: 1
+          Amount: 50
+        - Level: 2
+          Amount: 53
+        - Level: 3
+          Amount: 56
+        - Level: 4
+          Amount: 59
+        - Level: 5
+          Amount: 62
+      ItemCost:
+        - Item: Nw_Grenade
+          Amount: 3
+  - Id: 5412
+    Name: NW_GRENADES_DROPPING
+    Description: Grenades Dropping
+    MaxLevel: 5
+    Type: Weapon
+    TargetType: Ground
+    Range: -9
+    Hit: Multi_Hit
+    HitCount: 3
+    Element: Weapon
+    DamageFlags:
+      Splash: true
+    SplashArea:
+      - Level: 1
+        Area: 5
+      - Level: 2
+        Area: 5
+      - Level: 3
+        Area: 5
+      - Level: 4
+        Area: 4
+      - Level: 5
+        Area: 4
+    GiveAp: 5
+    Cooldown: 4500
+    CastCancel: true
+    FixedCastTime: 1000
+    Requires:
+      SpCost:
+        - Level: 1
+          Amount: 60
+        - Level: 2
+          Amount: 66
+        - Level: 3
+          Amount: 72
+        - Level: 4
+          Amount: 78
+        - Level: 5
+          Amount: 84
+      ItemCost:
+        - Item: Nw_Grenade
+          Amount: 15
+    Duration1: 4000
+    Duration2: 100
+    Unit:
+      Id: Grenades_Dropping
+      Layout: 0
+      Range:
+        - Level: 1
+          Size: 1
+        - Level: 2
+          Size: 1
+        - Level: 3
+          Size: 1
+        - Level: 4
+          Size: 2
+        - Level: 5
+          Size: 2
+      Interval: 250
+      Target: Enemy
+      Flag:
+        NoOverlap: true
+        PathCheck: true
+  - Id: 5413
+    Name: NW_AUTO_FIRING_LAUNCHER
+    Description: Auto Firing Launcher
+    MaxLevel: 5
+    Type: Weapon
+    TargetType: Self
+    DamageFlags:
+      NoDamage: true
+    Duration1:
+      - Level: 1
+        Time: 120000
+      - Level: 2
+        Time: 150000
+      - Level: 3
+        Time: 180000
+      - Level: 4
+        Time: 210000
+      - Level: 5
+        Time: 240000
+    Cooldown: 30000
+    CastCancel: true
+    FixedCastTime: 3000
+    Requires:
+      SpCost:
+        - Level: 1
+          Amount: 90
+        - Level: 2
+          Amount: 100
+        - Level: 3
+          Amount: 110
+        - Level: 4
+          Amount: 120
+        - Level: 5
+          Amount: 130
+    Status: Auto_Firing_Launcher
+  - Id: 5414
+    Name: NW_HIDDEN_CARD
+    Description: Hidden Card
+    MaxLevel: 10
+    Type: Weapon
+    TargetType: Self
+    DamageFlags:
+      NoDamage: true
+    Duration1: 300000
+    Cooldown: 60000
+    CastCancel: true
+    FixedCastTime: 2000
+    Requires:
+      SpCost: 150
+      ApCost: 150
+    Status: Hidden_Card
+  - Id: 5415
+    Name: NW_MISSION_BOMBARD
+    Description: Mission Bombard
+    MaxLevel: 10
+    Type: Weapon
+    TargetType: Ground
+    Range: -9
+    Hit: Multi_Hit
+    HitCount: -3
+    Element: Weapon
+    DamageFlags:
+      Splash: true
+    SplashArea: 4
+    Cooldown: 10000
+    CastCancel: true
+    FixedCastTime: 1000
+    Requires:
+      SpCost: 100
+      ApCost: 35
+      ItemCost:
+        - Item: Nw_Grenade
+          Amount: 15
+    Duration1: 10000
+    Unit:
+      Id: Mission_Bombard
+      Layout: 0
+      Range: 2
+      Interval: 250
+      Target: Enemy
+      Flag:
+        NoOverlap: true
+        PathCheck: true
+  - Id: 5416
+    Name: SOA_TALISMAN_MASTERY
+    Description: Talisman Mastery
+    MaxLevel: 10
+  - Id: 5417
+    Name: SOA_SOUL_MASTERY
+    Description: Soul Mastery
+    MaxLevel: 10
+  - Id: 5418
+    Name: SOA_TALISMAN_OF_PROTECTION
+    Description: Talisman Of Protection
+    MaxLevel: 5
+    TargetType: Support
+    DamageFlags:
+      NoDamage: true
+    Flags:
+      PartyOnly: true
+    Range: 9
+    Hit: Single
+    HitCount: 1
+    CastCancel: true
+    CastTime: 1500
+    AfterCastActDelay: 500
+    Duration1:
+      - Level: 1
+        Time: 180000
+      - Level: 2
+        Time: 210000
+      - Level: 3
+        Time: 240000
+      - Level: 4
+        Time: 270000
+      - Level: 5
+        Time: 300000
+    Duration2:
+      - Level: 1
+        Time: 180000
+      - Level: 2
+        Time: 210000
+      - Level: 3
+        Time: 240000
+      - Level: 4
+        Time: 270000
+      - Level: 5
+        Time: 300000
+    FixedCastTime: 1000
+    Requires:
+      SpCost:
+        - Level: 1
+          Amount: 50
+        - Level: 2
+          Amount: 55
+        - Level: 3
+          Amount: 60
+        - Level: 4
+          Amount: 65
+        - Level: 5
+          Amount: 70
+      ItemCost:
+        - Item: Soa_Charm
+          Amount: 1
+    Status: Talisman_of_Protection
+  - Id: 5419
+    Name: SOA_TALISMAN_OF_WARRIOR
+    Description: Talisman Of Warrior
+    MaxLevel: 5
+    TargetType: Support
+    DamageFlags:
+      NoDamage: true
+    Flags:
+      PartyOnly: true
+    Range: 9
+    Hit: Single
+    HitCount: 1
+    GiveAp: 2
+    CastCancel: true
+    CastTime: 1500
+    AfterCastActDelay: 500
+    Duration1:
+      - Level: 1
+        Time: 180000
+      - Level: 2
+        Time: 210000
+      - Level: 3
+        Time: 240000
+      - Level: 4
+        Time: 270000
+      - Level: 5
+        Time: 300000
+    FixedCastTime: 1000
+    Requires:
+      SpCost:
+        - Level: 1
+          Amount: 50
+        - Level: 2
+          Amount: 55
+        - Level: 3
+          Amount: 60
+        - Level: 4
+          Amount: 65
+        - Level: 5
+          Amount: 70
+      ItemCost:
+        - Item: Soa_Charm
+          Amount: 1
+    Status: Talisman_of_Warrior
+  - Id: 5420
+    Name: SOA_TALISMAN_OF_MAGICIAN
+    Description: Talisman Of Magician
+    MaxLevel: 5
+    TargetType: Support
+    DamageFlags:
+      NoDamage: true
+    Flags:
+      PartyOnly: true
+    Range: 9
+    Hit: Single
+    HitCount: 1
+    GiveAp: 2
+    CastCancel: true
+    CastTime: 1500
+    AfterCastActDelay: 500
+    Duration1:
+      - Level: 1
+        Time: 180000
+      - Level: 2
+        Time: 210000
+      - Level: 3
+        Time: 240000
+      - Level: 4
+        Time: 270000
+      - Level: 5
+        Time: 300000
+    FixedCastTime: 1000
+    Requires:
+      SpCost:
+        - Level: 1
+          Amount: 50
+        - Level: 2
+          Amount: 55
+        - Level: 3
+          Amount: 60
+        - Level: 4
+          Amount: 65
+        - Level: 5
+          Amount: 70
+      ItemCost:
+        - Item: Soa_Charm
+          Amount: 1
+    Status: Talisman_of_Magician
+  - Id: 5421
+    Name: SOA_SOUL_GATHERING
+    Description: Soul Gathering
+    MaxLevel: 5
+    TargetType: Self
+    DamageFlags:
+      NoDamage: true
+    Hit: Single
+    HitCount: 1
+    CastCancel: true
+    FixedCastTime: 1000
+    CastTime: 1500
+    Cooldown:
+      - Level: 1
+        Time: 5000
+      - Level: 2
+        Time: 4000
+      - Level: 3
+        Time: 3000
+      - Level: 4
+        Time: 2000
+      - Level: 5
+        Time: 1000
+    Requires:
+      SpCost: 
+        - Level: 1
+          Amount: 70
+        - Level: 2
+          Amount: 75
+        - Level: 3
+          Amount: 80
+        - Level: 4
+          Amount: 85
+        - Level: 5
+          Amount: 90
+  - Id: 5422
+    Name: SOA_TOTEM_OF_TUTELARY
+    Description: Totem Of Tutelary
+    MaxLevel: 5
+    Type: Magic
+    TargetType: Ground
+    DamageFlags:
+      NoDamage: true
+    Range: 11
+    Hit: Single
+    HitCount: 1
+    SplashArea: 2
+    ActiveInstance: 1
+    CastCancel: true
+    CastTime: 3500
+    Duration1:
+      - Level: 1
+        Time: 18000
+      - Level: 2
+        Time: 21000
+      - Level: 3
+        Time: 24000
+      - Level: 4
+        Time: 27000
+      - Level: 5
+        Time: 30000
+    Cooldown: 15000
+    FixedCastTime: 1000
+    Requires:
+      SpCost:
+        - Level: 1
+          Amount: 76
+        - Level: 2
+          Amount: 92
+        - Level: 3
+          Amount: 108
+        - Level: 4
+          Amount: 124
+        - Level: 5
+          Amount: 140
+      ItemCost:
+        - Item: Soa_Charm
+          Amount: 10
+    Unit:
+      Id: Totem_Of_Tutelary
+      Range:
+        - Level: 1
+          Size: 2
+        - Level: 2
+          Size: 2
+        - Level: 3
+          Size: 3
+        - Level: 4
+          Size: 3
+        - Level: 5
+          Size: 4
+      Interval: 1000
+      Flag:
+        NoOverlap: true
+        PathCheck: true
+    Status: Totem_of_Tutelary
+  - Id: 5423
+    Name: SOA_TALISMAN_OF_FIVE_ELEMENTS
+    Description: Talisman Of Five Elements
+    MaxLevel: 5
+    TargetType: Support
+    DamageFlags:
+      NoDamage: true
+    Flags:
+      PartyOnly: true
+    Range: 9
+    Hit: Single
+    HitCount: 1
+    CastCancel: true
+    CastTime: 1500
+    AfterCastActDelay: 500
+    Duration1:
+      - Level: 1
+        Time: 180000
+      - Level: 2
+        Time: 210000
+      - Level: 3
+        Time: 240000
+      - Level: 4
+        Time: 270000
+      - Level: 5
+        Time: 300000
+    FixedCastTime: 1000
+    Requires:
+      SpCost:
+        - Level: 1
+          Amount: 50
+        - Level: 2
+          Amount: 55
+        - Level: 3
+          Amount: 60
+        - Level: 4
+          Amount: 65
+        - Level: 5
+          Amount: 70
+      ItemCost:
+        - Item: Soa_Charm
+          Amount: 5
+    Status: Talisman_of_five_Elements
+  - Id: 5424
+    Name: SOA_TALISMAN_OF_SOUL_STEALING
+    Description: Talisman Of Soul Stealing
+    MaxLevel: 5
+    Type: Magic
+    TargetType: Attack
+    Range: 9
+    Hit: Single
+    HitCount: 1
+    Element: Endowed
+    CastCancel: true
+    CastTime: 2200
+    Cooldown: 1000
+    FixedCastTime: 1500
+    Requires:
+      SpCost: 84
+      ItemCost:
+        - Item: Soa_Charm
+          Amount: 1
+  - Id: 5425
+    Name: SOA_EXORCISM_OF_MALICIOUS_SOUL
+    Description: Exorcism Of Malicious Soul
+    MaxLevel: 5
+    Type: Magic
+    TargetType: Self
+    DamageFlags:
+      Splash: true
+    Hit: Multi_Hit
+    GiveAp: 2
+    HitCount: -5
+    Element: Endowed
+    SplashArea:
+      - Level: 1
+        Area: 5
+      - Level: 2
+        Area: 5
+      - Level: 3
+        Area: 5
+      - Level: 4
+        Area: 6
+      - Level: 5
+        Area: 6
+    CastCancel: true
+    CastTime: 2200
+    AfterCastActDelay: 500
+    FixedCastTime: 1500
+    Cooldown: 1000
+    Requires:
+      SpCost:
+        - Level: 1
+          Amount: 70
+        - Level: 2
+          Amount: 80
+        - Level: 3
+          Amount: 90
+        - Level: 4
+          Amount: 100
+        - Level: 5
+          Amount: 110
+      SpiritSphereCost: 1
+  - Id: 5426
+    Name: SOA_TALISMAN_OF_BLUE_DRAGON
+    Description: Talisman Of Blue Dragon
+    MaxLevel: 5
+    Type: Magic
+    TargetType: Attack
+    Range: 9
+    Hit: Single
+    HitCount: 1
+    Element: Endowed
+    GiveAp: 2
+    CastCancel: true
+    CastTime: 1000
+    FixedCastTime: 1500
+    Cooldown: 300
+    Duration1:
+      - Level: 1
+        Time: 30000
+      - Level: 2
+        Time: 60000
+      - Level: 3
+        Time: 90000
+      - Level: 4
+        Time: 120000
+      - Level: 5
+        Time: 150000
+    Requires:
+      SpCost:
+        - Level: 1
+          Amount: 54
+        - Level: 2
+          Amount: 58
+        - Level: 3
+          Amount: 62
+        - Level: 4
+          Amount: 66
+        - Level: 5
+          Amount: 70
+      ItemCost:
+        - Item: Soa_Charm
+          Amount: 1
+    Status: T_First_God
+  - Id: 5427
+    Name: SOA_TALISMAN_OF_WHITE_TIGER
+    Description: Talisman Of White Tiger
+    MaxLevel: 5
+    Type: Magic
+    TargetType: Self
+    DamageFlags:
+      Splash: true
+    Hit: Multi_Hit
+    HitCount: -2
+    Element: Endowed
+    GiveAp: 2
+    SplashArea:
+      - Level: 1
+        Area: 5
+      - Level: 2
+        Area: 5
+      - Level: 3
+        Area: 6
+      - Level: 4
+        Area: 6
+      - Level: 5
+        Area: 7
+    CastCancel: true
+    CastTime: 1000
+    FixedCastTime: 1500
+    Cooldown: 400
+    Duration1:
+      - Level: 1
+        Time: 30000
+      - Level: 2
+        Time: 60000
+      - Level: 3
+        Time: 90000
+      - Level: 4
+        Time: 120000
+      - Level: 5
+        Time: 150000
+    Requires:
+      SpCost:
+        - Level: 1
+          Amount: 80
+        - Level: 2
+          Amount: 83
+        - Level: 3
+          Amount: 86
+        - Level: 4
+          Amount: 89
+        - Level: 5
+          Amount: 92
+      ItemCost:
+        - Item: Soa_Charm
+          Amount: 1
+    Status: T_Second_God
+  - Id: 5428
+    Name: SOA_TALISMAN_OF_RED_PHOENIX
+    Description: Talisman Of Red Phoenix
+    MaxLevel: 5
+    Type: Magic
+    TargetType: Attack
+    DamageFlags:
+      Splash: true
+    Range: 9
+    Hit: Multi_Hit
+    HitCount: -3
+    Element: Endowed
+    GiveAp: 3
+    SplashArea:
+      - Level: 1
+        Area: 1
+      - Level: 2
+        Area: 1
+      - Level: 3
+        Area: 2
+      - Level: 4
+        Area: 2
+      - Level: 5
+        Area: 3
+    Duration1:
+      - Level: 1
+        Time: 30000
+      - Level: 2
+        Time: 60000
+      - Level: 3
+        Time: 90000
+      - Level: 4
+        Time: 120000
+      - Level: 5
+        Time: 150000
+    CastCancel: true
+    CastTime: 1000
+    FixedCastTime: 1500
+    Cooldown: 450
+    Requires:
+      SpCost:
+        - Level: 1
+          Amount: 72
+        - Level: 2
+          Amount: 76
+        - Level: 3
+          Amount: 80
+        - Level: 4
+          Amount: 84
+        - Level: 5
+          Amount: 88
+      ItemCost:
+        - Item: Soa_Charm
+          Amount: 1
+    Status: T_Third_God
+  - Id: 5429
+    Name: SOA_TALISMAN_OF_BLACK_TORTOISE
+    Description: Talisman Of Black Tortoise
+    MaxLevel: 5
+    Type: Magic
+    TargetType: Ground
+    DamageFlags:
+      Splash: true
+    Range: 9
+    Hit: Multi_Hit
+    HitCount: -4
+    Element: Endowed
+    GiveAp: 3
+    Duration1: 100
+    Duration2:
+      - Level: 1
+        Time: 30000
+      - Level: 2
+        Time: 60000
+      - Level: 3
+        Time: 90000
+      - Level: 4
+        Time: 120000
+      - Level: 5
+        Time: 150000
+    CastCancel: true
+    CastTime: 1000
+    FixedCastTime: 1500
+    Cooldown: 700
+    Requires:
+      SpCost:
+        - Level: 1
+          Amount: 72
+        - Level: 2
+          Amount: 77
+        - Level: 3
+          Amount: 82
+        - Level: 4
+          Amount: 87
+        - Level: 5
+          Amount: 92
+      ItemCost:
+        - Item: Soa_Charm
+          Amount: 1
+    Unit:
+      Id: Dummyskill
+      Range:
+        - Level: 1
+          Size: 3
+        - Level: 2
+          Size: 3
+        - Level: 3
+          Size: 4
+        - Level: 4
+          Size: 4
+        - Level: 5
+          Size: 5
+      Interval: 1000
+      Target: Enemy
+      Flag:
+        PathCheck: true
+    Status: T_Fourth_God
+  - Id: 5430
+    Name: SOA_TALISMAN_OF_FOUR_BEARING_GOD
+    Description: Talisman Of Four Bearing God
+    MaxLevel: 5
+    Type: Magic
+    TargetType: Attack
+    DamageFlags:
+      Splash: true
+    Range: 9
+    Hit: Single
+    HitCount: 1
+    Element: Endowed
+    GiveAp: 3
+    SplashArea:
+      - Level: 1
+        Area: 3
+      - Level: 2
+        Area: 3
+      - Level: 3
+        Area: 4
+      - Level: 4
+        Area: 4
+      - Level: 5
+        Area: 5
+    CastCancel: true
+    CastTime: 1500
+    FixedCastTime: 1500
+    Cooldown: 1000
+    Requires:
+      SpCost:
+        - Level: 1
+          Amount: 86
+        - Level: 2
+          Amount: 88
+        - Level: 3
+          Amount: 90
+        - Level: 4
+          Amount: 92
+        - Level: 5
+          Amount: 94
+      ItemCost:
+        - Item: Soa_Charm
+          Amount: 3
+  - Id: 5431
+    Name: SOA_CIRCLE_OF_DIRECTIONS_AND_ELEMENTALS
+    Description: Circle Of Directions And Elementals
+    MaxLevel: 5
+    Type: Magic
+    TargetType: Attack
+    DamageFlags:
+      Splash: true
+    Range: 9
+    Hit: Multi_Hit
+    HitCount: 5
+    Element: Endowed
+    SplashArea:
+      - Level: 1
+        Area: 3
+      - Level: 2
+        Area: 3
+      - Level: 3
+        Area: 4
+      - Level: 4
+        Area: 4
+      - Level: 5
+        Area: 5
+    Duration1:
+      - Level: 1
+        Time: 30000
+      - Level: 2
+        Time: 60000
+      - Level: 3
+        Time: 90000
+      - Level: 4
+        Time: 120000
+      - Level: 5
+        Time: 150000
+    CastCancel: true
+    Cooldown: 5000
+    AfterCastActDelay: 500
+    CastTime: 1500
+    FixedCastTime: 1500
+    Requires:
+      SpCost:
+        - Level: 1
+          Amount: 120
+        - Level: 2
+          Amount: 140
+        - Level: 3
+          Amount: 160
+        - Level: 4
+          Amount: 180
+        - Level: 5
+          Amount: 200
+      ApCost: 25
+    Status: T_Fifth_God
+  - Id: 5432
+    Name: SOA_SOUL_OF_HEAVEN_AND_EARTH
+    Description: Soul Of Heaven And Earth
+    MaxLevel: 10
+    Type: Magic
+    TargetType: Self
+    DamageFlags:
+      NoDamage: true
+      Splash: true
+    Range: 11
+    Hit: Single
+    HitCount: 1
+    SplashArea: 11
+    CastCancel: true
+    AfterCastActDelay: 1000
+    Duration1: 300000
+    Cooldown:
+      - Level: 2
+        Time: 30000
+      - Level: 3
+        Time: 60000
+      - Level: 4
+        Time: 90000
+      - Level: 5
+        Time: 120000
+      - Level: 6
+        Time: 150000
+      - Level: 7
+        Time: 180000
+      - Level: 8
+        Time: 210000
+      - Level: 9
+        Time: 270000
+      - Level: 10
+        Time: 300000
+    CastTime: 3000
+    FixedCastTime: 2000
+    Requires:
+      SpCost:
+        - Level: 1
+          Amount: 90
+        - Level: 2
+          Amount: 100
+        - Level: 3
+          Amount: 110
+        - Level: 4
+          Amount: 120
+        - Level: 5
+          Amount: 130
+        - Level: 6
+          Amount: 140
+        - Level: 7
+          Amount: 150
+        - Level: 8
+          Amount: 160
+        - Level: 9
+          Amount: 170
+        - Level: 10
+          Amount: 180
+      ApCost: 180
+    Status: Heaven_and_Earth
+  - Id: 5433
+    Name: SH_MYSTICAL_CREATURE_MASTERY
+    Description: Mystical Creature Mastery
+    MaxLevel: 10
+  - Id: 5434
+    Name: SH_COMMUNE_WITH_CHUL_HO
+    Description: Commune with Chulho
+    MaxLevel: 1
+  - Id: 5435
+    Name: SH_CHUL_HO_SONIC_CLAW
+    Description: Chulho Sonic Claw
+    MaxLevel: 7
+    Type: Weapon
+    TargetType: Attack
+    DamageFlags:
+      Critical: true
+    Range: -9
+    Hit: Multi_Hit
+    HitCount: -2
+    GiveAp: 1
+    Element: Weapon
+    AfterCastActDelay: 500
+    Cooldown:
+      - Level: 1
+        Time: 1150
+      - Level: 2
+        Time: 1000
+      - Level: 3
+        Time: 850
+      - Level: 4
+        Time: 700
+      - Level: 5
+        Time: 550
+      - Level: 6
+        Time: 400
+      - Level: 7
+        Time: 250
+    Requires:
+      SpCost:
+        - Level: 1
+          Amount: 42
+        - Level: 2
+          Amount: 44
+        - Level: 3
+          Amount: 46
+        - Level: 4
+          Amount: 48
+        - Level: 5
+          Amount: 50
+        - Level: 6
+          Amount: 52
+        - Level: 7
+          Amount: 54
+  - Id: 5436
+    Name: SH_HOWLING_OF_CHUL_HO
+    Description: Howling of Chulho
+    MaxLevel: 7
+    Type: Weapon
+    TargetType: Self
+    Range: -9
+    Hit: Multi_Hit
+    HitCount: -3
+    GiveAp: 2
+    Element: Weapon
+    DamageFlags:
+      Splash: true
+    SplashArea:
+      - Level: 1
+        Area: 2
+      - Level: 2
+        Area: 2
+      - Level: 3
+        Area: 2
+      - Level: 4
+        Area: 3
+      - Level: 5
+        Area: 3
+      - Level: 6
+        Area: 3
+      - Level: 7
+        Area: 4
+    Duration1: 12000
+    Cooldown: 1000
+    CastCancel: true
+    FixedCastTime: 1000
+    Requires:
+      SpCost: 68
+    Status: Hogogong
+  - Id: 5437
+    Name: SH_HOGOGONG_STRIKE
+    Description: Hogogong Strike
+    MaxLevel: 7
+    Type: Weapon
+    TargetType: Self
+    Range: -9
+    Hit: Multi_Hit
+    HitCount: 3
+    GiveAp: 1
+    Element: Weapon
+    DamageFlags:
+      Splash: true
+      Critical: true
+    SplashArea:
+      - Level: 1
+        Area: 3
+      - Level: 2
+        Area: 3
+      - Level: 3
+        Area: 3
+      - Level: 4
+        Area: 4
+      - Level: 5
+        Area: 4
+      - Level: 6
+        Area: 4
+      - Level: 7
+        Area: 5
+    Cooldown: 350
+    CastCancel: true
+    FixedCastTime: 1000
+    Requires:
+      SpCost:
+        - Level: 1
+          Amount: 54
+        - Level: 2
+          Amount: 57
+        - Level: 3
+          Amount: 60
+        - Level: 4
+          Amount: 63
+        - Level: 5
+          Amount: 66
+        - Level: 6
+          Amount: 69
+        - Level: 7
+          Amount: 72
+  - Id: 5438
+    Name: SH_COMMUNE_WITH_KI_SUL
+    Description: Commune with Chulho
+    MaxLevel: 1
+  - Id: 5439
+    Name: SH_KI_SUL_WATER_SPRAYING
+    Description: Kisul Water Spraying
+    MaxLevel: 7
+    Type: Magic
+    TargetType: Self
+    GiveAp: 1
+    DamageFlags:
+      NoDamage: true
+      Splash: true
+    SplashArea:
+      - Level: 1
+        Area: 3
+      - Level: 2
+        Area: 3
+      - Level: 3
+        Area: 4
+      - Level: 4
+        Area: 4
+      - Level: 5
+        Area: 5
+      - Level: 6
+        Area: 5
+      - Level: 7
+        Area: 6
+    CastCancel: true
+    CastTime: 1700
+    AfterCastActDelay: 1000
+    FixedCastTime: 1000
+    Cooldown: 300
+    Requires:
+      SpCost:
+        - Level: 1
+          Amount: 61
+        - Level: 2
+          Amount: 65
+        - Level: 3
+          Amount: 69
+        - Level: 4
+          Amount: 73
+        - Level: 5
+          Amount: 77
+        - Level: 6
+          Amount: 81
+        - Level: 7
+          Amount: 85
+  - Id: 5440
+    Name: SH_MARINE_FESTIVAL_OF_KI_SUL
+    Description: Marine Festival of Kisul
+    MaxLevel: 5
+    Type: Magic
+    TargetType: Self
+    DamageFlags:
+      NoDamage: true
+      Splash: true
+    GiveAp: 4
+    SplashArea:
+      - Level: 1
+        Area: 2
+      - Level: 2
+        Area: 3
+      - Level: 3
+        Area: 4
+      - Level: 4
+        Area: 5
+      - Level: 5
+        Area: 6
+    Duration1: 
+     - Level: 1
+       Time: 60000
+     - Level: 2
+       Time: 75000
+     - Level: 3
+       Time: 90000
+     - Level: 4
+       Time: 105000
+     - Level: 5
+       Time: 120000
+    CastCancel: true
+    CastTime: 1700
+    AfterCastActDelay: 1000
+    FixedCastTime: 1000
+    Cooldown: 2000
+    Requires:
+      SpCost:
+        - Level: 1
+          Amount: 80
+        - Level: 2
+          Amount: 90
+        - Level: 3
+          Amount: 100
+        - Level: 4
+          Amount: 110
+        - Level: 5
+          Amount: 120
+    Status: Marine_Festival
+  - Id: 5441
+    Name: SH_SANDY_FESTIVAL_OF_KI_SUL
+    Description: Sandy Festival of Kisul
+    MaxLevel: 5
+    Type: Magic
+    TargetType: Self
+    DamageFlags:
+      NoDamage: true
+      Splash: true
+    GiveAp: 4
+    SplashArea:
+      - Level: 1
+        Area: 2
+      - Level: 2
+        Area: 3
+      - Level: 3
+        Area: 4
+      - Level: 4
+        Area: 5
+      - Level: 5
+        Area: 6
+    Duration1: 
+     - Level: 1
+       Time: 60000
+     - Level: 2
+       Time: 75000
+     - Level: 3
+       Time: 90000
+     - Level: 4
+       Time: 105000
+     - Level: 5
+       Time: 120000
+    CastCancel: true
+    CastTime: 1700
+    AfterCastActDelay: 1000
+    FixedCastTime: 1000
+    Cooldown: 2000
+    Requires:
+      SpCost:
+        - Level: 1
+          Amount: 80
+        - Level: 2
+          Amount: 90
+        - Level: 3
+          Amount: 100
+        - Level: 4
+          Amount: 110
+        - Level: 5
+          Amount: 120
+    Status: Sandy_Festival
+  - Id: 5442
+    Name: SH_KI_SUL_RAMPAGE
+    Description: Kisul Rampage
+    MaxLevel: 7
+    Type: Magic
+    TargetType: Self
+    DamageFlags:
+      NoDamage: true
+      Splash: true
+    SplashArea: 3
+    Duration1: 
+     - Level: 1
+       Time: 4000
+     - Level: 2
+       Time: 5000
+     - Level: 3
+       Time: 6000
+     - Level: 4
+       Time: 7000
+     - Level: 5
+       Time: 8000
+     - Level: 6
+       Time: 9000
+     - Level: 7
+       Time: 10000
+    CastCancel: true
+    CastTime: 3000
+    AfterCastActDelay: 1000
+    Cooldown: 60000
+    FixedCastTime: 1500
+    Requires:
+      SpCost:
+        - Level: 1
+          Amount: 90
+        - Level: 2
+          Amount: 100
+        - Level: 3
+          Amount: 110
+        - Level: 4
+          Amount: 120
+        - Level: 5
+          Amount: 130
+        - Level: 6
+          Amount: 140
+        - Level: 7
+          Amount: 150
+    Status: Ki_Sul_Rampage
+  - Id: 5443
+    Name: SH_COMMUNE_WITH_HYUN_ROK
+    Description: Commune with Hyunrok
+    MaxLevel: 1
+  - Id: 5444
+    Name: SH_COLORS_OF_HYUN_ROK
+    Description: Colors of Hyunrok
+    MaxLevel: 7
+    Type: Magic
+    TargetType: Self
+    DamageFlags:
+      NoDamage: true
+    Duration1:  300000
+    CastCancel: true
+    CastTime: 1700
+    FixedCastTime: 1000
+    Requires:
+      SpCost: 90
+    Status: Colors_of_Hyun_Rok_Buff
+  - Id: 5445
+    Name: SH_HYUN_ROKS_BREEZE
+    Description: Hyunrok Breeze
+    MaxLevel: 7
+    Type: Magic
+    TargetType: Ground
+    Hit: Multi_Hit
+    HitCount: 1
+    Range: 9
+    GiveAp: 4
+    CastCancel: true
+    CastTime: 3000
+    AfterCastActDelay: 500
+    Cooldown: 4500
+    FixedCastTime: 1500
+    Duration1: 4500
+    Requires:
+      SpCost:
+        - Level: 1
+          Amount: 58
+        - Level: 2
+          Amount: 64
+        - Level: 3
+          Amount: 70
+        - Level: 4
+          Amount: 76
+        - Level: 5
+          Amount: 82
+        - Level: 6
+          Amount: 88
+        - Level: 7
+          Amount: 94
+    Unit:
+      Id: HYUN_ROKS_BREEZE
+      Layout: 0
+      Range:
+        - Level: 1
+          Size: 2
+        - Level: 2
+          Size: 2
+        - Level: 3
+          Size: 3
+        - Level: 4
+          Size: 3
+        - Level: 5
+          Size: 4
+        - Level: 6
+          Size: 4
+        - Level: 7
+          Size: 5
+      Interval: 300
+      Target: Enemy
+      Flag:
+        NoOverlap: true
+        PathCheck: true
+  - Id: 5446
+    Name: SH_HYUN_ROK_CANNON
+    Description: Hyunrok Cannon
+    MaxLevel: 7
+    Type: Magic
+    TargetType: Attack
+    Range: -9
+    GiveAp: 1
+    Hit: Multi_Hit
+    HitCount: 1
+    Element: Endowed
+    CastCancel: true
+    CastTime: 2000
+    Cooldown: 300
+    FixedCastTime: 1500
+    Requires:
+      SpCost:
+        - Level: 1
+          Amount: 56
+        - Level: 2
+          Amount: 59
+        - Level: 3
+          Amount: 62
+        - Level: 4
+          Amount: 65
+        - Level: 5
+          Amount: 68
+        - Level: 6
+          Amount: 71
+        - Level: 7
+          Amount: 74
+  - Id: 5447
+    Name: SH_TEMPORARY_COMMUNION
+    Description: Temporary Communion
+    MaxLevel: 5
+    Type: Magic
+    TargetType: Self
+    DamageFlags:
+      NoDamage: true
+    CastCancel: true
+    CastTime: 2000
+    AfterCastActDelay: 500
+    Cooldown: 60000
+    FixedCastTime: 1500
+    Duration1: 
+     - Level: 1
+       Time: 30000
+     - Level: 2
+       Time: 60000
+     - Level: 3
+       Time: 90000
+     - Level: 4
+       Time: 12000
+     - Level: 5
+       Time: 150000
+    Requires:
+      SpCost: 100
+      ApCost: 150
+    Status: Temporary_Communion
+  - Id: 5448
+    Name: SH_BLESSING_OF_MYSTICAL_CREATURES
+    Description: Blessing of Mystical Creatures
+    MaxLevel: 5
+    Type: Magic
+    TargetType: Support
+    Range: -9
+    DamageFlags:
+      NoDamage: true
+    CastCancel: true
+    CastTime: 2000
+    AfterCastActDelay: 500
+    Cooldown: 60000
+    FixedCastTime: 1500
+    Duration1: 10000
+    Duration2: 60000
+    Requires:
+      SpCost: 100
+      ApCost: 100
+    Status: Blessing_of_M_Creatures
+  - Id: 5449
+    Name: HN_SELFSTUDY_TATICS
+    Description: Self Study Tactics
+    MaxLevel: 10
+  - Id: 5450
+    Name: HN_SELFSTUDY_SOCERY
+    Description: Self Study Sorcery
+    MaxLevel: 10
+  - Id: 5451
+    Name: HN_DOUBLEBOWLINGBASH
+    Description: Double Bowling Bash
+    MaxLevel: 10
+    Type: Weapon
+    TargetType: Attack
+    Range: 2
+    Hit: Multi_Hit
+    HitCount: 3
+    Element: Weapon
+    DamageFlags:
+      Splash: true
+    SplashArea: 4
+    Knockback: 2
+    CastCancel: true
+    CastTime: 300
+    AfterCastActDelay: 1000
+    GiveAp: 3
+    Cooldown: 1000
+    FixedCastTime: 200
+    Duration2: 1000
+    Requires:
+      SpCost:
+        - Level: 1
+          Amount: 38
+        - Level: 2
+          Amount: 41
+        - Level: 3
+          Amount: 44
+        - Level: 4
+          Amount: 47
+        - Level: 5
+          Amount: 50
+        - Level: 6
+          Amount: 53
+        - Level: 7
+          Amount: 56
+        - Level: 8
+          Amount: 59
+        - Level: 9
+          Amount: 62
+        - Level: 10
+          Amount: 65
+    Status: Hnnoweapon
+  - Id: 5452
+    Name: HN_MEGA_SONIC_BLOW
+    Description: Mega Sonic Blow
+    MaxLevel: 10
+    Type: Weapon
+    TargetType: Attack
+    DamageFlags:
+      Critical: true
+    Range: 2
+    Hit: Multi_Hit
+    HitCount: -8
+    GiveAp: 2
+    Element: Weapon
+    AfterCastActDelay: 500
+    Cooldown: 300
+    Duration2: 5000
+    Requires:
+      SpCost:
+        - Level: 1
+          Amount: 42
+        - Level: 2
+          Amount: 44
+        - Level: 3
+          Amount: 46
+        - Level: 4
+          Amount: 48
+        - Level: 5
+          Amount: 50
+        - Level: 6
+          Amount: 52
+        - Level: 7
+          Amount: 54
+        - Level: 8
+          Amount: 56
+        - Level: 9
+          Amount: 58
+        - Level: 10
+          Amount: 60
+  - Id: 5453
+    Name: HN_SHIELD_CHAIN_RUSH
+    Description: Shield Chain Rush
+    MaxLevel: 10
+    Type: Weapon
+    TargetType: Attack
+    Range: 7
+    Hit: Multi_Hit
+    HitCount: -5
+    DamageFlags:
+      Splash: true
+    SplashArea: 4
+    GiveAp: 2
+    Element: Weapon
+    CastCancel: true
+    CastTime: 1200
+    AfterCastActDelay: 500
+    Cooldown: 300
+    FixedCastTime: 300
+    Duration1: 5000
+    Duration2: 1200
+    Requires:
+      SpCost:
+        - Level: 1
+          Amount: 35
+        - Level: 2
+          Amount: 38
+        - Level: 3
+          Amount: 41
+        - Level: 4
+          Amount: 44
+        - Level: 5
+          Amount: 47
+        - Level: 6
+          Amount: 50
+        - Level: 7
+          Amount: 53
+        - Level: 8
+          Amount: 56
+        - Level: 9
+          Amount: 59
+        - Level: 10
+          Amount: 62
+      State: Shield
+    Status: Shieldchainrush
+  - Id: 5454
+    Name: HN_SPIRAL_PIERCE_MAX
+    Description: Spiral Pierce Max
+    MaxLevel: 10
+    Type: Weapon
+    TargetType: Attack
+    Range: 7
+    Hit: Multi_Hit
+    HitCount: -5
+    Element: Weapon
+    GiveAp: 2
+    CastCancel: true
+    CastTime: 1000
+    AfterCastActDelay: 500
+    Cooldown: 300
+    FixedCastTime: 300
+    Duration2: 2000
+    Requires:
+      SpCost:
+        - Level: 1
+          Amount: 37
+        - Level: 2
+          Amount: 39
+        - Level: 3
+          Amount: 41
+        - Level: 4
+          Amount: 43
+        - Level: 5
+          Amount: 45
+        - Level: 6
+          Amount: 47
+        - Level: 7
+          Amount: 49
+        - Level: 8
+          Amount: 51
+        - Level: 9
+          Amount: 53
+        - Level: 10
+          Amount: 55
+  - Id: 5455
+    Name: HN_METEOR_STORM_BUSTER
+    Description: Meteor Storm Buster
+    MaxLevel: 10
+    Type: Magic
+    TargetType: Ground
+    Range: -9
+    Hit: Multi_Hit
+    HitCount: 1
+    Element: Fire
+    GiveAp: 3
+    DamageFlags:
+      Splash: true
+    SplashArea: 2
+    CastCancel: true
+    CastTime: 4000
+    Cooldown:
+      - Level: 1
+        Time: 2100
+      - Level: 2
+        Time: 2200
+      - Level: 3
+        Time: 2300
+      - Level: 4
+        Time: 2400
+      - Level: 5
+        Time: 2500
+      - Level: 6
+        Time: 2600
+      - Level: 7
+        Time: 2700
+      - Level: 8
+        Time: 2800
+      - Level: 9
+        Time: 2900
+      - Level: 10
+        Time: 3000
+    FixedCastTime: 1500
+    Duration1: 
+     - Level: 1
+       Time: 1000
+     - Level: 2
+       Time: 1000
+     - Level: 3
+       Time: 1500
+     - Level: 4
+       Time: 1500
+     - Level: 5
+       Time: 2000
+     - Level: 6
+       Time: 2000
+     - Level: 7
+       Time: 2000
+     - Level: 8
+       Time: 2500
+     - Level: 9
+       Time: 2500
+     - Level: 10
+       Time: 2500
+    Duration2: 500
+    Requires:
+      SpCost:
+        - Level: 1
+          Amount: 74
+        - Level: 2
+          Amount: 78
+        - Level: 3
+          Amount: 82
+        - Level: 4
+          Amount: 86
+        - Level: 5
+          Amount: 90
+        - Level: 6
+          Amount: 94
+        - Level: 7
+          Amount: 98
+        - Level: 8
+          Amount: 102
+        - Level: 9
+          Amount: 106
+        - Level: 10
+          Amount: 110
+    Unit:
+      Id: Dummyskill
+      Range:
+        - Level: 1
+          Size: 3
+        - Level: 2
+          Size: 3
+        - Level: 3
+          Size: 3
+        - Level: 4
+          Size: 3
+        - Level: 5
+          Size: 3
+        - Level: 6
+          Size: 3
+        - Level: 7
+          Size: 3
+        - Level: 8
+          Size: 4
+        - Level: 9
+          Size: 4
+        - Level: 10
+          Size: 4
+      Interval: 1500
+      Target: Enemy
+      Flag:
+        PathCheck: true
+  - Id: 5456
+    Name: HN_JUPITEL_THUNDER_STORM
+    Description: Jupitel Thunderstorm
+    MaxLevel: 10
+    Type: Magic
+    TargetType: Attack
+    Range: 11
+    Hit: Multi_Hit
+    HitCount: -10
+    Element: Wind
+    GiveAp: 2
+    DamageFlags:
+      Splash: true
+    SplashArea:
+      - Level: 1
+        Area: 2
+      - Level: 2
+        Area: 2
+      - Level: 3
+        Area: 2
+      - Level: 4
+        Area: 2
+      - Level: 5
+        Area: 3
+      - Level: 6
+        Area: 3
+      - Level: 7
+        Area: 3
+      - Level: 8
+        Area: 3
+      - Level: 9
+        Area: 4
+      - Level: 10
+        Area: 4
+    CastCancel: true
+    CastTime:
+      - Level: 1
+        Time: 1100
+      - Level: 2
+        Time: 1200
+      - Level: 3
+        Time: 1300
+      - Level: 4
+        Time: 1400
+      - Level: 5
+        Time: 1500
+      - Level: 6
+        Time: 1600
+      - Level: 7
+        Time: 1700
+      - Level: 8
+        Time: 1800
+      - Level: 9
+        Time: 1900
+      - Level: 10
+        Time: 2000
+    AfterCastActDelay: 500
+    Cooldown: 1800
+    FixedCastTime: 1000
+    Requires:
+      SpCost:
+        - Level: 1
+          Amount: 75
+        - Level: 2
+          Amount: 80
+        - Level: 3
+          Amount: 85
+        - Level: 4
+          Amount: 90
+        - Level: 5
+          Amount: 95
+        - Level: 6
+          Amount: 100
+        - Level: 7
+          Amount: 105
+        - Level: 8
+          Amount: 110
+        - Level: 9
+          Amount: 115
+        - Level: 10
+          Amount: 120
+  - Id: 5457
+    Name: HN_JACK_FROST_NOVA
+    Description: Jack Frost Nova
+    MaxLevel: 10
+    Type: Magic
+    TargetType: Ground
+    Range: -9
+    Hit: Multi_Hit
+    HitCount: -2
+    Element: Water
+    GiveAp: 3
+    DamageFlags:
+      Splash: true
+    SplashArea:
+      - Level: 1
+        Area: 3
+      - Level: 2
+        Area: 3
+      - Level: 3
+        Area: 3
+      - Level: 4
+        Area: 3
+      - Level: 5
+        Area: 3
+      - Level: 6
+        Area: 4
+      - Level: 7
+        Area: 4
+      - Level: 8
+        Area: 4
+      - Level: 9
+        Area: 4
+      - Level: 10
+        Area: 4
+    CastCancel: true
+    CastTime:
+      - Level: 1
+        Time: 1600
+      - Level: 2
+        Time: 1700
+      - Level: 3
+        Time: 1800
+      - Level: 4
+        Time: 1900
+      - Level: 5
+        Time: 2000
+      - Level: 6
+        Time: 2100
+      - Level: 7
+        Time: 2200
+      - Level: 8
+        Time: 2300
+      - Level: 9
+        Time: 2400
+      - Level: 10
+        Time: 2500
+    AfterCastActDelay: 300
+    Cooldown: 3000
+    FixedCastTime: 1500
+    Duration1: 
+     - Level: 1
+       Time: 900
+     - Level: 2
+       Time: 1200
+     - Level: 3
+       Time: 1500
+     - Level: 4
+       Time: 1800
+     - Level: 5
+       Time: 2100
+     - Level: 6
+       Time: 2400
+     - Level: 7
+       Time: 2700
+     - Level: 8
+       Time: 3000
+     - Level: 9
+       Time: 3300
+     - Level: 10
+       Time: 3600
+    Duration2: 5000
+    Requires:
+      SpCost:
+        - Level: 1
+          Amount: 68
+        - Level: 2
+          Amount: 71
+        - Level: 3
+          Amount: 74
+        - Level: 4
+          Amount: 77
+        - Level: 5
+          Amount: 80
+        - Level: 6
+          Amount: 83
+        - Level: 7
+          Amount: 86
+        - Level: 8
+          Amount: 89
+        - Level: 9
+          Amount: 92
+        - Level: 10
+          Amount: 95
+    Unit:
+      Id: JACK_FROST_NOVA
+      Range:
+        - Level: 1
+          Size: 3
+        - Level: 2
+          Size: 3
+        - Level: 3
+          Size: 3
+        - Level: 4
+          Size: 3
+        - Level: 5
+          Size: 3
+        - Level: 6
+          Size: 4
+        - Level: 7
+          Size: 4
+        - Level: 8
+          Size: 4
+        - Level: 9
+          Size: 4
+        - Level: 10
+          Size: 4
+      Interval: 300
+      Target: Enemy
+      Flag:
+        PathCheck: true
+    Status: Mistyfrost
+  - Id: 5458
+    Name: HN_HELLS_DRIVE
+    Description: Hell's Drive
+    MaxLevel: 10
+    Type: Magic
+    TargetType: Self
+    Range: 1
+    Hit: Multi_Hit
+    HitCount: -3
+    Element: Earth
+    GiveAp: 2
+    DamageFlags:
+      Splash: true
+    SplashArea:
+      - Level: 1
+        Area: 1
+      - Level: 2
+        Area: 1
+      - Level: 3
+        Area: 1
+      - Level: 4
+        Area: 2
+      - Level: 5
+        Area: 2
+      - Level: 6
+        Area: 2
+      - Level: 7
+        Area: 3
+      - Level: 8
+        Area: 3
+      - Level: 9
+        Area: 3
+      - Level: 10
+        Area: 4
+    CastCancel: true
+    CastTime: 1200
+    AfterCastActDelay: 1000
+    Cooldown:
+      - Level: 1
+        Time: 2500
+      - Level: 2
+        Time: 2300
+      - Level: 3
+        Time: 2100
+      - Level: 4
+        Time: 1900
+      - Level: 5
+        Time: 1700
+      - Level: 6
+        Time: 1500
+      - Level: 7
+        Time: 1300
+      - Level: 8
+        Time: 1100
+      - Level: 9
+        Time: 900
+      - Level: 10
+        Time: 700
+    FixedCastTime: 1000
+    Requires:
+      SpCost:
+        - Level: 1
+          Amount: 71
+        - Level: 2
+          Amount: 74
+        - Level: 3
+          Amount: 77
+        - Level: 4
+          Amount: 80
+        - Level: 5
+          Amount: 83
+        - Level: 6
+          Amount: 86
+        - Level: 7
+          Amount: 89
+        - Level: 8
+          Amount: 92
+        - Level: 9
+          Amount: 95
+        - Level: 10
+          Amount: 98
+  - Id: 5459
+    Name: HN_GROUND_GRAVITATION
+    Description: Ground Gravitation
+    MaxLevel: 10
+    Type: Magic
+    TargetType: Self
+    Range: -9
+    Hit: Multi_Hit
+    HitCount: 1
+    Element: Neutral
+    GiveAp: 5
+    DamageFlags:
+      Splash: true
+    SplashArea:
+      - Level: 1
+        Area: 2
+      - Level: 2
+        Area: 2
+      - Level: 3
+        Area: 2
+      - Level: 4
+        Area: 2
+      - Level: 5
+        Area: 3
+      - Level: 6
+        Area: 3
+      - Level: 7
+        Area: 3
+      - Level: 8
+        Area: 3
+      - Level: 9
+        Area: 4
+      - Level: 10
+        Area: 4
+    CastCancel: true
+    CastTime:
+      - Level: 1
+        Time: 3000
+      - Level: 2
+        Time: 3000
+      - Level: 3
+        Time: 3000
+      - Level: 4
+        Time: 3200
+      - Level: 5
+        Time: 3500
+      - Level: 6
+        Time: 3800
+      - Level: 7
+        Time: 4100
+      - Level: 8
+        Time: 4400
+      - Level: 9
+        Time: 4700
+      - Level: 10
+        Time: 5000
+    AfterCastActDelay:
+      - Level: 1
+        Time: 2000
+      - Level: 2
+        Time: 2000
+      - Level: 3
+        Time: 2000
+      - Level: 4
+        Time: 1800
+      - Level: 5
+        Time: 1800
+      - Level: 6
+        Time: 1800
+      - Level: 7
+        Time: 1600
+      - Level: 8
+        Time: 1400
+      - Level: 9
+        Time: 1200
+      - Level: 10
+        Time: 1000
+    Cooldown: 5000
+    FixedCastTime: 1500
+    Duration1:  5000
+    Duration2:  5000
+    Requires:
+      SpCost:
+        - Level: 1
+          Amount: 55
+        - Level: 2
+          Amount: 60
+        - Level: 3
+          Amount: 65
+        - Level: 4
+          Amount: 70
+        - Level: 5
+          Amount: 75
+        - Level: 6
+          Amount: 80
+        - Level: 7
+          Amount: 85
+        - Level: 8
+          Amount: 90
+        - Level: 9
+          Amount: 95
+        - Level: 10
+          Amount: 100
+    Unit:
+      Id: GROUND_GRAVITATION
+      Range:
+        - Level: 1
+          Size: 2
+        - Level: 2
+          Size: 2
+        - Level: 3
+          Size: 2
+        - Level: 4
+          Size: 2
+        - Level: 5
+          Size: 3
+        - Level: 6
+          Size: 3
+        - Level: 7
+          Size: 3
+        - Level: 8
+          Size: 3
+        - Level: 9
+          Size: 4
+        - Level: 10
+          Size: 4
+      Interval: 500
+      Target: Enemy
+      Flag:
+        PathCheck: true
+    Status: Groundgravity
+  - Id: 5460
+    Name: HN_NAPALM_VULCAN_STRIKE
+    Description: Napalm Vulcan Strike
+    MaxLevel: 10
+    Type: Magic
+    TargetType: Attack
+    Range: 11
+    Hit: Multi_Hit
+    HitCount: -7
+    Element: Ghost
+    GiveAp: 2
+    DamageFlags:
+      Splash: true
+    SplashArea: 3
+    CastCancel: true
+    CastTime: 500
+    Cooldown: 300
+    AfterCastActDelay: 500
+    FixedCastTime: 1000
+    Requires:
+      SpCost:
+        - Level: 1
+          Amount: 48
+        - Level: 2
+          Amount: 51
+        - Level: 3
+          Amount: 54
+        - Level: 4
+          Amount: 57
+        - Level: 5
+          Amount: 60
+        - Level: 6
+          Amount: 63
+        - Level: 7
+          Amount: 66
+        - Level: 8
+          Amount: 69
+        - Level: 9
+          Amount: 72
+        - Level: 10
+          Amount: 75
+  - Id: 5461
+    Name: HN_BREAKINGLIMIT
+    Description: Breaking Limit
+    MaxLevel: 1
+    Type: Magic
+    TargetType: Self
+    DamageFlags:
+      NoDamage: true
+    Duration1: 300000
+    Cooldown: 60000
+    CastCancel: true
+    FixedCastTime: 1000
+    Requires:
+      SpCost: 150
+      ApCost: 150
+    Status: Breakinglimit
+  - Id: 5462
+    Name: HN_RULEBREAK
+    Description: Rule Break
+    MaxLevel: 1
+    Type: Magic
+    TargetType: Self
+    DamageFlags:
+      NoDamage: true
+    Duration1: 300000
+    Cooldown: 60000
+    CastCancel: true
+    FixedCastTime: 1000
+    Requires:
+      SpCost: 150
+      ApCost: 150
+    Status: Rulebreak
+  - Id: 5463
+    Name: SKE_SKY_MASTERY
+    Description: Sky Mastery
+    MaxLevel: 10
+  - Id: 5464
+    Name: SKE_WAR_BOOK_MASTERY
+    Description: War Book Mastery
+    MaxLevel: 10
+  - Id: 5465
+    Name: SKE_RISING_SUN
+    Description: Rising Sun
+    MaxLevel: 5
+    Type: Weapon
+    TargetType: Attack
+    Range: 2
+    Hit: Multi_Hit
+    HitCount: -2
+    Element: Weapon
+    AfterCastActDelay: 500
+    Cooldown: 500
+    Duration1: 
+     - Level: 1
+       Time: 30000
+     - Level: 2
+       Time: 60000
+     - Level: 3
+       Time: 90000
+     - Level: 4
+       Time: 120000
+     - Level: 5
+       Time: 150000
+    Duration2: 1000
+    Requires:
+      SpCost: 60
+  - Id: 5466
+    Name: SKE_NOON_BLAST
+    Description: Noon Blast
+    MaxLevel: 5
+    Type: Weapon
+    TargetType: Attack
+    DamageFlags:
+      Splash: true
+      Critical: true
+    Range: 2
+    Hit: Multi_Hit
+    HitCount: -2
+    GiveAp: 3
+    Element: Weapon
+    SplashArea:
+      - Level: 1
+        Area: 1
+      - Level: 2
+        Area: 1
+      - Level: 3
+        Area: 2
+      - Level: 4
+        Area: 2
+      - Level: 5
+        Area: 3
+    AfterCastActDelay: 500
+    Cooldown: 700
+    Requires:
+      SpCost:
+        - Level: 1
+          Amount: 49
+        - Level: 2
+          Amount: 53
+        - Level: 3
+          Amount: 57
+        - Level: 4
+          Amount: 61
+        - Level: 5
+          Amount: 65
+  - Id: 5467
+    Name: SKE_SUNSET_BLAST
+    Description: Sunset Blast
+    MaxLevel: 5
+    Type: Weapon
+    TargetType: Attack
+    DamageFlags:
+      Splash: true
+      Critical: true
+    Range: 2
+    Hit: Multi_Hit
+    HitCount: -2
+    GiveAp: 3
+    Element: Weapon
+    SplashArea:
+      - Level: 1
+        Area: 1
+      - Level: 2
+        Area: 1
+      - Level: 3
+        Area: 2
+      - Level: 4
+        Area: 2
+      - Level: 5
+        Area: 3
+    AfterCastActDelay: 500
+    Cooldown: 300
+    Requires:
+      SpCost:
+        - Level: 1
+          Amount: 46
+        - Level: 2
+          Amount: 50
+        - Level: 3
+          Amount: 54
+        - Level: 4
+          Amount: 58
+        - Level: 5
+          Amount: 62
+  - Id: 5468
+    Name: SKE_RISING_MOON
+    Description: Rising Moon
+    MaxLevel: 5
+    Type: Weapon
+    TargetType: Self
+    DamageFlags:
+      Splash: true
+    Range: 2
+    Hit: Multi_Hit
+    HitCount: -2
+    Element: Weapon
+    SplashArea:
+      - Level: 1
+        Area: 2
+      - Level: 2
+        Area: 2
+      - Level: 3
+        Area: 3
+      - Level: 4
+        Area: 3
+      - Level: 5
+        Area: 4
+    AfterCastActDelay: 500
+    Cooldown: 500
+    Duration1: 
+     - Level: 1
+       Time: 30000
+     - Level: 2
+       Time: 60000
+     - Level: 3
+       Time: 90000
+     - Level: 4
+       Time: 120000
+     - Level: 5
+       Time: 150000
+    Duration2: 1000
+    Requires:
+      SpCost: 64
+  - Id: 5469
+    Name: SKE_MIDNIGHT_KICK
+    Description: Midnight Kick
+    MaxLevel: 5
+    Type: Weapon
+    TargetType: Self
+    DamageFlags:
+      Splash: true
+    Range: 1
+    Hit: Multi_Hit
+    HitCount: -2
+    GiveAp: 3
+    Element: Weapon
+    SplashArea:
+      - Level: 1
+        Area: 2
+      - Level: 2
+        Area: 2
+      - Level: 3
+        Area: 3
+      - Level: 4
+        Area: 3
+      - Level: 5
+        Area: 4
+    CastCancel: true
+    CastTime: 1000
+    Cooldown: 700
+    FixedCastTime: 500
+    Requires:
+      SpCost:
+        - Level: 1
+          Amount: 60
+        - Level: 2
+          Amount: 62
+        - Level: 3
+          Amount: 64
+        - Level: 4
+          Amount: 66
+        - Level: 5
+          Amount: 68
+  - Id: 5470
+    Name: SKE_DAWN_BREAK
+    Description: Dawn Break
+    MaxLevel: 5
+    Type: Weapon
+    TargetType: Self
+    DamageFlags:
+      Splash: true
+    Range: 1
+    Hit: Multi_Hit
+    HitCount: -2
+    GiveAp: 3
+    Element: Weapon
+    SplashArea:
+      - Level: 1
+        Area: 2
+      - Level: 2
+        Area: 2
+      - Level: 3
+        Area: 3
+      - Level: 4
+        Area: 3
+      - Level: 5
+        Area: 4
+    CastCancel: true
+    CastTime: 1000
+    Cooldown: 300
+    FixedCastTime: 500
+    Requires:
+      SpCost:
+        - Level: 1
+          Amount: 56
+        - Level: 2
+          Amount: 58
+        - Level: 3
+          Amount: 60
+        - Level: 4
+          Amount: 62
+        - Level: 5
+          Amount: 64
+  - Id: 5471
+    Name: SKE_TWINKLING_GALAXY
+    Description: Twinkling Galaxy
+    MaxLevel: 5
+    Type: Weapon
+    TargetType: Self
+    DamageFlags:
+      Splash: true
+    Range: 1
+    Hit: Multi_Hit
+    HitCount: -3
+    Element: Weapon
+    SplashArea: 2
+    CastCancel: true
+    CastTime: 1000
+    Cooldown: 5000
+    FixedCastTime: 500
+    Duration1: 4500
+    Requires:
+      SpCost: 84
+    Unit:
+      Id: TWINKLING_GALAXY
+      Range:
+        - Level: 1
+          Size: 6
+        - Level: 2
+          Size: 6
+        - Level: 3
+          Size: 5
+        - Level: 4
+          Size: 5
+        - Level: 5
+          Size: 4
+      Interval: 300
+      Target: Enemy
+      Flag:
+        PathCheck: true
+  - Id: 5472
+    Name: SKE_STAR_BURST
+    Description: Star Burst
+    MaxLevel: 5
+    Type: Weapon
+    TargetType: Attack
+    Range: 2
+    Hit: Multi_hit
+    HitCount: -2
+    GiveAp: 3
+    Element: Weapon
+    AfterCastActDelay: 500
+    Cooldown: 1000
+    CastCancel: true
+    FixedCastTime: 500
+    Duration1: 100
+    Duration2: 4500
+    Requires:
+      SpCost:
+        - Level: 1
+          Amount: 54
+        - Level: 2
+          Amount: 56
+        - Level: 3
+          Amount: 58
+        - Level: 4
+          Amount: 60
+        - Level: 5
+          Amount: 62
+    Unit:
+      Id: STAR_BURST
+      Range: 2
+      Interval: 300
+      Target: Enemy
+      Flag:
+        PathCheck: true
+    Status: Star_Burst
+  - Id: 5473
+    Name: SKE_STAR_CANNON
+    Description: Star Cannon
+    MaxLevel: 5
+    Type: Weapon
+    TargetType: Self
+    DamageFlags:
+      Splash: true
+    Range: 1
+    Hit: Multi_Hit
+    HitCount: -3
+    GiveAp: 3
+    Element: Weapon
+    SplashArea: 3
+    Cooldown: 5000
+    CastCancel: true
+    FixedCastTime: 500
+    Duration1: 4500
+    Requires:
+      SpCost:
+        - Level: 1
+          Amount: 51
+        - Level: 2
+          Amount: 54
+        - Level: 3
+          Amount: 57
+        - Level: 4
+          Amount: 60
+        - Level: 5
+          Amount: 63
+    Unit:
+      Id: STAR_CANNON
+      Range:
+        - Level: 1
+          Size: 6
+        - Level: 2
+          Size: 6
+        - Level: 3
+          Size: 5
+        - Level: 4
+          Size: 5
+        - Level: 5
+          Size: 4
+      Interval: 300
+      Target: Enemy
+      Flag:
+        PathCheck: true
+  - Id: 5474
+    Name: SKE_ALL_IN_THE_SKY
+    Description: All in the Sky
+    MaxLevel: 10
+    Type: Weapon
+    TargetType: Attack
+    DamageFlags:
+      Critical: true
+    Range: -9
+    Hit: Multi_Hit
+    HitCount: 1
+    Element: Weapon
+    CastCancel: true
+    FixedCastTime: 1000
+    Cooldown: 2000
+    Requires:
+      ApCost: 35
+      SpCost: 85
+  - Id: 5475
+    Name: SKE_ENCHANTING_SKY
+    Description: Enchanting Sky
+    MaxLevel: 10
+    Type: Magic
+    TargetType: Self
+    DamageFlag:
+       NoDamage: true
+    CastCancel: true
+    CastTime: 300
+    FixedCastTime: 1000
+    Cooldown: 60000
+    Duration1: 
+     - Level: 1
+       Time: 90000
+     - Level: 2
+       Time: 180000
+     - Level: 3
+       Time: 270000
+     - Level: 4
+       Time: 360000
+     - Level: 5
+       Time: 450000
+     - Level: 6
+       Time: 540000
+     - Level: 7
+       Time: 630000
+     - Level: 8
+       Time: 720000
+     - Level: 9
+       Time: 810000
+     - Level: 10
+       Time: 900000
+    Requires:
+      ApCost: 150
+      SpCost: 100
+    Status: Sky_Enchant
+  - Id: 5476
+    Name: SS_TOKEDASU
+    Description: Melt Away
+    MaxLevel: 5
+    Type: Magic
+    TargetType: Ground
+    DamageFlags:
+      Splash: true
+    Range: 5
+    Hit: Multi_Hit
+    HitCount: -2
+    Element: Dark
+    SplashArea: 2
+    Duration2: 2000
+    Cooldown:
+      - Level: 1
+        Time: 6000
+      - Level: 2
+        Time: 5000
+      - Level: 3
+        Time: 4000
+      - Level: 4
+        Time: 3000
+      - Level: 5
+        Time: 2000
+    Requires:
+      SpCost: 35
+    Knockback: 3
+    Status: Shadow_Clock
+  - Id: 5477
+    Name: SS_SHIMIRU
+    Description: Infiltrate
+    MaxLevel: 5
+    Type: Weapon
+    TargetType: Attack
+    DamageFlags:
+      Splash: true
+    Range: 11
+    Hit: Multi_Hit
+    HitCount: -2
+    SplashArea: 15
+    Element: Weapon
+    Duration2: 2000
+    Cooldown:
+      - Level: 1
+        Time: 1500
+      - Level: 2
+        Time: 1250
+      - Level: 3
+        Time: 1000
+      - Level: 4
+        Time: 750
+      - Level: 5
+        Time: 500
+    Requires:
+      SpCost: 40
+    Status: Shadow_Clock
+  - Id: 5478
+    Name: SS_AKUMUKESU
+    Description: Nightmare Erasion
+    MaxLevel: 1
+    Type: Magic
+    TargetType: Self
+    DamageFlags:
+      NoDamage: true
+      Splash: true
+    SplashArea: 7
+    CastCancel: true
+    CastTime: 1000
+    AfterCastActDelay: 250
+    Cooldown: 15000
+    Requires:
+      SpCost: 10
+  - Id: 5479
+    Name: SS_SHINKIROU
+    Description: Mirage
+    MaxLevel: 1
+    Type: Magic
+    TargetType: Ground
+    Range: 5
+    DamageFlags:
+      NoDamage: true
+    CastCancel: true
+    CastTime: 2000
+    Duration1: 20000
+    Cooldown: 3000
+    FixedCastTime: 700
+    Requires:
+      SpCost: 25
+    ActiveInstance: 3
+    Unit:
+      Id: SHINKIROU
+      Interval: -1
+    Status: Shinkirou_Call
+  - Id: 5480
+    Name: SS_KAGEGARI
+    Description: Shadow Hunting
+    MaxLevel: 10
+    Type: Weapon
+    TargetType: Ground
+    Range: 2
+    Hit: Single
+    HitCount: 1
+    GiveAp: 2
+    Element: Weapon
+    DamageFlags:
+      Splash: true
+    SplashArea: 2
+    AfterCastActDelay: 150
+    Duration2: 5000
+    Cooldown: 300
+    Requires:
+      SpCost:
+        - Level: 1
+          Amount: 33
+        - Level: 2
+          Amount: 36
+        - Level: 3
+          Amount: 39
+        - Level: 4
+          Amount: 42
+        - Level: 5
+          Amount: 45
+        - Level: 6
+          Amount: 48
+        - Level: 7
+          Amount: 51
+        - Level: 8
+          Amount: 54
+        - Level: 9
+          Amount: 57
+        - Level: 10
+          Amount: 60
+    Status: Nightmare
+  - Id: 5481
+    Name: SS_KAGENOMAI
+    Description: Shadow Dance
+    MaxLevel: 10
+    Type: Weapon
+    TargetType: Self
+    Range: 1
+    Hit: Multi_Hit
+    HitCount: -5
+    GiveAp: 2
+    Element: Weapon
+    DamageFlags:
+      Splash: true
+    SplashArea:
+      - Level: 1
+        Area: 2
+      - Level: 2
+        Area: 2
+      - Level: 3
+        Area: 2
+      - Level: 4
+        Area: 2
+      - Level: 5
+        Area: 3
+      - Level: 6
+        Area: 3
+      - Level: 7
+        Area: 3
+      - Level: 8
+        Area: 3
+      - Level: 9
+        Area: 4
+      - Level: 10
+        Area: 4
+    AfterCastActDelay: 250
+    Cooldown: 500
+    CastCancel: true
+    FixedCastTime:
+      - Level: 1
+        Time: 1000
+      - Level: 2
+        Time: 920
+      - Level: 3
+        Time: 845
+      - Level: 4
+        Time: 765
+      - Level: 5
+        Time: 690
+      - Level: 6
+        Time: 610
+      - Level: 7
+        Time: 530
+      - Level: 8
+        Time: 455
+      - Level: 9
+        Time: 375
+      - Level: 10
+        Time: 300
+    Requires:
+      SpCost:
+        - Level: 1
+          Amount: 38
+        - Level: 2
+          Amount: 41
+        - Level: 3
+          Amount: 44
+        - Level: 4
+          Amount: 47
+        - Level: 5
+          Amount: 50
+        - Level: 6
+          Amount: 53
+        - Level: 7
+          Amount: 56
+        - Level: 8
+          Amount: 59
+        - Level: 9
+          Amount: 62
+        - Level: 10
+          Amount: 65
+  - Id: 5482
+    Name: SS_KAGEGISSEN
+    Description: Shadow Flash
+    MaxLevel: 10
+    Type: Weapon
+    TargetType: Attack
+    Range: 1
+    Hit: Multi_Hit
+    HitCount: -4
+    GiveAp: 1
+    Element: Weapon
+    SplashArea: 1
+    ActiveInstance: 10
+    AfterCastActDelay: 250
+    Cooldown: 500
+    Requires:
+      SpCost:
+        - Level: 1
+          Amount: 36
+        - Level: 2
+          Amount: 39
+        - Level: 3
+          Amount: 42
+        - Level: 4
+          Amount: 45
+        - Level: 5
+          Amount: 48
+        - Level: 6
+          Amount: 51
+        - Level: 7
+          Amount: 54
+        - Level: 8
+          Amount: 57
+        - Level: 9
+          Amount: 60
+        - Level: 10
+          Amount: 63
+  - Id: 5483
+    Name: SS_FUUMASHOUAKU
+    Description: Huuma Shuriken - Grasp
+    MaxLevel: 10
+    Type: Weapon
+    TargetType: Ground
+    Range: 9
+    Hit: Multi_Hit
+    HitCount: 1
+    GiveAp: 3
+    Element: Weapon
+    ActiveInstance: 2
+    CastCancel: true
+    CastTime: 1200
+    Duration1: 5000
+    Duration2: 5000
+    Cooldown: 1000
+    FixedCastTime: 1000
+    Requires:
+      SpCost:
+        - Level: 1
+          Amount: 48
+        - Level: 2
+          Amount: 52
+        - Level: 3
+          Amount: 56
+        - Level: 4
+          Amount: 60
+        - Level: 5
+          Amount: 64
+        - Level: 6
+          Amount: 68
+        - Level: 7
+          Amount: 72
+        - Level: 8
+          Amount: 76
+        - Level: 9
+          Amount: 80
+        - Level: 10
+          Amount: 84
+      Ammo:
+        Kunai: true
+    Unit:
+      Id: FUUMASHOUAKU
+      Range:
+        - Level: 1
+          Size: 2
+        - Level: 2
+          Size: 2
+        - Level: 3
+          Size: 2
+        - Level: 4
+          Size: 2
+        - Level: 5
+          Size: 3
+        - Level: 6
+          Size: 3
+        - Level: 7
+          Size: 3
+        - Level: 8
+          Size: 3
+        - Level: 9
+          Size: 4
+        - Level: 10
+          Size: 4
+      Interval: 250
+      Target: Enemy
+      Flag:
+        PathCheck: true
+    Status: Nightmare
+  - Id: 5484
+    Name: SS_FUUMAKOUCHIKU
+    Description: Huuma Shuriken - Construct
+    MaxLevel: 10
+    Type: Weapon
+    TargetType: Ground
+    Range: 1
+    Hit: Multi_Hit
+    HitCount: -3
+    Element: Weapon
+    SplashArea: 2
+    ActiveInstance: 13
+    CastCancel: true
+    CastTime: 1200
+    Cooldown: 1000
+    FixedCastTime: 1000
+    Requires:
+      SpCost:
+        - Level: 1
+          Amount: 29
+        - Level: 2
+          Amount: 33
+        - Level: 3
+          Amount: 37
+        - Level: 4
+          Amount: 41
+        - Level: 5
+          Amount: 45
+        - Level: 6
+          Amount: 49
+        - Level: 7
+          Amount: 53
+        - Level: 8
+          Amount: 57
+        - Level: 9
+          Amount: 61
+        - Level: 10
+          Amount: 65
+      Ammo:
+        Kunai: true
+  - Id: 5485
+    Name: SS_KUNAIWAIKYOKU
+    Description: Kunai - Distortion
+    MaxLevel: 10
+    Type: Weapon
+    TargetType: Ground
+    Range: 9
+    Hit: Multi_Hit
+    HitCount: -2
+    GiveAp: 2
+    Element: Weapon
+    DamageFlags:
+      Splash: true
+      IgnoreFlee: true
+    SplashArea: 2
+    AfterCastActDelay: 500
+    Duration1: 5000
+    Duration2: 5000
+    Cooldown: 300
+    CastCancel: true
+    CastTime: 200
+    Requires:
+      SpCost:
+        - Level: 1
+          Amount: 36
+        - Level: 2
+          Amount: 38
+        - Level: 3
+          Amount: 40
+        - Level: 4
+          Amount: 42
+        - Level: 5
+          Amount: 44
+        - Level: 6
+          Amount: 46
+        - Level: 7
+          Amount: 48
+        - Level: 8
+          Amount: 50
+        - Level: 9
+          Amount: 52
+        - Level: 10
+          Amount: 54
+      Ammo:
+        Kunai: true
+      AmmoAmount: 2
+    Unit:
+      Id: KUNAIWAIKYOKU
+      Range: 2
+      Interval: 250
+      Target: Enemy
+      Flag:
+        PathCheck: true
+    Status: Nightmare
+  - Id: 5486
+    Name: SS_KUNAIKAITEN
+    Description: Kunai - Rotation
+    MaxLevel: 5
+    Type: Weapon
+    TargetType: Self
+    Range: 1
+    Hit: Multi_Hit
+    HitCount: -3
+    Element: Weapon
+    DamageFlags:
+      IgnoreFlee: true
+    ActiveInstance: 2
+    AfterCastActDelay: 500
+    Duration1: 2000
+    Duration2: 2000
+    Cooldown: 2000
+    Requires:
+      SpCost:
+        - Level: 1
+          Amount: 44
+        - Level: 2
+          Amount: 52
+        - Level: 3
+          Amount: 60
+        - Level: 4
+          Amount: 68
+        - Level: 5
+          Amount: 76
+      Ammo:
+        Kunai: true
+      AmmoAmount: 5
+    Unit:
+      Id: KUNAIKAITEN
+      Range:
+        - Level: 1
+          Size: 2
+        - Level: 2
+          Size: 2
+        - Level: 3
+          Size: 3
+        - Level: 4
+          Size: 3
+        - Level: 5
+          Size: 4
+      Interval: 250
+      Target: Enemy
+      Flag:
+        PathCheck: true
+    Status: Shadow_Clock
+  - Id: 5487
+    Name: SS_KUNAIKUSSETSU
+    Description: Kunai - Refraction
+    MaxLevel: 10
+    Type: Weapon
+    TargetType: Self
+    Range: 1
+    Hit: Single
+    HitCount: 1
+    Element: Weapon
+    DamageFlags:
+      Splash: true
+      IgnoreFlee: true
+    SplashArea: 7
+    CastCancel: true
+    CastTime: 1500
+    AfterCastActDelay: 500
+    Duration1: 2000
+    Duration2: 2000
+    Cooldown: 2000
+    FixedCastTime: 500
+    Requires:
+      SpCost:
+        - Level: 1
+          Amount: 49
+        - Level: 2
+          Amount: 52
+        - Level: 3
+          Amount: 55
+        - Level: 4
+          Amount: 58
+        - Level: 5
+          Amount: 61
+        - Level: 6
+          Amount: 64
+        - Level: 7
+          Amount: 67
+        - Level: 8
+          Amount: 70
+        - Level: 9
+          Amount: 73
+        - Level: 10
+          Amount: 76
+      Ammo:
+        Kunai: true
+      AmmoAmount: 5
+    Unit:
+      Id: Dummyskill
+      Range: 2
+      Interval: 250
+      Target: Enemy
+      Flag:
+        PathCheck: true
+  - Id: 5488
+    Name: SS_SEKIENHOU
+    Description: Red Flame Cannon
+    MaxLevel: 10
+    Type: Magic
+    TargetType: Ground
+    Range: 1
+    Hit: Multi_Hit
+    HitCount: -3
+    ActiveInstance: 7
+    Element: Fire
+    DamageFlags:
+      Splash: true
+    SplashArea: 1
+    CastCancel: true
+    CastTime: 2000
+    Cooldown: 700
+    FixedCastTime: 1000
+    Requires:
+      SpCost:
+        - Level: 1
+          Amount: 65
+        - Level: 2
+          Amount: 68
+        - Level: 3
+          Amount: 71
+        - Level: 4
+          Amount: 74
+        - Level: 5
+          Amount: 77
+        - Level: 6
+          Amount: 80
+        - Level: 7
+          Amount: 83
+        - Level: 8
+          Amount: 86
+        - Level: 9
+          Amount: 89
+        - Level: 10
+          Amount: 92
+      ItemCost:
+        - Item: SS_Charm_F
+          Amount: 1
+  - Id: 5489
+    Name: SS_REIKETSUHOU
+    Description: Cold Blooded Cannon
+    MaxLevel: 10
+    Type: Magic
+    TargetType: Ground
+    Range: 9
+    Hit: Multi_Hit
+    HitCount: -6
+    Element: Water
+    DamageFlags:
+      Splash: true
+    SplashArea:
+      - Level: 1
+        Area: 2
+      - Level: 2
+        Area: 2
+      - Level: 3
+        Area: 2
+      - Level: 4
+        Area: 2
+      - Level: 5
+        Area: 2
+      - Level: 6
+        Area: 3
+      - Level: 7
+        Area: 3
+      - Level: 8
+        Area: 3
+      - Level: 9
+        Area: 3
+      - Level: 10
+        Area: 4
+    CastCancel: true
+    CastTime: 3000
+    Cooldown: 500
+    FixedCastTime: 1000
+    Requires:
+      SpCost:
+        - Level: 1
+          Amount: 52
+        - Level: 2
+          Amount: 56
+        - Level: 3
+          Amount: 60
+        - Level: 4
+          Amount: 64
+        - Level: 5
+          Amount: 68
+        - Level: 6
+          Amount: 72
+        - Level: 7
+          Amount: 76
+        - Level: 8
+          Amount: 80
+        - Level: 9
+          Amount: 84
+        - Level: 10
+          Amount: 88
+      ItemCost:
+        - Item: SS_Charm_W
+          Amount: 1
+  - Id: 5490
+    Name: SS_RAIDENPOU
+    Description: Thundering Cannon
+    MaxLevel: 10
+    Type: Magic
+    TargetType: Ground
+    Range: 1
+    Hit: Multi_Hit
+    HitCount: -2
+    ActiveInstance: 13
+    Element: Wind
+    DamageFlags:
+      Splash: true
+    SplashArea: 1
+    CastCancel: true
+    CastTime: 2000
+    Cooldown: 700
+    FixedCastTime: 1000
+    Requires:
+      SpCost:
+        - Level: 1
+          Amount: 47
+        - Level: 2
+          Amount: 52
+        - Level: 3
+          Amount: 57
+        - Level: 4
+          Amount: 62
+        - Level: 5
+          Amount: 67
+        - Level: 6
+          Amount: 72
+        - Level: 7
+          Amount: 77
+        - Level: 8
+          Amount: 82
+        - Level: 9
+          Amount: 87
+        - Level: 10
+          Amount: 92
+      ItemCost:
+        - Item: SS_Charm_L
+          Amount: 1
+  - Id: 5491
+    Name: SS_KINRYUUHOU
+    Description: Golden Dragon Cannon
+    MaxLevel: 10
+    Type: Magic
+    TargetType: Attack
+    Range: 13
+    Hit: Single
+    HitCount: 1
+    Element: Earth
+    DamageFlags:
+      Splash: true
+    SplashArea:
+      - Level: 1
+        Area: 2
+      - Level: 2
+        Area: 2
+      - Level: 3
+        Area: 2
+      - Level: 4
+        Area: 2
+      - Level: 5
+        Area: 3
+      - Level: 6
+        Area: 3
+      - Level: 7
+        Area: 3
+      - Level: 8
+        Area: 3
+      - Level: 9
+        Area: 4
+      - Level: 10
+        Area: 4
+    CastCancel: true
+    CastTime: 3000
+    Cooldown: 300
+    FixedCastTime: 1000
+    Requires:
+      SpCost:
+        - Level: 1
+          Amount: 52
+        - Level: 2
+          Amount: 56
+        - Level: 3
+          Amount: 60
+        - Level: 4
+          Amount: 64
+        - Level: 5
+          Amount: 68
+        - Level: 6
+          Amount: 72
+        - Level: 7
+          Amount: 76
+        - Level: 8
+          Amount: 80
+        - Level: 9
+          Amount: 84
+        - Level: 10
+          Amount: 88
+      ItemCost:
+        - Item: SS_Charm_G
+          Amount: 1
+  - Id: 5492
+    Name: SS_ANTENPOU
+    Description: Darkening Cannon
+    MaxLevel: 10
+    Type: Magic
+    TargetType: Self
+    Range: 1
+    Hit: Multi_Hit
+    HitCount: -2
+    GiveAp: 2
+    Element: Dark
+    DamageFlags:
+      Splash: true
+    SplashArea:
+      - Level: 1
+        Area: 2
+      - Level: 2
+        Area: 2
+      - Level: 3
+        Area: 2
+      - Level: 4
+        Area: 2
+      - Level: 5
+        Area: 2
+      - Level: 6
+        Area: 3
+      - Level: 7
+        Area: 3
+      - Level: 8
+        Area: 3
+      - Level: 9
+        Area: 3
+      - Level: 10
+        Area: 3
+    CastCancel: true
+    CastTime: 3000
+    Cooldown: 500
+    FixedCastTime: 1000
+    Duration2: 5000
+    Requires:
+      SpCost:
+        - Level: 1
+          Amount: 40
+        - Level: 2
+          Amount: 46
+        - Level: 3
+          Amount: 52
+        - Level: 4
+          Amount: 58
+        - Level: 5
+          Amount: 64
+        - Level: 6
+          Amount: 70
+        - Level: 7
+          Amount: 76
+        - Level: 8
+          Amount: 82
+        - Level: 9
+          Amount: 88
+        - Level: 10
+          Amount: 94
+      ItemCost:
+        - Item: SS_Charm
+          Amount: 1
+    Status: Nightmare
+  - Id: 5493
+    Name: SS_KAGEAKUMU
+    Description: Shadow - Nightmare
+    MaxLevel: 1
+    Type: Weapon
+    TargetType: Self
+    Range: 1
+    Hit: Multi_Hit
+    HitCount: -4
+    Element: Weapon
+    DamageFlags:
+      Splash: true
+    SplashArea: 6
+    CastCancel: true
+    CastTime: 2000
+    AfterCastActDelay: 500
+    Cooldown: 1000
+    FixedCastTime: 500
+    Requires:
+      SpCost: 70
+      ApCost: 20
+  - Id: 5494
+    Name: SS_HITOUAKUMU
+    Description: Kunai - Nightmare
+    MaxLevel: 1
+    Type: Weapon
+    TargetType: Self
+    Range: 1
+    Hit: Multi_Hit
+    HitCount: -8
+    Element: Weapon
+    DamageFlags:
+      Splash: true
+      IgnoreFlee: true
+    SplashArea: 6
+    CastCancel: true
+    CastTime: 2000
+    AfterCastActDelay: 500
+    Cooldown: 1000
+    FixedCastTime: 500
+    Requires:
+      SpCost: 70
+      ApCost: 20
+  - Id: 5495
+    Name: SS_ANKOKURYUUAKUMU
+    Description: Dark Dragon - Nightmare
+    MaxLevel: 1
+    Type: Magic
+    TargetType: Self
+    Range: 1
+    Hit: Multi_Hit
+    HitCount: -4
+    Element: Dark
+    DamageFlags:
+      Splash: true
+    SplashArea: 5
+    CastCancel: true
+    CastTime: 2000
+    AfterCastActDelay: 500
+    Cooldown: 1000
+    FixedCastTime: 1000
+    Requires:
+      SpCost: 120
+      ApCost: 20
+  - Id: 5496
+    Name: NW_THE_VIGILANTE_AT_NIGHT_GUN_GATLING
+    Description: The Vigilante At Night Gun Gatling
+    MaxLevel: 5
+    CastCancel: true
+  - Id: 5497
+    Name: NW_THE_VIGILANTE_AT_NIGHT_GUN_SHOTGUN
+    Description: The Vigilante At Night Gun Shotgun
+    MaxLevel: 5
+    CastCancel: true
+  - Id: 5498
+    Name: SS_FUUMAKOUCHIKU_BLASTING
+    Description: Huuma Shuriken - Construct Blasting
+    MaxLevel: 10
+    Type: Weapon
+    TargetType: Ground
+    Range: 1
+    Hit: Multi_Hit
+    HitCount: -6
+    Element: Weapon
+    DamageFlags:
+      Splash: true
+    SplashArea: 4
+  - Id: 6001
+    Name: DK_DRAGONIC_BREATH
+    Description: Dragonic Breath
+    MaxLevel: 10
+    Type: Weapon
+    TargetType: Attack
+    DamageFlags:
+      Splash: true
+      IgnoreDefense: true
+    Flags:
+      TargetTrap: true
+    Range: 9
+    GiveAp: 2
+    Hit: Multi_Hit
+    HitCount: -2
+    Element: Weapon
+    SplashArea:
+      - Level: 1
+        Area: 3
+      - Level: 2
+        Area: 3
+      - Level: 3
+        Area: 3
+      - Level: 4
+        Area: 3
+      - Level: 5
+        Area: 3
+      - Level: 6
+        Area: 4
+      - Level: 7
+        Area: 4
+      - Level: 8
+        Area: 4
+      - Level: 9
+        Area: 4
+      - Level: 10
+        Area: 4
+    CastCancel: true
+    CastTime:
+      - Level: 4
+        Time: 1000
+      - Level: 5
+        Time: 1000
+      - Level: 6
+        Time: 1000
+      - Level: 7
+        Time: 1500
+      - Level: 8
+        Time: 1500
+      - Level: 9
+        Time: 2000
+      - Level: 10
+        Time: 2000
+    AfterCastActDelay: 150
+    FixedCastTime: 500
+    Cooldown: 500
+    Requires:
+      SpCost:
+        - Level: 1
+          Amount: 61
+        - Level: 2
+          Amount: 64
+        - Level: 3
+          Amount: 67
+        - Level: 4
+          Amount: 70
+        - Level: 5
+          Amount: 73
+        - Level: 6
+          Amount: 76
+        - Level: 7
+          Amount: 79
+        - Level: 8
+          Amount: 82
+        - Level: 9
+          Amount: 85
+        - Level: 10
+          Amount: 88
+      State: Ridingdragon
+  - Id: 6002
+    Name: MT_SPARK_BLASTER
+    Description: Spark Blaster
+    MaxLevel: 10
+    Type: Weapon
+    TargetType: Attack
+    DamageFlags:
+      Splash: true
+      IgnoreDefense: true
+    Flags:
+      AllowOnMado: true
+    Range: 9
+    Hit: Multi_Hit
+    HitCount: 2
+    GiveAp: 2
+    Element: Weapon
+    SplashArea:
+      - Level: 1
+        Area: 3
+      - Level: 2
+        Area: 3
+      - Level: 3
+        Area: 3
+      - Level: 4
+        Area: 3
+      - Level: 5
+        Area: 3
+      - Level: 6
+        Area: 4
+      - Level: 7
+        Area: 4
+      - Level: 8
+        Area: 4
+      - Level: 9
+        Area: 4
+      - Level: 10
+        Area: 4
+    CastCancel: true
+    CastTime: 1500
+    FixedCastTime: 500
+    AfterCastActDelay: 500
+    Cooldown: 700
+    Requires:
+      SpCost:
+        - Level: 1
+          Amount: 48
+        - Level: 2
+          Amount: 52
+        - Level: 3
+          Amount: 56
+        - Level: 4
+          Amount: 60
+        - Level: 5
+          Amount: 64
+        - Level: 6
+          Amount: 68
+        - Level: 7
+          Amount: 72
+        - Level: 8
+          Amount: 76
+        - Level: 9
+          Amount: 80
+        - Level: 10
+          Amount: 84
+      State: Mado
+  - Id: 6003
+    Name: MT_TRIPLE_LASER
+    Description: Triple Laser
+    MaxLevel: 5
+    Type: Weapon
+    TargetType: Attack
+    Flags:
+      AllowOnMado: true
+    DamageFlags:
+      Critical: true
+    Range: 11
+    Hit: Multi_Hit
+    HitCount: 3
+    Element: Weapon
+    CastCancel: true
+    CastTime: 1000
+    FixedCastTime: 500
+    AfterCastActDelay: 500
+    Cooldown: 250
+    Requires:
+      SpCost:
+        - Level: 1
+          Amount: 40
+        - Level: 2
+          Amount: 45
+        - Level: 3
+          Amount: 50
+        - Level: 4
+          Amount: 55
+        - Level: 5
+          Amount: 60
+      State: Mado
+  - Id: 6004
+    Name: MT_MIGHTY_SMASH
+    Description: Mighty Smash
+    MaxLevel: 10
+    Type: Weapon
+    TargetType: Self
+    DamageFlags:
+      Splash: true
+    Flags:
+      AllowOnMado: true
+    Hit: Multi_Hit
+    HitCount: 3
+    Element: Weapon
+    SplashArea:
+      - Level: 1
+        Area: 1
+      - Level: 2
+        Area: 1
+      - Level: 3
+        Area: 1
+      - Level: 4
+        Area: 1
+      - Level: 5
+        Area: 2
+      - Level: 6
+        Area: 2
+      - Level: 7
+        Area: 2
+      - Level: 8
+        Area: 2
+      - Level: 9
+        Area: 3
+      - Level: 10
+        Area: 3
+    CastCancel: true
+    Cooldown: 300
+    Requires:
+      SpCost:
+        - Level: 1
+          Amount: 51
+        - Level: 2
+          Amount: 54
+        - Level: 3
+          Amount: 57
+        - Level: 4
+          Amount: 60
+        - Level: 5
+          Amount: 63
+        - Level: 6
+          Amount: 66
+        - Level: 7
+          Amount: 69
+        - Level: 8
+          Amount: 72
+        - Level: 9
+          Amount: 75
+        - Level: 10
+          Amount: 78
+      Weapon:
+        1hAxe: true
+        2hAxe: true
+  - Id: 6005
+    Name: BO_EXPLOSIVE_POWDER
+    Description: Explosive Powder
+    MaxLevel: 5
+    Type: Weapon
+    TargetType: Self
+    DamageFlags:
+      Splash: true
+    Hit: Multi_Hit
+    HitCount: 3
+    Element: Weapon
+    GiveAp: 2
+    SplashArea: 3
+    CastCancel: true
+    AfterCastActDelay: 250
+    Cooldown: 700
+    Requires:
+      SpCost:
+        - Level: 1
+          Amount: 58
+        - Level: 2
+          Amount: 62
+        - Level: 3
+          Amount: 66
+        - Level: 4
+          Amount: 70
+        - Level: 5
+          Amount: 74
+  - Id: 6006
+    Name: BO_MAYHEMIC_THORNS
+    Description: Mayhemic Thorns
+    MaxLevel: 10
+    Type: Weapon
+    TargetType: Attack
+    DamageFlags:
+      Splash: true
+      Critical: true
+    Hit: Multi_Hit
+    HitCount: 3
+    Element: Weapon
+    Range: 9
+    GiveAp: 2
+    SplashArea:
+      - Level: 1
+        Area: 3
+      - Level: 2
+        Area: 3
+      - Level: 3
+        Area: 3
+      - Level: 4
+        Area: 3
+      - Level: 5
+        Area: 3
+      - Level: 6
+        Area: 4
+      - Level: 7
+        Area: 4
+      - Level: 8
+        Area: 4
+      - Level: 9
+        Area: 4
+      - Level: 10
+        Area: 4
+    CastCancel: true
+    CastTime: 1000
+    FixedCastTime: 500
+    AfterCastActDelay: 150
+    Cooldown: 700
+    Requires:
+      SpCost:
+        - Level: 1
+          Amount: 68
+        - Level: 2
+          Amount: 70
+        - Level: 3
+          Amount: 72
+        - Level: 4
+          Amount: 74
+        - Level: 5
+          Amount: 76
+        - Level: 6
+          Amount: 78
+        - Level: 7
+          Amount: 80
+        - Level: 8
+          Amount: 82
+        - Level: 9
+          Amount: 84
+        - Level: 10
+          Amount: 86
   - Id: 8001
     Name: HLIF_HEAL
     Description: Healing Touch
@@ -41021,7 +45341,7 @@ Body:
     DamageFlags:
       NoDamage: true
     Hit: Single
-    AfterCastActDelay: 30000
+    Cooldown: 30000
     Duration1:
       - Level: 1
         Time: 40000

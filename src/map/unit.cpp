@@ -781,6 +781,11 @@ int unit_walktoxy( struct block_list *bl, short x, short y, unsigned char flag)
 
 	TBL_PC *sd = BL_CAST(BL_PC, bl);
 
+	if (sd) {
+		if (sd->sc.getSCE(SC_KI_SUL_RAMPAGE))
+			status_change_end(bl, SC_KI_SUL_RAMPAGE);
+	}
+
 	// Start timer to recall summon
 	if( sd != nullptr ){
 		if (sd->md != nullptr)
@@ -1958,16 +1963,6 @@ int unit_skilluse_id2(struct block_list *src, int target_id, uint16 skill_id, ui
 			if (sc && sc->getSCE(SC_WUGDASH))
 				casttime = -1;
 			break;
-		case DK_SERVANT_W_PHANTOM: { // Stops servants from being consumed on unmarked targets.
-				status_change *tsc = status_get_sc(target);
-
-				// Only allow to attack if the enemy has a sign mark given by the caster.
-				if( tsc == nullptr || tsc->getSCE(SC_SERVANT_SIGN) == nullptr || tsc->getSCE(SC_SERVANT_SIGN)->val1 != src->id ){
-					clif_skill_fail(sd, skill_id, USESKILL_FAIL, 0);
-					return 0;
-				}
-			}
-			break;
 		case EL_WIND_SLASH:
 		case EL_HURRICANE:
 		case EL_TYPOON_MIS:
@@ -2061,7 +2056,7 @@ int unit_skilluse_id2(struct block_list *src, int target_id, uint16 skill_id, ui
 
 			if (!src->prev)
 				return 0; // Warped away!
-		} else if( sc->getSCE(SC_CLOAKINGEXCEED) && !(sc->getSCE(SC_CLOAKINGEXCEED)->val4&4) && skill_id != GC_CLOAKINGEXCEED && skill_id != SHC_SHADOW_STAB) {
+		} else if( sc->getSCE(SC_CLOAKINGEXCEED) && !(sc->getSCE(SC_CLOAKINGEXCEED)->val4&4) && skill_id != GC_CLOAKINGEXCEED && skill_id != SHC_SHADOW_STAB && skill_id != SHC_SAVAGE_IMPACT) {
 			status_change_end(src,SC_CLOAKINGEXCEED);
 
 			if (!src->prev)
