@@ -3,21 +3,26 @@
 
 #include "char_logif.hpp"
 
+#include <memory>
+
 #include <stdlib.h>
 #include <string.h>
 
-#include "../common/showmsg.hpp"
-#include "../common/socket.hpp"
-#include "../common/sql.hpp"
-#include "../common/strlib.hpp"
-#include "../common/timer.hpp"
-#include "../common/utils.hpp"
+#include <common/showmsg.hpp>
+#include <common/socket.hpp>
+#include <common/sql.hpp>
+#include <common/strlib.hpp>
+#include <common/timer.hpp>
+#include <common/utilities.hpp>
+#include <common/utils.hpp>
 
 #include "char.hpp"
 #include "char_clif.hpp"
 #include "char_mapif.hpp"
 #include "inter.hpp"
 #include "int_guild.hpp"
+
+using namespace rathena;
 
 //early declaration
 void chlogif_on_ready(void);
@@ -59,10 +64,9 @@ void chlogif_pincode_start(int fd, struct char_session_data* sd){
 		}else{
 			if( !(charserv_config.pincode_config.pincode_changetime)
 			|| ( sd->pincode_change + charserv_config.pincode_config.pincode_changetime ) > time(NULL) ){
-				DBMap*  online_char_db = char_get_onlinedb();
-				struct online_char_data* node = (struct online_char_data*)idb_get( online_char_db, sd->account_id );
+				std::shared_ptr<struct online_char_data> node = util::umap_find( char_get_onlinedb(), sd->account_id );
 
-				if( node != NULL && node->pincode_success ){
+				if( node != nullptr && node->pincode_success ){
 					// User has already passed the check
 					chclif_pincode_sendstate( fd, sd, PINCODE_PASSED );
 				}else{
@@ -83,21 +87,6 @@ void chlogif_pincode_start(int fd, struct char_session_data* sd){
 #endif
 
 /**
- * Load this character's account id into the 'online accounts' packet
- * @see DBApply
- */
-int chlogif_send_acc_tologin_sub(DBKey key, DBData *data, va_list ap) {
-	struct online_char_data* character = (struct online_char_data*)db_data2ptr(data);
-	int* i = va_arg(ap, int*);
-	if(character->server > -1) {
-		WFIFOL(login_fd,8+(*i)*4) = character->account_id;
-		(*i)++;
-		return 1;
-	}
-	return 0;
-}
-
-/**
  * Timered function to send all account_id connected to login-serv
  * @param tid : Timer id
  * @param tick : Scheduled tick
@@ -107,14 +96,20 @@ int chlogif_send_acc_tologin_sub(DBKey key, DBData *data, va_list ap) {
  */
 TIMER_FUNC(chlogif_send_acc_tologin){
 	if ( chlogif_isconnected() ){
-		DBMap*  online_char_db = char_get_onlinedb();
 		// send account list to login server
-		int users = online_char_db->size(online_char_db);
+		int users = char_get_onlinedb().size();
 		int i = 0;
 
 		WFIFOHEAD(login_fd,8+users*4);
 		WFIFOW(login_fd,0) = 0x272d;
-		online_char_db->foreach(online_char_db, chlogif_send_acc_tologin_sub, &i, users);
+		for( const auto& pair : char_get_onlinedb() ){
+			std::shared_ptr<struct online_char_data> character = pair.second;
+
+			if( character->server > -1 ){
+				WFIFOL( login_fd, 8 + i * 4 ) = character->account_id;
+				i++;
+			}
+		}
 		WFIFOW(login_fd,2) = 8+ i*4;
 		WFIFOL(login_fd,4) = i;
 		WFIFOSET(login_fd,WFIFOW(login_fd,2));
@@ -414,11 +409,15 @@ void chlogif_parse_change_sex_sub(int sex, int acc, int char_id, int class_, int
 		class_ = (sex == SEX_MALE ? JOB_KAGEROU : JOB_OBORO);
 	else if (class_ == JOB_BABY_KAGEROU || class_ == JOB_BABY_OBORO)
 		class_ = (sex == SEX_MALE ? JOB_BABY_KAGEROU : JOB_BABY_OBORO);
+	else if (class_ == JOB_TROUBADOUR || class_ == JOB_TROUVERE)
+		class_ = (sex == SEX_MALE ? JOB_TROUBADOUR : JOB_TROUVERE);
+	else if (class_ == JOB_SHINKIRO || class_ == JOB_SHIRANUI)
+		class_ = (sex == SEX_MALE ? JOB_SHINKIRO : JOB_SHIRANUI);
 
 	if (SQL_ERROR == Sql_Query(sql_handle, "UPDATE `%s` SET `equip` = '0' WHERE `char_id` = '%d'", schema_config.inventory_db, char_id))
 		Sql_ShowDebug(sql_handle);
 
-	if (SQL_ERROR == Sql_Query(sql_handle, "UPDATE `%s` SET `class` = '%d', `weapon` = '0', `shield` = '0', `head_top` = '0', `head_mid` = '0', `head_bottom` = '0' WHERE `char_id` = '%d'", schema_config.char_db, class_, char_id))
+	if (SQL_ERROR == Sql_Query(sql_handle, "UPDATE `%s` SET `class` = '%d', `weapon` = '0', `shield` = '0', `head_top` = '0', `head_mid` = '0', `head_bottom` = '0', `sex` = '%c' WHERE `char_id` = '%d'", schema_config.char_db, class_, sex == SEX_MALE ? 'M' : 'F', char_id))
 		Sql_ShowDebug(sql_handle);
 	if (guild_id) // If there is a guild, update the guild_member data [Skotlex]
 		inter_guild_sex_changed(guild_id, acc, char_id, sex);
@@ -430,18 +429,17 @@ int chlogif_parse_ackchangesex(int fd)
 		return 0;
 	else {
 		unsigned char buf[7];
-		int acc = RFIFOL(fd,2);
+		uint32 acc = RFIFOL(fd,2);
 		int sex = RFIFOB(fd,6);
 		RFIFOSKIP(fd,7);
 
 		if (acc > 0) { // TODO: Is this even possible?
 			unsigned char i;
 			int char_id = 0, class_ = 0, guild_id = 0;
-			DBMap* auth_db = char_get_authdb();
-			struct auth_node* node = (struct auth_node*)idb_get(auth_db, acc);
+			std::shared_ptr<struct auth_node> node = util::umap_find( char_get_authdb(), acc );
 			SqlStmt *stmt;
 
-			if (node != NULL)
+			if (node != nullptr)
 				node->sex = sex;
 
 			// get characters
@@ -501,10 +499,6 @@ int chlogif_parse_ackchangecharsex(int char_id, int sex)
 	Sql_GetData(sql_handle, 2, &data, NULL); guild_id = atoi(data);
 	Sql_FreeResult(sql_handle);
 
-	if (SQL_ERROR == Sql_Query(sql_handle, "UPDATE `%s` SET `sex` = '%c' WHERE `char_id` = '%d'", schema_config.char_db, sex == SEX_MALE ? 'M' : 'F', char_id)) {
-		Sql_ShowDebug(sql_handle);
-		return 1;
-	}
 	chlogif_parse_change_sex_sub(sex, account_id, char_id, class_, guild_id);
 
 	// disconnect player if online on char-server
@@ -550,13 +544,13 @@ int chlogif_parse_askkick(int fd){
 	if (RFIFOREST(fd) < 6)
 		return 0;
 	else {
-		DBMap*  online_char_db = char_get_onlinedb();
-		DBMap*  auth_db = char_get_authdb();
-		int aid = RFIFOL(fd,2);
-		struct online_char_data* character = (struct online_char_data*)idb_get(online_char_db, aid);
+		uint32 aid = RFIFOL(fd,2);
 		RFIFOSKIP(fd,6);
-		if( character != NULL )
-		{// account is already marked as online!
+
+		std::shared_ptr<struct online_char_data> character = util::umap_find( char_get_onlinedb(), aid );
+
+		// account is already marked as online!
+		if( character != nullptr ){
 			if( character->server > -1 )
 			{	//Kick it from the map server it is on.
 				mapif_disconnectplayer(map_server[character->server].fd, character->account_id, character->char_id, 2);
@@ -577,7 +571,9 @@ int chlogif_parse_askkick(int fd){
 					char_set_char_offline(-1, aid);
 			}
 		}
-		idb_remove(auth_db, aid);// reject auth attempts from map-server
+
+		// reject auth attempts from map-server
+		char_get_authdb().erase( aid );
 	}
 	return 1;
 }
@@ -757,7 +753,7 @@ int chlogif_parse(int fd) {
 }
 
 TIMER_FUNC(chlogif_check_connect_logserver){
-	if (login_fd > 0 && session[login_fd] != NULL)
+	if (chlogif_isconnected())
 		return 0;
 
 	ShowInfo("Attempt to connect to login-server...\n");
@@ -790,7 +786,7 @@ TIMER_FUNC(chlogif_check_connect_logserver){
 
 
 int chlogif_isconnected(){
-	return (login_fd > 0 && session[login_fd] && !session[login_fd]->flag.eof);
+	return session_isActive(login_fd);
 }
 
 void do_init_chlogif(void) {
@@ -813,16 +809,6 @@ void chlogif_reset(void){
 	exit(EXIT_FAILURE);
 }
 
-/// Checks the conditions for the server to stop.
-/// Releases the cookie when all characters are saved.
-/// If all the conditions are met, it stops the core loop.
-void chlogif_check_shutdown(void)
-{
-	if( runflag != CHARSERVER_ST_SHUTDOWN )
-		return;
-	runflag = CORE_ST_STOP;
-}
-
 /// Called when the connection to Login Server is disconnected.
 void chlogif_on_disconnect(void){
 	ShowWarning("Connection to Login Server lost.\n\n");
@@ -833,13 +819,11 @@ void chlogif_on_ready(void)
 {
 	int i;
 
-	chlogif_check_shutdown();
-
 	//Send online accounts to login server.
 	chlogif_send_acc_tologin(INVALID_TIMER, gettick(), 0, 0);
 
 	// if no map-server already connected, display a message...
-	ARR_FIND( 0, ARRAYLENGTH(map_server), i, map_server[i].fd > 0 && !map_server[i].map.empty() );
+	ARR_FIND( 0, ARRAYLENGTH(map_server), i, session_isValid(map_server[i].fd) && !map_server[i].maps.empty() );
 	if( i == ARRAYLENGTH(map_server) )
 		ShowStatus("Awaiting maps from map-server.\n");
 }
