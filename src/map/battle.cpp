@@ -5444,16 +5444,16 @@ static int battle_calc_attack_skill_ratio(struct Damage* wd, struct block_list *
 			RE_LVL_DMOD(100);
 			break;
 		case IQ_MASSIVE_F_BLASTER:
-			skillratio += -100 + 2150 * skill_lv + 15 * sstatus->pow;
+			skillratio += -100 + 2300 * skill_lv + 15 * sstatus->pow;
 			if (tstatus->race == RC_BRUTE || tstatus->race == RC_DEMON)
 				skillratio += 150 * skill_lv;
 			RE_LVL_DMOD(100);
 			break;
 		case IQ_EXPOSION_BLASTER:
-			skillratio += -100 + 2800 * skill_lv + 15 * sstatus->pow;
+			skillratio += -100 + 2400 * skill_lv + 10 * sstatus->pow;
 
 			if( tsc != nullptr && tsc->getSCE( SC_HOLY_OIL ) ){
-				skillratio += 400 * skill_lv;
+				skillratio += 350 + 1050 * skill_lv;
 			}
 
 			RE_LVL_DMOD(100);
@@ -5524,7 +5524,7 @@ static int battle_calc_attack_skill_ratio(struct Damage* wd, struct block_list *
 			RE_LVL_DMOD(100);
 			break;
 		case CD_PETITIO:
-			skillratio += -100 + (1050 + pc_checkskill(sd,CD_MACE_BOOK_M) * 10) * skill_lv + 5 * sstatus->pow;
+			skillratio += -100 + (1050 + pc_checkskill(sd,CD_MACE_BOOK_M) * 50) * skill_lv + 5 * sstatus->pow;
 			RE_LVL_DMOD(100);
 			break;
 		case SHC_DANCING_KNIFE:
@@ -5550,7 +5550,12 @@ static int battle_calc_attack_skill_ratio(struct Damage* wd, struct block_list *
 			RE_LVL_DMOD(100);
 			break;
 		case SHC_SHADOW_STAB:
-			skillratio += -100 + 300 * skill_lv + 5 * sstatus->pow;
+			skillratio += -100 + 350 * skill_lv + 5 * sstatus->pow;
+
+			if( sc && sc->getSCE( SC_CLOAKINGEXCEED ) ){
+				skillratio += 50 * skill_lv + 2 * sstatus->pow;
+			}
+
 			RE_LVL_DMOD(100);
 			break;
 		case SHC_IMPACT_CRATER:
@@ -5622,22 +5627,26 @@ static int battle_calc_attack_skill_ratio(struct Damage* wd, struct block_list *
 			break;
 		case WH_HAWKRUSH:
 			skillratio += -100 + 500 * skill_lv + 5 * sstatus->con;
+			if (sd)
+				skillratio += skillratio * pc_checkskill(sd, WH_NATUREFRIENDLY) / 10;
 			RE_LVL_DMOD(100);
 			break;
-		case WH_HAWKBOOMERANG:// Affected by trait stats??? CON for sure but the other one unknown. Likely POW. [Rytech]
-			skillratio += -100 + 600 * skill_lv + 10 * sstatus->pow + 10 * sstatus->con;
+		case WH_HAWKBOOMERANG:
+			skillratio += -100 + 600 * skill_lv + 10 * sstatus->con;
+			if (sd)
+				skillratio += skillratio * pc_checkskill(sd, WH_NATUREFRIENDLY) / 10;
 			if (tstatus->race == RC_BRUTE || tstatus->race == RC_FISH)
 				skillratio += skillratio * 50 / 100;
 			RE_LVL_DMOD(100);
 			break;
 		case WH_GALESTORM:
-			skillratio += -100 + 950 * skill_lv + 10 * sstatus->con;
+			skillratio += -100 + 1000 * skill_lv + 10 * sstatus->con;
 			RE_LVL_DMOD(100);
 			if (sc && sc->getSCE(SC_CALAMITYGALE) && (tstatus->race == RC_BRUTE || tstatus->race == RC_FISH))
 				skillratio += skillratio * 50 / 100;
 			break;
 		case WH_CRESCIVE_BOLT:
-			skillratio += -100 + 340 * skill_lv + 5 * sstatus->con;
+			skillratio += -100 + 400 + 900 * skill_lv + 5 * sstatus->con;
 			RE_LVL_DMOD(100);
 			if (sc) {
 				if (sc->getSCE(SC_CRESCIVEBOLT))
@@ -6694,7 +6703,7 @@ static struct Damage initialize_weapon_data(struct block_list *src, struct block
 				break;
 			case SHC_SHADOW_STAB:
 				if (wd.miscflag == 2)
-					wd.div_ = 2;
+					wd.div_ = 3;
 				break;
 			case SHC_IMPACT_CRATER:
 				if (sc && sc->getSCE(SC_ROLLINGCUTTER))
@@ -7994,13 +8003,13 @@ struct Damage battle_calc_magic_attack(struct block_list *src,struct block_list 
 						RE_LVL_DMOD(100);
 						break;
 					case CD_ARBITRIUM:
-						skillratio += -100 + 1000 * skill_lv + 7 * sstatus->spl;
+						skillratio += -100 + 1000 * skill_lv + 10 * sstatus->spl;
 						skillratio += 10 * pc_checkskill( sd, CD_FIDUS_ANIMUS ) * skill_lv;
 						RE_LVL_DMOD(100);
 						break;
 					case CD_ARBITRIUM_ATK:
-						skillratio += -100 + 1250 * skill_lv + 7 * sstatus->spl;
-						skillratio += 10 * pc_checkskill( sd, CD_FIDUS_ANIMUS ) * skill_lv;
+						skillratio += -100 + 1750 * skill_lv + 10 * sstatus->spl;
+						skillratio += 50 * pc_checkskill( sd, CD_FIDUS_ANIMUS ) * skill_lv;
 						RE_LVL_DMOD(100);
 						break;
 					case CD_PNEUMATICUS_PROCELLA:
@@ -8013,7 +8022,7 @@ struct Damage battle_calc_magic_attack(struct block_list *src,struct block_list 
 						RE_LVL_DMOD(100);
 						break;
 					case CD_FRAMEN:
-						skillratio += -100 + (800 + 5 * pc_checkskill(sd,CD_FIDUS_ANIMUS)) * skill_lv + 5 * sstatus->spl;
+						skillratio += -100 + (950 + 5 * pc_checkskill(sd,CD_FIDUS_ANIMUS)) * skill_lv + 5 * sstatus->spl;
 						if (tstatus->race == RC_UNDEAD || tstatus->race == RC_DEMON)
 							skillratio += 100 * skill_lv;
 						RE_LVL_DMOD(100);
