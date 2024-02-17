@@ -1383,7 +1383,7 @@ bool battle_status_block_damage(struct block_list *src, struct block_list *targe
 			unit_set_walkdelay(target, gettick(), delay, 1);
 #ifdef RENEWAL
 			if (sc->getSCE(SC_SHRINK))
-				sc_start(src, target, SC_STUN, 50, skill_lv, skill_get_time2(skill_id, skill_lv));
+				sc_start(target, src, SC_STUN, 50, skill_lv, skill_get_time2(skill_id, skill_lv));
 #else
 			if (sc->getSCE(SC_SHRINK) && rnd() % 100 < 5 * sce->val1)
 				skill_blown(target, src, skill_get_blewcount(CR_SHRINK, 1), -1, BLOWN_NONE);
@@ -5579,7 +5579,7 @@ static int battle_calc_attack_skill_ratio(struct Damage* wd, struct block_list *
 			RE_LVL_DMOD(100);
 			break;
 		case SHC_SAVAGE_IMPACT:
-			skillratio += -100 + 90 * skill_lv + 5 * sstatus->pow;
+			skillratio += -100 + 105 * skill_lv + 5 * sstatus->pow;
 
 			if( sc != nullptr && sc->getSCE( SC_SHADOW_EXCEED ) ){
 				skillratio += 20 * skill_lv + 3 * sstatus->pow;	// !TODO: check POW ratio
@@ -5588,19 +5588,19 @@ static int battle_calc_attack_skill_ratio(struct Damage* wd, struct block_list *
 			RE_LVL_DMOD(100);
 			break;
 		case SHC_ETERNAL_SLASH:
-			skillratio += -100 + 265 * skill_lv + 2 * sstatus->pow;
+			skillratio += -100 + 300 * skill_lv + 2 * sstatus->pow;
 
 			if( sc != nullptr && sc->getSCE( SC_SHADOW_EXCEED ) ){
-				skillratio += 100 * skill_lv + sstatus->pow;
+				skillratio += 120 * skill_lv + sstatus->pow;
 			}
 
 			RE_LVL_DMOD(100);
 			break;
 		case SHC_SHADOW_STAB:
-			skillratio += -100 + 350 * skill_lv + 5 * sstatus->pow;
+			skillratio += -100 + 550 * skill_lv + 5 * sstatus->pow;
 
 			if( sc && sc->getSCE( SC_CLOAKINGEXCEED ) ){
-				skillratio += 50 * skill_lv + 2 * sstatus->pow;
+				skillratio += 100 * skill_lv + 2 * sstatus->pow;
 			}
 
 			RE_LVL_DMOD(100);
@@ -6792,10 +6792,6 @@ static struct Damage initialize_weapon_data(struct block_list *src, struct block
 			case SHC_ETERNAL_SLASH:
 				if (sc && sc->getSCE(SC_E_SLASH_COUNT))
 					wd.div_ = sc->getSCE(SC_E_SLASH_COUNT)->val1;
-				break;
-			case SHC_SHADOW_STAB:
-				if (wd.miscflag == 2)
-					wd.div_ = 3;
 				break;
 			case SHC_IMPACT_CRATER:
 				if (sc && sc->getSCE(SC_ROLLINGCUTTER))
@@ -8134,9 +8130,11 @@ struct Damage battle_calc_magic_attack(struct block_list *src,struct block_list 
 						RE_LVL_DMOD(100);
 						break;
 					case CD_FRAMEN:
-						skillratio += -100 + (950 + 5 * pc_checkskill(sd,CD_FIDUS_ANIMUS)) * skill_lv + 5 * sstatus->spl;
+						skillratio += -100 + 1300 * skill_lv;
+						skillratio += 5 * pc_checkskill(sd,CD_FIDUS_ANIMUS) * skill_lv;
+						skillratio += 5 * sstatus->spl;
 						if (tstatus->race == RC_UNDEAD || tstatus->race == RC_DEMON)
-							skillratio += 100 * skill_lv;
+							skillratio += 50 * skill_lv;
 						RE_LVL_DMOD(100);
 						break;
 					case AG_DESTRUCTIVE_HURRICANE_CLIMAX:// Is this affected by BaseLV and SPL too??? [Rytech]
