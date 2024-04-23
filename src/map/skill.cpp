@@ -1690,13 +1690,13 @@ int skill_additional_effect( struct block_list* src, struct block_list *bl, uint
 		break;
 
 	case CH_TIGERFIST: {
-		uint16 basetime = skill_get_time(skill_id, skill_lv);
-		uint16 mintime = 30 * (status_get_lv(src) + 100);
+		t_tick basetime = skill_get_time(skill_id, skill_lv);
+		t_tick mintime = 15 * (status_get_lv(src) + 100);
 
-		if (status_get_class_(bl) == CLASS_BOSS)
+		if (status_bl_has_mode(bl, MD_STATUSIMMUNE))
 			basetime /= 5;
-		basetime = min((basetime * status_get_agi(bl)) / -200 + basetime, mintime) / 2;
-		sc_start(src, bl, SC_STOP, (1 + skill_lv) * 10, 0, basetime);
+		basetime = std::max((basetime * status_get_agi(bl)) / -200 + basetime, mintime);
+		sc_start(src, bl, SC_ANKLE, (1 + skill_lv) * 10, 0, basetime);
 	}
 		break;
 
@@ -1704,7 +1704,7 @@ int skill_additional_effect( struct block_list* src, struct block_list *bl, uint
 	case ML_SPIRALPIERCE:
 	case HN_SPIRAL_PIERCE_MAX:
 		if( dstsd || ( dstmd && !status_bl_has_mode(bl,MD_STATUSIMMUNE) ) ) //Does not work on status immune
-			sc_start(src,bl,SC_STOP,100,0,skill_get_time2(skill_id,skill_lv));
+			sc_start(src,bl,SC_ANKLE,100,0,skill_get_time2(skill_id,skill_lv));
 		break;
 
 	case ST_REJECTSWORD:
@@ -5051,9 +5051,9 @@ static int skill_tarotcard(struct block_list* src, struct block_list *target, ui
 		skill_tarotcard(src, target, skill_id, skill_lv, tick);
 		break;
 	}
-	case 8: // THE HANGED MAN - stop, freeze or stoned
+	case 8: // THE HANGED MAN - ankle, freeze or stoned
 	{
-		enum sc_type sc[] = { SC_STOP, SC_FREEZE, SC_STONEWAIT };
+		enum sc_type sc[] = { SC_ANKLE, SC_FREEZE, SC_STONEWAIT };
 		uint8 rand_eff = rnd() % 3;
 		int time = ((rand_eff == 0) ? skill_get_time2(skill_id, skill_lv) : skill_get_time2(status_db.getSkill(sc[rand_eff]), 1));
 
@@ -7976,8 +7976,6 @@ int skill_castend_nodamage_id (struct block_list *src, struct block_list *bl, ui
 	case NPC_WEAPONBRAKER:
 	case NPC_BARRIER:
 	case NPC_INVINCIBLE:
-	case NPC_INVINCIBLEOFF:
-	case MER_INVINCIBLEOFF2:
 	case RK_DEATHBOUND:
 	case AB_EXPIATIO:
 	case AB_DUPLELIGHT:
@@ -9767,43 +9765,43 @@ int skill_castend_nodamage_id (struct block_list *src, struct block_list *bl, ui
 	case SA_SPELLBREAKER:
 		{
 			int sp;
-			if(tsc && tsc->getSCE(SC_MAGICROD)) {
-				sp = skill_get_sp(skill_id,skill_lv);
-				sp = sp * tsc->getSCE(SC_MAGICROD)->val2 / 100;
-				if(sp < 1) sp = 1;
-				status_heal(bl,0,sp,2);
-				status_percent_damage(bl, src, 0, -20, false); //20% max SP damage.
-			} else {
-				struct unit_data *ud = unit_bl2ud(bl);
-				int bl_skill_id=0,bl_skill_lv=0,hp = 0;
+			if (dstsd && tsc && tsc->getSCE(SC_MAGICROD)) {
+				// If target enemy player has Magic Rod, then 20% of your SP is transferred to that player
+				sp = status_percent_damage(bl, src, 0, -20, false);
+				status_heal(bl, 0, sp, 2);
+			}
+			else {
+				struct unit_data* ud = unit_bl2ud(bl);
 				if (!ud || ud->skilltimer == INVALID_TIMER)
 					break; //Nothing to cancel.
-				bl_skill_id = ud->skill_id;
-				bl_skill_lv = ud->skill_lv;
-				if (status_has_mode(tstatus,MD_STATUSIMMUNE)) { //Only 10% success chance against status immune. [Skotlex]
-					if (rnd()%100 < 90)
+				int hp = 0;
+				if (status_has_mode(tstatus, MD_STATUSIMMUNE)) { //Only 10% success chance against status immune. [Skotlex]
+					if (rnd_chance(90, 100))
 					{
 						if (sd) clif_skill_fail( *sd, skill_id );
 						break;
 					}
-				} else if (!dstsd || map_flag_vs(bl->m)) //HP damage only on pvp-maps when against players.
-					hp = tstatus->max_hp/50; //Recover 2% HP [Skotlex]
+				}
+#ifdef RENEWAL
+				else // HP damage does not work on bosses in renewal
+#endif
+					if (skill_lv >= 5 && (!dstsd || map_flag_vs(bl->m))) //HP damage only on pvp-maps when against players.
+						hp = tstatus->max_hp / 50; //Siphon 2% HP at level 5
 
-				clif_skill_nodamage(src,bl,skill_id,skill_lv,1);
-				unit_skillcastcancel(bl,0);
-				sp = skill_get_sp(bl_skill_id,bl_skill_lv);
-				status_zap(bl, hp, sp);
+				clif_skill_nodamage(src, bl, skill_id, skill_lv, 1);
+				unit_skillcastcancel(bl, 0);
+				sp = skill_get_sp(ud->skill_id, ud->skill_lv);
+				status_zap(bl, 0, sp);
+				// Recover some of the SP used
+				status_heal(src, 0, sp * (25 * (skill_lv - 1)) / 100, 2);
 
-				if (hp && skill_lv >= 5)
-					hp /= 2;	//Recover half damaged HP at level 5 [Skotlex]
-				else
-					hp = 0;
-
-				if (sp) //Recover some of the SP used
-					sp = sp*(25*(skill_lv-1))/100;
-
-				if(hp || sp)
-					status_heal(src, hp, sp, 2);
+				// If damage would be lethal, it does not deal damage
+				if (hp && hp < tstatus->hp) {
+					clif_damage(src, bl, tick, 0, 0, hp, 0, DMG_NORMAL, 0, false);
+					status_zap(bl, hp, 0);
+					// Recover 50% of damage dealt
+					status_heal(src, hp / 2, 0, 2);
+				}
 			}
 		}
 		break;
@@ -10025,6 +10023,12 @@ int skill_castend_nodamage_id (struct block_list *src, struct block_list *bl, ui
 	case NPC_SIEGEMODE:
 		// Not implemented/used: Gives EFST_SIEGEMODE which reduces speed to 1000.
 		clif_skill_nodamage(src,bl,skill_id,skill_lv,1);
+		break;
+
+	case NPC_INVINCIBLEOFF:
+	case MER_INVINCIBLEOFF2:
+		clif_skill_nodamage(src, bl, skill_id, skill_lv, 1);
+		status_change_end(bl, SC_INVINCIBLE);
 		break;
 
 	case WE_MALE: {
@@ -13430,6 +13434,9 @@ TIMER_FUNC(skill_castend_id){
 						break;
 				}
 				sc_start2(src, src, type, 100, 0, 1, skill_get_time(ud->skill_id, ud->skill_lv));
+				// During Grand Cross you are in ankle state (cannot move or teleport)
+				if (ud->skill_id == CR_GRANDCROSS)
+					sc_start(src, src, SC_ANKLE, 100, 0, skill_get_time(ud->skill_id, ud->skill_lv));
 				break;
 			}
 			}
@@ -16185,8 +16192,15 @@ int skill_unit_onplace_timer(struct skill_unit *unit, struct block_list *bl, t_t
 				sg->unit_id = UNT_USED_TRAPS;
 				clif_changetraplook(&unit->bl, UNT_USED_TRAPS);
 				sg->limit=DIFF_TICK(tick,sg->tick)+1500;
-				//Target will be stopped for 3 seconds
+#ifdef RENEWAL
+				// In renewal, target will be stopped for 3 seconds
 				sc_start(ss,bl,SC_STOP,100,0,skill_get_time2(sg->skill_id,sg->skill_lv));
+#else
+				// In pre-renewal, if target was a monster, it will unlock target and become idle
+				struct mob_data* md = BL_CAST(BL_MOB, bl);
+				if (md)
+					mob_unlocktarget(md, tick);
+#endif
 			}
 			break;
 
@@ -16194,6 +16208,15 @@ int skill_unit_onplace_timer(struct skill_unit *unit, struct block_list *bl, t_t
 		case UNT_MANHOLE:
 			if( sg->val2 == 0 && tsc && ((sg->unit_id == UNT_ANKLESNARE && skill_id != SC_ESCAPE) || bl->id != sg->src_id) ) {
 				t_tick sec = skill_get_time2(sg->skill_id,sg->skill_lv);
+				if (sg->unit_id == UNT_ANKLESNARE) {
+					t_tick mintime = 30 * (status_get_lv(ss) + 100);
+#ifndef RENEWAL
+					// Bosses cannot activate Ankle Snare in renewal so we don't need this code
+					if (status_bl_has_mode(bl, MD_STATUSIMMUNE))
+						sec /= 5;
+#endif
+					sec = std::max((sec * status_get_agi(bl)) / -200 + sec, mintime);
+				}
 
 				if( status_change_start(ss, bl,type,10000,sg->skill_lv,sg->group_id,0,0,sec, SCSTART_NORATEDEF) ) {
 					const struct TimerData* td = tsc->getSCE(type)?get_timer(tsc->getSCE(type)->timer):NULL;
@@ -21238,6 +21261,12 @@ int skill_unit_timer_sub_onplace(struct block_list* bl, va_list ap)
 
 	if( !(skill->inf2[INF2_ISSONG] || skill->inf2[INF2_ISTRAP]) && !skill->inf2[INF2_IGNORELANDPROTECTOR] && group->skill_id != NC_NEUTRALBARRIER && (battle_config.land_protector_behavior ? map_getcell(bl->m, bl->x, bl->y, CELL_CHKLANDPROTECTOR) : map_getcell(unit->bl.m, unit->bl.x, unit->bl.y, CELL_CHKLANDPROTECTOR)) )
 		return 0; //AoE skills are ineffective. [Skotlex]
+
+#ifdef RENEWAL
+	// Ankle Snare and Skid Trap can no longer trap bosses in renewal
+	if ((group->unit_id == UNT_ANKLESNARE || group->unit_id == UNT_SKIDTRAP) && status_bl_has_mode(bl, MD_STATUSIMMUNE))
+		return 0;
+#endif
 
 	if( battle_check_target(&unit->bl,bl,group->target_flag) <= 0 )
 		return 0;
