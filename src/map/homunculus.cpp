@@ -289,10 +289,11 @@ int hom_vaporize(map_session_data *sd, int flag)
 	//Delete timers when vaporized.
 	hom_hungry_timer_delete(hd);
 	hd->homunculus.vaporize = flag ? flag : HOM_ST_REST;
-	if (battle_config.hom_setting&HOMSET_RESET_REUSESKILL_VAPORIZED) {
+	if (battle_config.hom_delay_reset_vaporize) {
 		hd->blockskill.clear();
 		hd->blockskill.shrink_to_fit();
 	}
+	status_change_clear(&hd->bl, 1);
 	clif_hominfo(sd, sd->hd, 0);
 	hom_save(hd);
 
@@ -878,7 +879,7 @@ int hom_food(map_session_data *sd, struct homun_data *hd)
 	foodID = hd->homunculusDB->foodID;
 	i = pc_search_inventory(sd,foodID);
 	if (i < 0) {
-		clif_hom_food(sd,foodID,0);
+		clif_hom_food( *sd, foodID, 0 );
 		return 1;
 	}
 	pc_delitem(sd,i,1,0,0,LOG_TYPE_CONSUME);
@@ -909,7 +910,7 @@ int hom_food(map_session_data *sd, struct homun_data *hd)
 	clif_emotion(&hd->bl,emotion);
 	clif_send_homdata( *hd, SP_HUNGRY );
 	clif_send_homdata( *hd, SP_INTIMATE );
-	clif_hom_food(sd,foodID,1);
+	clif_hom_food( *sd, foodID, 1 );
 
 	// Too much food :/
 	if(hd->homunculus.intimacy == 0)
@@ -1138,8 +1139,7 @@ bool hom_call(map_session_data *sd)
 		clif_hominfo(sd,hd,1);
 		clif_hominfo(sd,hd,0); // send this x2. dunno why, but kRO does that [blackhole89]
 		clif_homskillinfoblock( *hd );
-		if (battle_config.hom_setting&HOMSET_COPY_SPEED)
-			status_calc_bl(&hd->bl, { SCB_SPEED });
+		status_calc_bl(&hd->bl, { SCB_SPEED });
 		hom_save(hd);
 	} else
 		//Warp him to master.
