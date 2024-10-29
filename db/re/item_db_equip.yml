@@ -21024,6 +21024,7 @@ Body:
     Buy: 20
     Weight: 1900
     Attack: 80
+    MagicAttack: 150
     Range: 1
     Jobs:
       SoulLinker: true
@@ -61228,6 +61229,7 @@ Body:
     Buy: 20
     Weight: 500
     Attack: 50
+    MagicAttack: 90
     Slots: 1
     Jobs:
       Novice: true
@@ -64624,6 +64626,7 @@ Body:
     Type: Weapon
     SubType: Huuma
     Attack: 170
+    MagicAttack: 130
     Range: 1
     Slots: 1
     Jobs:
@@ -64644,7 +64647,6 @@ Body:
     Script: |
       bonus bUnbreakableWeapon;
       bonus bVariableCastrate,-10;
-      bonus bMatk,130;
       if (getrefine()>=7) {
          bonus2 bSkillAtk,"KO_HUUMARANKA",15;
       }
@@ -65890,7 +65892,6 @@ Body:
     Buy: 20
     Weight: 500
     Attack: 100
-    MagicAttack: 108
     Range: 1
     Slots: 3
     Jobs:
@@ -65909,6 +65910,7 @@ Body:
     EquipLevelMin: 40
     Refineable: true
     Script: |
+      bonus bMatk,108;
       bonus bAtkEle,Ele_Fire;
       skill "MG_FIREBOLT",3;
       bonus3 bAutoSpell,"MG_FIREBOLT",3,100;
@@ -65920,7 +65922,6 @@ Body:
     Buy: 20
     Weight: 600
     Attack: 100
-    MagicAttack: 108
     Range: 1
     Slots: 3
     Jobs:
@@ -65939,6 +65940,7 @@ Body:
     EquipLevelMin: 40
     Refineable: true
     Script: |
+      bonus bMatk,108;
       bonus bAtkEle,Ele_Water;
       skill "MG_COLDBOLT",3;
       bonus3 bAutoSpell,"MG_COLDBOLT",3,100;
@@ -80797,6 +80799,7 @@ Body:
     SubType: Mace
     Weight: 1900
     Attack: 160
+    MagicAttack: 180
     Range: 1
     Slots: 2
     Jobs:
@@ -80811,7 +80814,6 @@ Body:
     Refineable: true
     Script: |
       .@r = getrefine();
-      bonus bMatk,180;
       bonus bUnbreakableWeapon;
       bonus bMatkRate,7;
       bonus bHealPower,15;
@@ -80917,7 +80919,6 @@ Body:
     SubType: Bow
     Weight: 1700
     Attack: 75
-    MagicAttack: 100
     Range: 5
     Jobs:
       BardDancer: true
@@ -80931,6 +80932,7 @@ Body:
     EquipLevelMin: 105
     Refineable: true
     Script: |
+      bonus bMatk,100;
       bonus bInt,4;
       bonus2 bSkillUseSP,"WM_SEVERE_RAINSTORM",10;
   - Id: 18104
@@ -81323,7 +81325,6 @@ Body:
     Buy: 10
     Weight: 1300
     Attack: 180
-    MagicAttack: 110
     Range: 5
     Slots: 1
     Jobs:
@@ -81338,6 +81339,7 @@ Body:
     EquipLevelMin: 120
     Refineable: true
     Script: |
+      bonus bMatk,110;
       bonus bInt,6;
       bonus bVit,6;
       bonus bLuk,-6;
@@ -82607,7 +82609,6 @@ Body:
     Buy: 20
     Weight: 600
     Attack: 190
-    MagicAttack: 135
     Range: 5
     Slots: 2
     Jobs:
@@ -82622,6 +82623,7 @@ Body:
     Refineable: true
     Script: |
       .@r = getrefine();
+      bonus bMatk,135;
       .@dmg = 5;
       if (.@r >= 7) {
          bonus bAspdRate,7;
@@ -136654,6 +136656,7 @@ Body:
     Type: Weapon
     SubType: Staff
     Attack: 150
+    MagicAttack: 130
     Range: 1
     Slots: 1
     Jobs:
@@ -136673,7 +136676,6 @@ Body:
       NoMail: true
       NoAuction: true
     Script: |
-      bonus bMatk,130;
       bonus bUnbreakableWeapon;
       bonus bVariableCastrate,-10;
       if (getrefine()>=7) {
@@ -137417,6 +137419,7 @@ Body:
     SubType: Staff
     Weight: 1200
     Attack: 160
+    MagicAttack: 200
     Range: 1
     Slots: 2
     Jobs:
@@ -137431,7 +137434,6 @@ Body:
     Refineable: true
     Script: |
       .@r = getrefine();
-      bonus bMatk,200;
       bonus bUnbreakableWeapon;
       bonus2 bMagicAtkEle,Ele_Neutral,7;
       bonus2 bMagicAtkEle,Ele_Fire,7;
@@ -137521,6 +137523,7 @@ Body:
     SubType: Staff
     Weight: 1000
     Attack: 100
+    MagicAttack: 170
     Range: 1
     Slots: 2
     Jobs:
@@ -137536,7 +137539,6 @@ Body:
     Script: |
       .@r = getrefine();
       bonus bMatkRate,5;
-      bonus bMatk,170;
       bonus bUnbreakableWeapon;
       bonus bMatk,4*.@r;
       if (.@r>=9) {
@@ -137553,6 +137555,7 @@ Body:
     SubType: Staff
     Weight: 800
     Attack: 80
+    MagicAttack: 180
     Range: 1
     Slots: 2
     Jobs:
@@ -137568,7 +137571,6 @@ Body:
     Script: |
       .@r = getrefine();
       bonus2 bMagicAtkEle,Ele_Fire,5;
-      bonus bMatk,180;
       bonus bUnbreakableWeapon;
       bonus bMatk,4*.@r;
       if (.@r>=9) {
@@ -137720,6 +137722,7 @@ Body:
     SubType: Staff
     Weight: 1200
     Attack: 275
+    MagicAttack: 350
     Range: 1
     Slots: 2
     Jobs:
@@ -137733,7 +137736,6 @@ Body:
     Script: |
       .@r = getrefine();
       bonus bMatkRate,5;
-      bonus bMatk,350;
       bonus bUnbreakableWeapon;
       bonus bMatk,4*.@r;
       bonus bBaseAtk,4*.@r;
@@ -137752,6 +137754,7 @@ Body:
     SubType: 2hStaff
     Weight: 1300
     Attack: 120
+    MagicAttack: 180
     Range: 1
     Slots: 1
     Jobs:
@@ -137765,7 +137768,6 @@ Body:
       .@r = getrefine();
       bonus bUnbreakableWeapon;
       bonus bInt,3;
-      bonus bMatk,180;
       if (.@r>=5) {
          bonus bMatkRate,2;
          bonus bAspd,1;
@@ -137800,6 +137802,7 @@ Body:
     SubType: Staff
     Weight: 800
     Attack: 110
+    MagicAttack: 100
     Range: 1
     Slots: 1
     Jobs:
@@ -137816,7 +137819,6 @@ Body:
       .@r = getrefine();
       bonus bUnbreakableWeapon;
       bonus bInt,3;
-      bonus bMatk,100;
       if (.@r>=5) {
          bonus bMatkRate,2;
          bonus bAspd,1;
@@ -138280,6 +138282,7 @@ Body:
     SubType: Whip
     Weight: 1000
     Attack: 100
+    MagicAttack: 180
     Range: 2
     Slots: 2
     Jobs:
@@ -138296,7 +138299,6 @@ Body:
     Script: |
       .@r = getrefine();
       bonus2 bMagicAtkEle,Ele_Neutral,10;
-      bonus bMatk,180;
       bonus bUnbreakableWeapon;
       bonus bMatk,4*.@r;
       if (.@r>=9) {
@@ -141339,7 +141341,6 @@ Body:
     Buy: 20
     Weight: 1000
     Attack: 150
-    MagicAttack: 210
     Range: 9
     Slots: 2
     Jobs:
@@ -141351,7 +141352,7 @@ Body:
     Refineable: true
     Script: |
       .@r = getrefine();
-      bonus bMatk,10*(.@r/3);
+      bonus bMatk,210+10*(.@r/3);
       bonus bAspdRate,3*(.@r/3);
       if (.@r >= 7) {
          bonus bAspd,1;
@@ -146204,6 +146205,7 @@ Body:
     SubType: Book
     Weight: 1000
     Attack: 90
+    MagicAttack: 170
     Range: 1
     Slots: 2
     Jobs:
@@ -146220,7 +146222,6 @@ Body:
       .@r = getrefine();
       bonus2 bMagicAtkEle,Ele_Wind,5;
       bonus2 bMagicAtkEle,Ele_Water,5;
-      bonus bMatk,170;
       bonus bUnbreakableWeapon;
       bonus bMatk,4*.@r;
       if (.@r>=9) {
@@ -148054,6 +148055,7 @@ Body:
     SubType: Dagger
     Weight: 1500
     Attack: 200
+    MagicAttack: 170
     Range: 1
     Slots: 2
     Jobs:
@@ -148069,7 +148071,6 @@ Body:
     Script: |
       .@r = getrefine();
       bonus bMatkRate,5;
-      bonus bMatk,170;
       bonus bMatk,4*.@r;
       if (.@r>=9) {
          bonus2 bMagicAtkEle,Ele_Neutral,15;
@@ -159402,6 +159403,7 @@ Body:
     SubType: Musical
     Weight: 1000
     Attack: 90
+    MagicAttack: 180
     Range: 1
     Slots: 2
     Jobs:
@@ -159418,7 +159420,6 @@ Body:
     Script: |
       .@r = getrefine();
       bonus2 bMagicAtkEle,Ele_Neutral,10;
-      bonus bMatk,180;
       bonus bUnbreakableWeapon;
       bonus bMatk,4*.@r;
       if (.@r>=9) {
@@ -212389,6 +212390,7 @@ Body:
     Type: Weapon
     SubType: 1hSword
     Attack: 150
+    MagicAttack: 180
     Range: 1
     Jobs:
       Crusader: true
@@ -212411,7 +212413,6 @@ Body:
     Script: |
       .@r = getrefine();
       bonus bMatkRate,2;
-      bonus bMatk,180;
       bonus bMatk,3*.@r;
       bonus bMatk,3*(min(BaseLevel,195)/15);
       if (.@r>=7) {
@@ -213031,6 +213032,7 @@ Body:
     Type: Weapon
     SubType: 1hSword
     Attack: 160
+    MagicAttack: 180
     Range: 1
     Jobs:
       Crusader: true
@@ -213052,7 +213054,6 @@ Body:
     Script: |
       .@l = BaseLevel;
       .@a = getskilllv("CR_TRUST");
-      bonus bMatk,180;
       bonus bMatkRate,5;
       bonus bVariableCastrate,-1*.@a;
       if (.@l>=105) {
@@ -213119,6 +213120,7 @@ Body:
     SubType: 1hSword
     Weight: 1200
     Attack: 130
+    MagicAttack: 195
     Range: 1
     Slots: 2
     Jobs:
@@ -213136,7 +213138,6 @@ Body:
       .@g = getenchantgrade();
       .@r = getrefine();
       bonus bMatkRate,5;
-      bonus bMatk,195;
       if (BaseLevel>=210) {
          bonus bSMatk,1;
          bonus bSpl,2;
@@ -213320,6 +213321,7 @@ Body:
     Type: Weapon
     SubType: 1hSword
     Attack: 130
+    MagicAttack: 170
     Range: 1
     Jobs:
       Novice: true
@@ -213339,7 +213341,7 @@ Body:
     Script: |
       .@r = getrefine();
       bonus bMatkRate,2;
-      bonus bMatk,170+3*.@r;
+      bonus bMatk,3*.@r;
       bonus bMatk,3*(min(BaseLevel,195)/15);
       if (.@r>=7) {
          bonus bAspdRate,getskilllv("MG_SRECOVERY");
@@ -215618,6 +215620,7 @@ Body:
     Type: Weapon
     SubType: Dagger
     Attack: 100
+    MagicAttack: 100
     Range: 1
     Jobs:
       Alchemist: true
@@ -215655,7 +215658,6 @@ Body:
       NoMail: true
       NoAuction: true
     Script: |
-      bonus bMatk,100;
       if (BaseLevel>=20) {
          bonus bBaseAtk,15;
          bonus bMatk,15;
@@ -215732,6 +215734,7 @@ Body:
     Type: Weapon
     SubType: Dagger
     Attack: 180
+    MagicAttack: 180
     Range: 1
     Jobs:
       Rogue: true
@@ -215753,7 +215756,6 @@ Body:
     Script: |
       .@l = BaseLevel;
       .@a = getskilllv("RG_PLAGIARISM");
-      bonus bMatk,180;
       bonus bMatkRate,3;
       bonus bDelayrate,-1*.@a;
       bonus bAtkRate,3;
@@ -215817,6 +215819,7 @@ Body:
     SubType: Dagger
     Weight: 800
     Attack: 150
+    MagicAttack: 195
     Range: 1
     Slots: 2
     Jobs:
@@ -215834,7 +215837,6 @@ Body:
       .@g = getenchantgrade();
       .@r = getrefine();
       bonus bMatkRate,5;
-      bonus bMatk,195;
       if (BaseLevel>=210) {
          bonus bSMatk,1;
          bonus bSpl,2;
@@ -216142,6 +216144,7 @@ Body:
     SubType: Dagger
     Weight: 1200
     Attack: 180
+    MagicAttack: 200
     Range: 1
     Slots: 2
     Jobs:
@@ -216366,6 +216369,7 @@ Body:
     SubType: Dagger
     Weight: 1100
     Attack: 180
+    MagicAttack: 200
     Range: 1
     Slots: 2
     Jobs:
@@ -216382,7 +216386,6 @@ Body:
       .@g = getenchantgrade();
       .@r = getrefine();
       bonus bMatkRate,7;
-      bonus bMatk,200;
       bonus2 bSkillAtk,"SS_RAIDENPOU",7;
       bonus2 bSkillAtk,"SS_KINRYUUHOU",7;
       bonus2 bSkillAtk,"NJ_KOUENKA",2*(.@r/2);
@@ -220178,6 +220181,7 @@ Body:
     Type: Weapon
     SubType: Book
     Attack: 150
+    MagicAttack: 160
     Range: 1
     Jobs:
       Sage: true
@@ -220201,7 +220205,7 @@ Body:
       .@r = getrefine();
       bonus bUnbreakableWeapon;
       bonus bMatkRate,2;
-      bonus bMatk,160+(3*.@r)+3*(min(BaseLevel,195)/15);
+      bonus bMatk,(3*.@r)+3*(min(BaseLevel,195)/15);
       if (.@r>=7) {
          .@val = getskilllv("SA_AUTOSPELL");
          bonus2 bMagicAtkEle,Ele_Fire,.@val;
@@ -220386,6 +220390,7 @@ Body:
     SubType: Book
     Weight: 1000
     Attack: 230
+    MagicAttack: 215
     Range: 1
     Slots: 2
     Jobs:
@@ -220404,7 +220409,6 @@ Body:
       bonus bUnbreakableWeapon;
       bonus bMatkRate,5;
       bonus bAtkRate,5;
-      bonus bMatk,215;
       bonus2 bSkillAtk,"CD_PETITIO",10;
       bonus2 bSkillAtk,"AB_DUPLELIGHT_MELEE",3*(.@r/2);
       bonus2 bSkillAtk,"AB_DUPLELIGHT_MAGIC",3*(.@r/2);
@@ -220929,6 +220933,7 @@ Body:
     Type: Weapon
     SubType: Book
     Attack: 150
+    MagicAttack: 180
     Range: 1
     Jobs:
       Sage: true
@@ -220950,7 +220955,6 @@ Body:
     Script: |
       .@l = BaseLevel;
       .@a = getskilllv("SA_LANDPROTECTOR");
-      bonus bMatk,180;
       bonus bMatkRate,5;
       bonus bVariableCastrate,-2*.@a;
       if (.@l>=105) {
@@ -220982,6 +220986,7 @@ Body:
     Type: Weapon
     SubType: Book
     Attack: 150
+    MagicAttack: 180
     Range: 1
     Jobs:
       Sage: true
@@ -221003,7 +221008,6 @@ Body:
     Script: |
       .@l = BaseLevel;
       .@a = getskilllv("SA_AUTOSPELL");
-      bonus bMatk,180;
       bonus bMatkRate,5;
       bonus bAspdRate,.@a;
       if (.@l>=105) {
@@ -221122,6 +221126,7 @@ Body:
     SubType: Book
     Weight: 700
     Attack: 220
+    MagicAttack: 190
     Range: 1
     Slots: 2
     Jobs:
@@ -221140,7 +221145,6 @@ Body:
       .@r = getrefine();
       bonus bUnbreakableWeapon;
       bonus bMatkRate,5;
-      bonus bMatk,190;
       if (BaseLevel>=210) {
          bonus bSMatk,1;
          bonus bSpl,2;
@@ -223160,6 +223164,7 @@ Body:
     SubType: Staff
     Weight: 1500
     Attack: 300
+    MagicAttack: 350
     Range: 1
     Slots: 2
     Jobs:
@@ -223172,7 +223177,6 @@ Body:
     Refineable: true
     Script: |
       .@r = getrefine();
-      bonus bMatk,350;
       bonus bUnbreakableWeapon;
       bonus bMatkRate,7;
       bonus bAtkRate,7;
@@ -225903,7 +225907,6 @@ Body:
     SubType: Staff
     Weight: 1000
     Attack: 70
-    MagicAttack: 160
     Range: 1
     Slots: 2
     Jobs:
@@ -225917,7 +225920,7 @@ Body:
     Script: |
       .@r = getrefine();
       bonus bUnbreakableWeapon;
-      bonus bMatk,10*(.@r/2);
+      bonus bMatk,160+10*(.@r/2);
       bonus2 bSkillAtk,"WZ_HEAVENDRIVE",20*(.@r/3);
       if (.@r>=9) {
          bonus bVariableCastrate,-10;
@@ -225932,7 +225935,6 @@ Body:
     SubType: Staff
     Weight: 1000
     Attack: 90
-    MagicAttack: 200
     Range: 1
     Slots: 2
     Jobs:
@@ -225946,7 +225948,7 @@ Body:
     Script: |
       .@r = getrefine();
       bonus bUnbreakableWeapon;
-      bonus bMatk,15*(.@r/2);
+      bonus bMatk,200+15*(.@r/2);
       bonus2 bSkillAtk,"WZ_HEAVENDRIVE",30*(.@r/3);
       if (.@r>=7) {
          skill "SO_PSYCHIC_WAVE",5;
@@ -227901,6 +227903,7 @@ Body:
     SubType: Staff
     Weight: 1800
     Attack: 100
+    MagicAttack: 230
     Range: 1
     Slots: 2
     Jobs:
@@ -227916,7 +227919,7 @@ Body:
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
-      bonus bMatk,230+25*(.@r/2);
+      bonus bMatk,25*(.@r/2);
       bonus bUnbreakableWeapon;
       bonus bMatkRate,3+(.@r/2);
       bonus2 bSkillAtk,"HN_JUPITEL_THUNDER_STORM",15+5*(.@r/3);
@@ -227954,6 +227957,7 @@ Body:
     SubType: Staff
     Weight: 1800
     Attack: 100
+    MagicAttack: 240
     Range: 1
     Slots: 2
     Jobs:
@@ -227969,7 +227973,7 @@ Body:
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
-      bonus bMatk,240+25*(.@r/2);
+      bonus bMatk,25*(.@r/2);
       bonus bUnbreakableWeapon;
       bonus bMatkRate,3+(.@r/2);
       bonus2 bSkillAtk,"SOA_EXORCISM_OF_MALICIOUS_SOUL",15+5*(.@r/3);
@@ -229873,6 +229877,7 @@ Body:
     Type: Weapon
     SubType: Musical
     Attack: 150
+    MagicAttack: 180
     Range: 1
     Jobs:
       BardDancer: true
@@ -229896,7 +229901,7 @@ Body:
     Script: |
       .@r = getrefine();
       bonus bMatkRate,2+(min(BaseLevel,195)/15);
-      bonus bMatk,180+(3*.@r);
+      bonus bMatk,3*.@r;
       if (.@r>=7) {
          bonus2 bMagicAtkEle,Ele_All,2*getskilllv("BA_MUSICALLESSON");
       }
@@ -230412,6 +230417,7 @@ Body:
     SubType: Musical
     Weight: 1000
     Attack: 160
+    MagicAttack: 230
     Range: 1
     Slots: 2
     Jobs:
@@ -230430,7 +230436,6 @@ Body:
       .@g = getenchantgrade();
       .@r = getrefine();
       bonus bMatkRate,5;
-      bonus bMatk,230;
       if (BaseLevel>=210) {
          bonus bSMatk,1;
          bonus bSpl,2;
@@ -231503,6 +231508,7 @@ Body:
     Type: Weapon
     SubType: Whip
     Attack: 150
+    MagicAttack: 180
     Range: 2
     Jobs:
       BardDancer: true
@@ -231526,7 +231532,7 @@ Body:
     Script: |
       .@r = getrefine();
       bonus bMatkRate,2+(min(BaseLevel,195)/15);
-      bonus bMatk,180+(3*.@r);
+      bonus bMatk,3*.@r;
       if (.@r>=7) {
          bonus2 bMagicAtkEle,Ele_All,2*getskilllv("DC_DANCINGLESSON");
       }
@@ -232042,6 +232048,7 @@ Body:
     SubType: Whip
     Weight: 1000
     Attack: 160
+    MagicAttack: 230
     Range: 2
     Slots: 2
     Jobs:
@@ -232060,7 +232067,6 @@ Body:
       .@g = getenchantgrade();
       .@r = getrefine();
       bonus bMatkRate,5;
-      bonus bMatk,230;
       if (BaseLevel>=210) {
          bonus bSMatk,1;
          bonus bSpl,2;
@@ -233174,6 +233180,7 @@ Body:
     Type: Weapon
     SubType: Mace
     Attack: 190
+    MagicAttack: 160
     Range: 1
     Jobs:
       Priest: true
@@ -233198,7 +233205,7 @@ Body:
       bonus bUnbreakableWeapon;
       bonus bMatkRate,2;
       bonus bAtkRate,2;
-      bonus bMatk,160+(3*.@r)+3*(min(BaseLevel,195)/15);
+      bonus bMatk,(3*.@r)+3*(min(BaseLevel,195)/15);
       bonus bBaseAtk,3*.@r+3*(min(BaseLevel,195)/15);
       if (.@r>=7) {
          bonus2 bMagicAtkEle,Ele_Holy,getskilllv("HP_MEDITATIO");
@@ -233879,6 +233886,7 @@ Body:
     SubType: Mace
     Weight: 1000
     Attack: 190
+    MagicAttack: 210
     Range: 1
     Slots: 2
     Jobs:
@@ -233897,7 +233905,6 @@ Body:
       .@r = getrefine();
       bonus bUnbreakableWeapon;
       bonus bMatkRate,5;
-      bonus bMatk,210;
       if (BaseLevel>=210) {
          bonus bSMatk,1;
          bonus bSpl,2;
@@ -234317,6 +234324,7 @@ Body:
     SubType: Mace
     Weight: 1900
     Attack: 170
+    MagicAttack: 210
     Range: 1
     Slots: 2
     Jobs:
@@ -234332,7 +234340,6 @@ Body:
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
-      bonus bMatk,210;
       bonus bUnbreakableWeapon;
       bonus bMatkRate,10;
       bonus bHealPower,15;
@@ -239810,6 +239817,7 @@ Body:
     Type: Weapon
     SubType: 2hStaff
     Attack: 150
+    MagicAttack: 230
     Range: 1
     Jobs:
       Wizard: true
@@ -239833,7 +239841,7 @@ Body:
       .@r = getrefine();
       bonus bUnbreakableWeapon;
       bonus bMatkRate,2;
-      bonus bMatk,230+(3*.@r)+3*(min(BaseLevel,195)/15);
+      bonus bMatk,(3*.@r)+3*(min(BaseLevel,195)/15);
       if (.@r>=7) {
          bonus2 bMagicAtkEle,Ele_Earth,getskilllv("HW_MAGICPOWER");
          bonus2 bMagicAtkEle,Ele_Fire,getskilllv("HW_MAGICPOWER");
@@ -239862,6 +239870,7 @@ Body:
     Type: Weapon
     SubType: 2hStaff
     Attack: 150
+    MagicAttack: 230
     Range: 1
     Jobs:
       Wizard: true
@@ -239885,7 +239894,7 @@ Body:
       .@r = getrefine();
       bonus bUnbreakableWeapon;
       bonus bMatkRate,2;
-      bonus bMatk,230+(3*.@r)+3*(min(BaseLevel,195)/15);
+      bonus bMatk,(3*.@r)+3*(min(BaseLevel,195)/15);
       if (.@r>=7) {
          bonus2 bMagicAtkEle,Ele_Water,getskilllv("HW_MAGICPOWER");
          bonus2 bMagicAtkEle,Ele_Wind,getskilllv("HW_MAGICPOWER");
@@ -240534,6 +240543,7 @@ Body:
     SubType: 2hStaff
     Weight: 1000
     Attack: 100
+    MagicAttack: 235
     Range: 1
     Slots: 2
     Jobs:
@@ -240552,7 +240562,6 @@ Body:
       .@r = getrefine();
       bonus bUnbreakableWeapon;
       bonus bMatkRate,5;
-      bonus bMatk,235;
       if (BaseLevel>=210) {
          bonus bSMatk,1;
          bonus bSpl,2;
@@ -240594,6 +240603,7 @@ Body:
     SubType: 2hStaff
     Weight: 1000
     Attack: 100
+    MagicAttack: 235
     Range: 1
     Slots: 2
     Jobs:
@@ -240612,7 +240622,6 @@ Body:
       .@r = getrefine();
       bonus bUnbreakableWeapon;
       bonus bMatkRate,5;
-      bonus bMatk,235;
       if (BaseLevel>=210) {
          bonus bSMatk,1;
          bonus bSpl,2;
@@ -240788,6 +240797,7 @@ Body:
     SubType: 2hStaff
     Weight: 1200
     Attack: 180
+    MagicAttack: 350
     Range: 1
     Slots: 2
     Jobs:
@@ -240803,7 +240813,6 @@ Body:
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
-      bonus bMatk,350;
       bonus bUnbreakableWeapon;
       bonus bMatkRate,10;
       bonus2 bSkillAtk,"AG_DESTRUCTIVE_HURRICANE",20;
@@ -241404,6 +241413,7 @@ Body:
     SubType: 2hStaff
     Weight: 2000
     Attack: 120
+    MagicAttack: 330
     Range: 1
     Slots: 2
     Jobs:
@@ -241419,7 +241429,7 @@ Body:
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
-      bonus bMatk,330+25*(.@r/2);
+      bonus bMatk,25*(.@r/2);
       bonus bUnbreakableWeapon;
       bonus bMatkRate,3+(.@r/2);
       bonus2 bSkillAtk,"AG_SOUL_VC_STRIKE",15+5*(.@r/3);
@@ -241690,8 +241700,7 @@ Body:
     Name: Paradise Ninja Crucifixion Shuriken
     Type: Weapon
     SubType: Huuma
-    Attack: 100
-    MagicAttack: 180
+    Attack: 180
     Range: 1
     Jobs:
       Ninja: true
@@ -241838,6 +241847,7 @@ Body:
     Type: Weapon
     SubType: Huuma
     Attack: 150
+    MagicAttack: 220
     Range: 1
     Jobs:
       KagerouOboro: true
@@ -241857,7 +241867,7 @@ Body:
       .@r = getrefine();
       bonus bUnbreakableWeapon;
       bonus bMatkRate,2;
-      bonus bMatk,220+3*.@r;
+      bonus bMatk,3*.@r;
       bonus bMatk,3*(min(BaseLevel,195)/15);
       if (.@r>=7) {
          bonus bVariableCastrate,-getskilllv("NJ_NINPOU");
@@ -244316,7 +244326,6 @@ Body:
     SubType: Bow
     Weight: 1500
     Attack: 240
-    MagicAttack: 220
     Range: 5
     Jobs:
       Archer: true
@@ -244328,6 +244337,8 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 210
     Refineable: true
+    Script: |
+      bonus bMatk,220;
   - Id: 700054
     AegisName: Virtual_Bow_AD
     Name: Virtual Bow-OSAD
@@ -244400,7 +244411,6 @@ Body:
     SubType: Bow
     Weight: 600
     Attack: 190
-    MagicAttack: 135
     Range: 5
     Slots: 2
     Jobs:
@@ -244415,6 +244425,7 @@ Body:
     Refineable: true
     Script: |
       .@r = getrefine();
+      bonus bMatk,135;
       bonus bLongAtkRate,7;
       if (.@r>=7) {
          bonus bAspdRate,10;
@@ -244467,7 +244478,6 @@ Body:
     SubType: Bow
     Weight: 1500
     Attack: 240
-    MagicAttack: 220
     Range: 5
     Slots: 1
     Jobs:
@@ -244483,6 +244493,8 @@ Body:
     Gradable: true
     Flags:
       DropEffect: CLIENT
+    Script: |
+      bonus bMatk,220;
   - Id: 700060
     AegisName: F_Ein_BHBOW
     Name: Flush Bolt Shooter
@@ -244760,7 +244772,6 @@ Body:
     Type: Weapon
     SubType: Bow
     Attack: 10
-    MagicAttack: 10
     Range: 5
     Slots: 4
     Jobs:
@@ -244773,13 +244784,14 @@ Body:
       Both_Hand: true
     WeaponLevel: 1
     Refineable: true
+    Script: |
+      bonus bMatk,10;
   - Id: 700071
     AegisName: aegis_700071
     Name: 2Lv Bow
     Type: Weapon
     SubType: Bow
     Attack: 10
-    MagicAttack: 10
     Range: 5
     Slots: 4
     Jobs:
@@ -244792,13 +244804,14 @@ Body:
       Both_Hand: true
     WeaponLevel: 2
     Refineable: true
+    Script: |
+      bonus bMatk,10;
   - Id: 700072
     AegisName: aegis_700072
     Name: 3Lv Bow
     Type: Weapon
     SubType: Bow
     Attack: 10
-    MagicAttack: 10
     Range: 5
     Slots: 4
     Jobs:
@@ -244811,13 +244824,14 @@ Body:
       Both_Hand: true
     WeaponLevel: 3
     Refineable: true
+    Script: |
+      bonus bMatk,10;
   - Id: 700073
     AegisName: aegis_700073
     Name: 4Lv Bow
     Type: Weapon
     SubType: Bow
     Attack: 10
-    MagicAttack: 10
     Range: 5
     Slots: 4
     Jobs:
@@ -244830,13 +244844,14 @@ Body:
       Both_Hand: true
     WeaponLevel: 4
     Refineable: true
+    Script: |
+      bonus bMatk,10;
   - Id: 700074
     AegisName: aegis_700074
     Name: 5Lv Bow
     Type: Weapon
     SubType: Bow
     Attack: 10
-    MagicAttack: 10
     Range: 5
     Slots: 4
     Jobs:
@@ -244849,6 +244864,8 @@ Body:
       Both_Hand: true
     WeaponLevel: 5
     Refineable: true
+    Script: |
+      bonus bMatk,10;
   - Id: 700076
     AegisName: Mocadas_Bow
     Name: Muqaddas Kahassu
@@ -245690,7 +245707,6 @@ Body:
     SubType: Revolver
     Weight: 2200
     Attack: 230
-    MagicAttack: 230
     Range: 7
     Jobs:
       Rebellion: true
@@ -245699,6 +245715,8 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 210
     Refineable: true
+    Script: |
+      bonus bMatk,230;
   - Id: 800015
     AegisName: D_Glacier_Revolver
     Name: Dim Glacier Pistol
@@ -245706,7 +245724,6 @@ Body:
     SubType: Revolver
     Weight: 2200
     Attack: 230
-    MagicAttack: 230
     Range: 7
     Slots: 1
     Jobs:
@@ -245719,6 +245736,8 @@ Body:
     Gradable: true
     Flags:
       DropEffect: CLIENT
+    Script: |
+      bonus bMatk,230;
   - Id: 800016
     AegisName: F_Ein_1HGUN
     Name: Flush Bolt Revolver
@@ -245909,7 +245928,6 @@ Body:
     Type: Weapon
     SubType: Revolver
     Attack: 10
-    MagicAttack: 10
     Range: 7
     Slots: 4
     Jobs:
@@ -245919,13 +245937,14 @@ Body:
       Both_Hand: true
     WeaponLevel: 1
     Refineable: true
+    Script: |
+      bonus bMatk,10;
   - Id: 800030
     AegisName: aegis_800030
     Name: 2Lv Revolver
     Type: Weapon
     SubType: Revolver
     Attack: 10
-    MagicAttack: 10
     Range: 7
     Slots: 4
     Jobs:
@@ -245935,13 +245954,14 @@ Body:
       Both_Hand: true
     WeaponLevel: 2
     Refineable: true
+    Script: |
+      bonus bMatk,10;
   - Id: 800031
     AegisName: aegis_800031
     Name: 3Lv Revolver
     Type: Weapon
     SubType: Revolver
     Attack: 10
-    MagicAttack: 10
     Range: 7
     Slots: 4
     Jobs:
@@ -245951,13 +245971,14 @@ Body:
       Both_Hand: true
     WeaponLevel: 3
     Refineable: true
+    Script: |
+      bonus bMatk,10;
   - Id: 800032
     AegisName: aegis_800032
     Name: 4Lv Revolver
     Type: Weapon
     SubType: Revolver
     Attack: 10
-    MagicAttack: 10
     Range: 7
     Slots: 4
     Jobs:
@@ -245967,13 +245988,14 @@ Body:
       Both_Hand: true
     WeaponLevel: 4
     Refineable: true
+    Script: |
+      bonus bMatk,10;
   - Id: 800033
     AegisName: aegis_800033
     Name: Level 5 Revolver    # !todo check english name
     Type: Weapon
     SubType: Revolver
     Attack: 10
-    MagicAttack: 10
     Range: 7
     Slots: 4
     Jobs:
@@ -245983,6 +246005,8 @@ Body:
       Both_Hand: true
     WeaponLevel: 5
     Refineable: true
+    Script: |
+      bonus bMatk,10;
   - Id: 800035
     AegisName: Comp_Crimson_Rose
     Name: "[Not For Sale] Crimson Rose"
@@ -246164,7 +246188,6 @@ Body:
     Buy: 20
     Weight: 1000
     Attack: 200
-    MagicAttack: 250
     Range: 9
     Slots: 2
     Jobs:
@@ -246176,7 +246199,7 @@ Body:
     Refineable: true
     Script: |
       .@r = getrefine();
-      bonus bMatk,15*(.@r/2);
+      bonus bMatk,250+15*(.@r/2);
       bonus2 bSkillAtk,"MG_SOULSTRIKE",15*(.@r/3);
       bonus2 bSkillAtk,"HW_NAPALMVULCAN",15*(.@r/3);
       if (.@r>=7) {
@@ -246451,7 +246474,6 @@ Body:
     SubType: Rifle
     Weight: 1000
     Attack: 200
-    MagicAttack: 250
     Range: 9
     Slots: 2
     Jobs:
@@ -246465,6 +246487,7 @@ Body:
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
+      bonus bMatk,250;
       if (BaseLevel>=210) {
          bonus bSMatk,1;
          bonus bSpl,2;
@@ -246503,7 +246526,6 @@ Body:
     SubType: Rifle
     Weight: 2600
     Attack: 280
-    MagicAttack: 230
     Range: 9
     Jobs:
       Rebellion: true
@@ -246512,6 +246534,8 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 210
     Refineable: true
+    Script: |
+      bonus bMatk,230;
   - Id: 810013
     AegisName: HR_S55_AD
     Name: HR-55-OSAD
@@ -246549,7 +246573,6 @@ Body:
     SubType: Rifle
     Weight: 2600
     Attack: 280
-    MagicAttack: 230
     Range: 9
     Slots: 1
     Jobs:
@@ -246562,6 +246585,8 @@ Body:
     Gradable: true
     Flags:
       DropEffect: CLIENT
+    Script: |
+      bonus bMatk,230;
   - Id: 810016
     AegisName: aegis_810016
     Name: Herosria Rifle
@@ -246695,7 +246720,6 @@ Body:
     Type: Weapon
     SubType: Rifle
     Attack: 10
-    MagicAttack: 10
     Range: 9
     Slots: 4
     Jobs:
@@ -246705,13 +246729,14 @@ Body:
       Both_Hand: true
     WeaponLevel: 1
     Refineable: true
+    Script: |
+      bonus bMatk,10;
   - Id: 810030
     AegisName: aegis_810030
     Name: 2Lv Rifle
     Type: Weapon
     SubType: Rifle
     Attack: 10
-    MagicAttack: 10
     Range: 9
     Slots: 4
     Jobs:
@@ -246721,13 +246746,14 @@ Body:
       Both_Hand: true
     WeaponLevel: 2
     Refineable: true
+    Script: |
+      bonus bMatk,10;
   - Id: 810031
     AegisName: aegis_810031
     Name: 3Lv Rifle
     Type: Weapon
     SubType: Rifle
     Attack: 10
-    MagicAttack: 10
     Range: 9
     Slots: 4
     Jobs:
@@ -246737,13 +246763,14 @@ Body:
       Both_Hand: true
     WeaponLevel: 3
     Refineable: true
+    Script: |
+      bonus bMatk,10;
   - Id: 810032
     AegisName: aegis_810032
     Name: 4Lv Rifle
     Type: Weapon
     SubType: Rifle
     Attack: 10
-    MagicAttack: 10
     Range: 9
     Slots: 4
     Jobs:
@@ -246753,13 +246780,14 @@ Body:
       Both_Hand: true
     WeaponLevel: 4
     Refineable: true
+    Script: |
+      bonus bMatk,10;
   - Id: 810033
     AegisName: aegis_810033
     Name: 5Lv Rifle
     Type: Weapon
     SubType: Rifle
     Attack: 10
-    MagicAttack: 10
     Range: 9
     Slots: 4
     Jobs:
@@ -246769,6 +246797,8 @@ Body:
       Both_Hand: true
     WeaponLevel: 5
     Refineable: true
+    Script: |
+      bonus bMatk,10;
   - Id: 810034
     AegisName: Mocadas_Rifle
     Name: Muqaddas Tabanji
@@ -247286,7 +247316,6 @@ Body:
     SubType: Shotgun
     Weight: 2600
     Attack: 300
-    MagicAttack: 200
     Range: 9
     Jobs:
       Rebellion: true
@@ -247296,6 +247325,7 @@ Body:
     EquipLevelMin: 210
     Refineable: true
     Script: |
+      bonus bMatk,200;
       bonus bSplashRange,1;
   - Id: 820011
     AegisName: D_Glacier_Shotgun
@@ -247304,7 +247334,6 @@ Body:
     SubType: Shotgun
     Weight: 2600
     Attack: 300
-    MagicAttack: 200
     Range: 9
     Slots: 1
     Jobs:
@@ -247318,6 +247347,7 @@ Body:
     Flags:
       DropEffect: CLIENT
     Script: |
+      bonus bMatk,200;
       bonus bSplashRange,1;
   - Id: 820012
     AegisName: aegis_820012
@@ -247455,7 +247485,6 @@ Body:
     Type: Weapon
     SubType: Shotgun
     Attack: 10
-    MagicAttack: 10
     Range: 9
     Slots: 4
     Jobs:
@@ -247466,6 +247495,7 @@ Body:
     WeaponLevel: 1
     Refineable: true
     Script: |
+      bonus bMatk,10;
       bonus bSplashRange,1;
   - Id: 820024
     AegisName: aegis_820024
@@ -247473,7 +247503,6 @@ Body:
     Type: Weapon
     SubType: Shotgun
     Attack: 10
-    MagicAttack: 10
     Range: 9
     Slots: 4
     Jobs:
@@ -247484,6 +247513,7 @@ Body:
     WeaponLevel: 2
     Refineable: true
     Script: |
+      bonus bMatk,10;
       bonus bSplashRange,1;
   - Id: 820025
     AegisName: aegis_820025
@@ -247491,7 +247521,6 @@ Body:
     Type: Weapon
     SubType: Shotgun
     Attack: 10
-    MagicAttack: 10
     Range: 9
     Slots: 4
     Jobs:
@@ -247502,6 +247531,7 @@ Body:
     WeaponLevel: 3
     Refineable: true
     Script: |
+      bonus bMatk,10;
       bonus bSplashRange,1;
   - Id: 820026
     AegisName: aegis_820026
@@ -247509,7 +247539,6 @@ Body:
     Type: Weapon
     SubType: Shotgun
     Attack: 10
-    MagicAttack: 10
     Range: 9
     Slots: 4
     Jobs:
@@ -247520,6 +247549,7 @@ Body:
     WeaponLevel: 4
     Refineable: true
     Script: |
+      bonus bMatk,10;
       bonus bSplashRange,1;
   - Id: 820027
     AegisName: aegis_820027
@@ -247527,7 +247557,6 @@ Body:
     Type: Weapon
     SubType: Shotgun
     Attack: 10
-    MagicAttack: 10
     Range: 9
     Slots: 4
     Jobs:
@@ -247538,6 +247567,7 @@ Body:
     WeaponLevel: 5
     Refineable: true
     Script: |
+      bonus bMatk,10;
       bonus bSplashRange,1;
   - Id: 820028
     AegisName: Mocadas_Shotgun
@@ -248126,7 +248156,6 @@ Body:
     SubType: Gatling
     Weight: 3500
     Attack: 350
-    MagicAttack: 200
     Range: 9
     Jobs:
       Rebellion: true
@@ -248135,6 +248164,8 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 210
     Refineable: true
+    Script: |
+      bonus bMatk,200;
   - Id: 830014
     AegisName: Comp_The_Black_Gatling
     Name: "[Not For Sale] The Black"
@@ -248180,7 +248211,6 @@ Body:
     SubType: Gatling
     Weight: 3500
     Attack: 350
-    MagicAttack: 200
     Range: 9
     Slots: 1
     Jobs:
@@ -248193,6 +248223,8 @@ Body:
     Gradable: true
     Flags:
       DropEffect: CLIENT
+    Script: |
+      bonus bMatk,200;
   - Id: 830016
     AegisName: aegis_830016
     Name: Herosria Gatling Gun
@@ -248326,7 +248358,6 @@ Body:
     Type: Weapon
     SubType: Gatling
     Attack: 10
-    MagicAttack: 10
     Range: 9
     Slots: 4
     Jobs:
@@ -248336,13 +248367,14 @@ Body:
       Both_Hand: true
     WeaponLevel: 1
     Refineable: true
+    Script: |
+      bonus bMatk,10;
   - Id: 830029
     AegisName: aegis_830029
     Name: 2Lv Gatling Gun
     Type: Weapon
     SubType: Gatling
     Attack: 10
-    MagicAttack: 10
     Range: 9
     Slots: 4
     Jobs:
@@ -248352,13 +248384,14 @@ Body:
       Both_Hand: true
     WeaponLevel: 2
     Refineable: true
+    Script: |
+      bonus bMatk,10;
   - Id: 830030
     AegisName: aegis_830030
     Name: 3Lv Gatling Gun
     Type: Weapon
     SubType: Gatling
     Attack: 10
-    MagicAttack: 10
     Range: 9
     Slots: 4
     Jobs:
@@ -248368,13 +248401,14 @@ Body:
       Both_Hand: true
     WeaponLevel: 3
     Refineable: true
+    Script: |
+      bonus bMatk,10;
   - Id: 830031
     AegisName: aegis_830031
     Name: 4Lv Gatling Gun
     Type: Weapon
     SubType: Gatling
     Attack: 10
-    MagicAttack: 10
     Range: 9
     Slots: 4
     Jobs:
@@ -248384,13 +248418,14 @@ Body:
       Both_Hand: true
     WeaponLevel: 4
     Refineable: true
+    Script: |
+      bonus bMatk,10;
   - Id: 830032
     AegisName: aegis_830032
     Name: Level 5 Gatling Gun    # !todo check english name
     Type: Weapon
     SubType: Gatling
     Attack: 10
-    MagicAttack: 10
     Range: 9
     Slots: 4
     Jobs:
@@ -248400,6 +248435,8 @@ Body:
       Both_Hand: true
     WeaponLevel: 5
     Refineable: true
+    Script: |
+      bonus bMatk,10;
   - Id: 830033
     AegisName: Mocadas_Gatling
     Name: Muqaddas Taliin
@@ -248904,7 +248941,6 @@ Body:
     SubType: Grenade
     Weight: 3000
     Attack: 300
-    MagicAttack: 200
     Range: 9
     Jobs:
       Rebellion: true
@@ -248913,6 +248949,8 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 210
     Refineable: true
+    Script: |
+      bonus bMatk,200;
   - Id: 840010
     AegisName: D_Glacier_Launcher
     Name: Dim Glacier Grenade Launcher
@@ -248920,7 +248958,6 @@ Body:
     SubType: Grenade
     Weight: 3000
     Attack: 300
-    MagicAttack: 200
     Range: 9
     Slots: 1
     Jobs:
@@ -248933,6 +248970,8 @@ Body:
     Gradable: true
     Flags:
       DropEffect: CLIENT
+    Script: |
+      bonus bMatk,200;
   - Id: 840011
     AegisName: aegis_840011
     Name: Herosria Launcher
@@ -249066,7 +249105,6 @@ Body:
     Type: Weapon
     SubType: Grenade
     Attack: 10
-    MagicAttack: 10
     Range: 9
     Slots: 4
     Jobs:
@@ -249076,13 +249114,14 @@ Body:
       Both_Hand: true
     WeaponLevel: 1
     Refineable: true
+    Script: |
+      bonus bMatk,10;
   - Id: 840024
     AegisName: aegis_840024
     Name: 2Lv Grenade Launcher
     Type: Weapon
     SubType: Grenade
     Attack: 10
-    MagicAttack: 10
     Range: 9
     Slots: 4
     Jobs:
@@ -249092,13 +249131,14 @@ Body:
       Both_Hand: true
     WeaponLevel: 2
     Refineable: true
+    Script: |
+      bonus bMatk,10;
   - Id: 840025
     AegisName: aegis_840025
     Name: 3Lv Grenade Launcher
     Type: Weapon
     SubType: Grenade
     Attack: 10
-    MagicAttack: 10
     Range: 9
     Slots: 4
     Jobs:
@@ -249108,13 +249148,14 @@ Body:
       Both_Hand: true
     WeaponLevel: 3
     Refineable: true
+    Script: |
+      bonus bMatk,10;
   - Id: 840026
     AegisName: aegis_840026
     Name: 4Lv Grenade Launcher
     Type: Weapon
     SubType: Grenade
     Attack: 10
-    MagicAttack: 10
     Range: 9
     Slots: 4
     Jobs:
@@ -249124,13 +249165,14 @@ Body:
       Both_Hand: true
     WeaponLevel: 4
     Refineable: true
+    Script: |
+      bonus bMatk,10;
   - Id: 840027
     AegisName: aegis_840027
     Name: 5Lv Grenade Launcher
     Type: Weapon
     SubType: Grenade
     Attack: 10
-    MagicAttack: 10
     Range: 9
     Slots: 4
     Jobs:
@@ -249140,6 +249182,8 @@ Body:
       Both_Hand: true
     WeaponLevel: 5
     Refineable: true
+    Script: |
+      bonus bMatk,10;
   - Id: 840028
     AegisName: Mocadas_Launcher
     Name: Muqaddas Naranzak
