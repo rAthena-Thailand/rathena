@@ -655,13 +655,6 @@ int64 battle_attr_fix(struct block_list *src, struct block_list *target, int64 d
 				}
 				break;
 		}
-
-		if (tsc->getSCE(SC_MAGIC_POISON))
-#ifdef RENEWAL
-			ratio += 50;
-#else
-			damage += (int64)(damage * 50 / 100);
-#endif
 	}
 
 	if (battle_config.attr_recover == 0 && !(flag & 1) && ratio < 0)
@@ -718,6 +711,7 @@ int battle_calc_cardfix(int attack_type, struct block_list *src, struct block_li
 	status_data* sstatus = status_get_status_data(*src);
 	///< Target status data
 	status_data* tstatus = status_get_status_data(*target);
+	status_change *tsc = status_get_sc(target);
 	s_race2 = status_get_race2(src);
 	t_race2 = status_get_race2(target);
 	s_defele = (tsd) ? (enum e_element)status_get_element(src) : ELE_NONE;
@@ -759,6 +753,15 @@ int battle_calc_cardfix(int attack_type, struct block_list *src, struct block_li
 				if( !nk[NK_IGNOREELEMENT] ) { // Affected by Element modifier bonuses
 					APPLY_CARDFIX_RE( damage, sd->indexed_bonus.magic_addele[tstatus->def_ele] + sd->indexed_bonus.magic_addele[ELE_ALL] +
 						sd->indexed_bonus.magic_addele_script[tstatus->def_ele] + sd->indexed_bonus.magic_addele_script[ELE_ALL] );
+				}
+			}
+			// Statuses that affect the target's element and should be calculated right after magic_addele, independently of it
+			if (tsc != nullptr && !nk[NK_IGNOREDEFCARD] && !nk[NK_IGNOREELEMENT]) {
+				if (tsc->getSCE(SC_MAGIC_POISON))
+					APPLY_CARDFIX_RE( damage, 50 );
+			}
+			if( sd && !nk[NK_IGNOREATKCARD] ) {
+				if( !nk[NK_IGNOREELEMENT] ) {
 					APPLY_CARDFIX_RE( damage, sd->indexed_bonus.magic_atk_ele[rh_ele] + sd->indexed_bonus.magic_atk_ele[ELE_ALL] );
 				}
 				APPLY_CARDFIX_RE( damage, sd->indexed_bonus.magic_addrace[tstatus->race] + sd->indexed_bonus.magic_addrace[RC_ALL] );
@@ -805,6 +808,11 @@ int battle_calc_cardfix(int attack_type, struct block_list *src, struct block_li
 					}
 					if (s_defele != ELE_NONE)
 						ele_fix += tsd->indexed_bonus.magic_subdefele[s_defele] + tsd->indexed_bonus.magic_subdefele[ELE_ALL];
+#ifndef RENEWAL
+					// Custom to follow SC_MAGIC_POISON renewal behavior
+					if (tsc != nullptr && tsc->getSCE(SC_MAGIC_POISON))
+						ele_fix += 50;
+#endif
 					cardfix = cardfix * (100 - ele_fix) / 100;
 				}
 				cardfix = cardfix * (100 - tsd->indexed_bonus.subsize[sstatus->size] - tsd->indexed_bonus.subsize[SZ_ALL]) / 100;
@@ -843,8 +851,8 @@ int battle_calc_cardfix(int attack_type, struct block_list *src, struct block_li
 #endif
 				cardfix = cardfix * (100 - tsd->bonus.magic_def_rate) / 100;
 
-				if( tsd->sc.getSCE(SC_MDEF_RATE) )
-					cardfix = cardfix * (100 - tsd->sc.getSCE(SC_MDEF_RATE)->val1) / 100;
+				if( tsc->getSCE(SC_MDEF_RATE) )
+					cardfix = cardfix * (100 - tsc->getSCE(SC_MDEF_RATE)->val1) / 100;
 				APPLY_CARDFIX(damage, cardfix);
 			}
 			break;
@@ -1062,8 +1070,15 @@ int battle_calc_cardfix(int attack_type, struct block_list *src, struct block_li
 					cardfix = cardfix * (100 - tsd->bonus.near_attack_def_rate) / 100;
 				else if (!nk[NK_IGNORELONGCARD])	// BF_LONG (there's no other choice)
 					cardfix = cardfix * (100 - tsd->bonus.long_attack_def_rate) / 100;
-				if( tsd->sc.getSCE(SC_DEF_RATE) )
-					cardfix = cardfix * (100 - tsd->sc.getSCE(SC_DEF_RATE)->val1) / 100;
+				if( tsc->getSCE(SC_DEF_RATE) )
+					cardfix = cardfix * (100 - tsc->getSCE(SC_DEF_RATE)->val1) / 100;
+				APPLY_CARDFIX(damage, cardfix);
+			}
+			// Custom on BF_WEAPON to follow SC_MAGIC_POISON BF_MAGIC renewal behavior
+			if (tsc != nullptr && !nk[NK_IGNOREDEFCARD] && !nk[NK_IGNOREELEMENT]) {
+				cardfix = 1000;
+				if (tsc->getSCE(SC_MAGIC_POISON))
+					cardfix = cardfix * (100 + 50) / 100;
 				APPLY_CARDFIX(damage, cardfix);
 			}
 			break;
@@ -1109,6 +1124,13 @@ int battle_calc_cardfix(int attack_type, struct block_list *src, struct block_li
 					cardfix = cardfix * (100 - tsd->bonus.near_attack_def_rate) / 100;
 				else if (!nk[NK_IGNORELONGCARD])	// BF_LONG (there's no other choice)
 					cardfix = cardfix * (100 - tsd->bonus.long_attack_def_rate) / 100;
+				APPLY_CARDFIX(damage, cardfix);
+			}
+			// Custom on BF_MISC to follow SC_MAGIC_POISON BF_MAGIC renewal behavior
+			if (tsc != nullptr && !nk[NK_IGNOREDEFCARD] && !nk[NK_IGNOREELEMENT]) {
+				cardfix = 1000;
+				if (tsc->getSCE(SC_MAGIC_POISON))
+					cardfix = cardfix * (100 + 50) / 100;
 				APPLY_CARDFIX(damage, cardfix);
 			}
 			break;
@@ -1996,7 +2018,7 @@ int64 battle_calc_damage(struct block_list *src,struct block_list *bl,struct Dam
 		if (tsd && (sce = sc->getSCE(SC_SOULREAPER))) {
 			if (rnd()%100 < sce->val2 && tsd->soulball < MAX_SOUL_BALL) {
 				clif_specialeffect(src, 1208, AREA);
-				pc_addsoulball(tsd, 5 + 3 * pc_checkskill(tsd, SP_SOULENERGY));
+				pc_addsoulball( *tsd, 1, 5 + 3 * pc_checkskill(tsd, SP_SOULENERGY) );
 			}
 		}
 	} //End of caster SC_ check
@@ -2491,7 +2513,7 @@ static int battle_calc_base_weapon_attack(struct block_list *src, struct status_
  */
 static int64 battle_calc_base_damage(struct block_list *src, struct status_data *status, struct weapon_atk *wa, status_change *sc, unsigned short t_size, int flag)
 {
-	unsigned int atkmin = 0, atkmax = 0;
+	uint32 atkmin = 0, atkmax = 0;
 	short type = 0;
 	int64 damage = 0;
 	map_session_data *sd = nullptr;
@@ -2672,6 +2694,7 @@ static int battle_range_type(struct block_list *src, struct block_list *target, 
 		case SHC_SAVAGE_IMPACT: // 7 cell cast range.
 		case SHC_FATAL_SHADOW_CROW: // 9 cell cast range.
 		case MT_RUSH_QUAKE: // 9 cell cast range.
+		case MT_RUSH_STRIKE: // 7 cell cast range.
 		case ABC_UNLUCKY_RUSH: // 7 cell cast range.
 		case MH_THE_ONE_FIGHTER_RISES: // 7 cell cast range.
 		//case ABC_DEFT_STAB: // 2 cell cast range???
@@ -3040,6 +3063,7 @@ static bool is_attack_critical(struct Damage* wd, struct block_list *src, struct
 			case SHC_SAVAGE_IMPACT:
 			case SHC_ETERNAL_SLASH:
 			case SHC_IMPACT_CRATER:
+			case SHC_CROSS_SLASH:
 				cri /= 2;
 				break;
 			case WH_GALESTORM:
@@ -5420,7 +5444,7 @@ static int battle_calc_attack_skill_ratio(struct Damage* wd, struct block_list *
  			break;
 		case SR_TIGERCANNON:
 			{
-				unsigned int hp = sstatus->max_hp * (10 + (skill_lv * 2)) / 100,
+				uint32 hp = sstatus->max_hp * (10 + (skill_lv * 2)) / 100,
 							 sp = sstatus->max_sp * (5 + skill_lv) / 100;
 
 				if (wd->miscflag&8)
@@ -5926,6 +5950,26 @@ static int battle_calc_attack_skill_ratio(struct Damage* wd, struct block_list *
 			if ((i = pc_checkskill_imperial_guard(sd, 3)) > 0)
 				skillratio += skillratio * i / 100;
 			break;
+		case IG_RADIANT_SPEAR:
+			skillratio += -100 + 3500 + 1150 * skill_lv;
+			skillratio += pc_checkskill(sd, IG_SPEAR_SWORD_M) * 50;
+			skillratio += 5 * sstatus->pow;	// !TODO: check POW ratio
+
+			if( sc != nullptr && sc->getSCE( SC_SPEAR_SCAR ) )
+				skillratio += 250 * skill_lv;
+
+			RE_LVL_DMOD(100);
+			break;
+		case IG_IMPERIAL_CROSS:
+			skillratio += -100 + 1650 + 1350 * skill_lv;
+			skillratio += pc_checkskill(sd, IG_SPEAR_SWORD_M) * 25;
+			skillratio += 5 * sstatus->pow;	// !TODO: check POW ratio
+
+			if( sc != nullptr && sc->getSCE( SC_SPEAR_SCAR ) )
+				skillratio += 100 + 300 * skill_lv;
+
+			RE_LVL_DMOD(100);
+			break;
 		case CD_EFFLIGO:
 			skillratio += -100 + 1650 * skill_lv + 7 * sstatus->pow;
 			skillratio += 8 * pc_checkskill( sd, CD_MACE_BOOK_M );
@@ -5981,6 +6025,16 @@ static int battle_calc_attack_skill_ratio(struct Damage* wd, struct block_list *
 				skillratio += 150 * skill_lv;
 			RE_LVL_DMOD(100);
 			break;
+		case SHC_CROSS_SLASH:
+			skillratio += -100 + 300 * skill_lv;
+			skillratio += 5 * sstatus->pow;
+
+			if( sc != nullptr && sc->getSCE( SC_SHADOW_EXCEED ) ) {
+				skillratio += 60 * skill_lv;
+				skillratio += 2 * sstatus->pow;
+			}
+			RE_LVL_DMOD(100);
+			break;
 		case MT_AXE_STOMP:
 			skillratio += -100 + 450 + 1150 * skill_lv;
 			skillratio += 5 * sstatus->pow;
@@ -6013,6 +6067,23 @@ static int battle_calc_attack_skill_ratio(struct Damage* wd, struct block_list *
 		case MT_TRIPLE_LASER:
 			skillratio += -100 + 650 + 1150 * skill_lv;
 			skillratio += 12 * sstatus->pow;
+			RE_LVL_DMOD(100);
+			break;
+		case MT_RUSH_STRIKE:
+			skillratio += -100 + 3500 * skill_lv;
+			skillratio += 5 * sstatus->pow; // !TODO: check POW ratio
+			RE_LVL_DMOD(100);
+			break;
+		case MT_POWERFUL_SWING:
+			skillratio += -100 + 300 + 850 * skill_lv;
+			skillratio += 5 * sstatus->pow; // !TODO: check POW ratio
+			if (sc && sc->getSCE(SC_AXE_STOMP))
+				skillratio += 100 + 100 * skill_lv;
+			RE_LVL_DMOD(100);
+			break;
+		case MT_ENERGY_CANNONADE:
+			skillratio += -100 + 250 + 750 * skill_lv;
+			skillratio += 5 * sstatus->pow; // !TODO: check POW ratio
 			RE_LVL_DMOD(100);
 			break;
 		case ABC_ABYSS_DAGGER:
@@ -7044,7 +7115,7 @@ static void battle_calc_weapon_final_atk_modifiers(struct Damage* wd, struct blo
 	if( sc ) {
 		//SC_FUSION hp penalty [Komurka]
 		if (sc->getSCE(SC_FUSION)) {
-			unsigned int hp = sstatus->max_hp;
+			uint32 hp = sstatus->max_hp;
 
 			if (sd && tsd) {
 				hp = hp / 13;
@@ -7180,6 +7251,12 @@ static struct Damage initialize_weapon_data(struct block_list *src, struct block
 			case MO_BALKYOUNG:
 			case TK_TURNKICK:
 				wd.blewcount = 0;
+				break;
+			case SG_SUN_WARM:
+			case SG_MOON_WARM:
+			case SG_STAR_WARM:
+				// A random 0~3 knockback bonus is added to the base knockback
+				wd.blewcount += rnd_value(0, 3);
 				break;
 #ifdef RENEWAL
 			case KN_BOWLINGBASH:
@@ -7846,7 +7923,7 @@ struct Damage battle_calc_magic_attack(struct block_list *src,struct block_list 
 	}
 
 	if (!flag.infdef) { //No need to do the math for plants
-		unsigned int skillratio = 100; //Skill dmg modifiers.
+		uint32 skillratio = 100; //Skill dmg modifiers.
 #ifdef RENEWAL
 		// Some skills do not use S.MATK and skillratio
 		bool has_skillratio = false;
@@ -7932,10 +8009,6 @@ struct Damage battle_calc_magic_attack(struct block_list *src,struct block_list 
 					MATK_ADD(sstatus->matk_min+rnd()%(sstatus->matk_max-sstatus->matk_min));
 				} else {
 					MATK_ADD(sstatus->matk_min);
-				}
-
-				if (sd) { // Soul energy spheres adds MATK.
-					MATK_ADD(3*sd->soulball);
 				}
 
 				if (nk[NK_SPLASHSPLIT]) { // Divide MATK in case of multiple targets skill
