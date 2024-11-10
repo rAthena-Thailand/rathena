@@ -38,11 +38,12 @@
 #   EndOnStart:               List of Status Changes that will end when the status activates. (Optional)
 #   EndReturn:                List of Status Changes that will end when the status activates and won't give its effect. (Optional)
 #   EndOnEnd:                 List of Status Changes that will end when the status becomes inactive. (Optional)
+#   Script:                   Script to execute, when starting the status change. (Optional)
 ###########################################################################
 
 Header:
   Type: STATUS_DB
-  Version: 3
+  Version: 4
 
 Body:
   - Status: Stone
@@ -1429,8 +1430,7 @@ Body:
     Icon: EFST_MINDBREAKER
     DurationLookup: PF_MINDBREAKER
     CalcFlags:
-      Matk: true
-      MDef2: true
+      All: true
     Flags:
       NoSave: true
       Debuff: true
@@ -2118,7 +2118,7 @@ Body:
       NoClearance: true
   - Status: Incmatkrate
     CalcFlags:
-      Matk: true
+      All: true
     Flags:
       NoRemoveOnDead: true
       NoClearbuff: true
@@ -6178,10 +6178,7 @@ Body:
     Icon: EFST_CATNIPPOWDER
     DurationLookup: SU_CN_POWDERING
     CalcFlags:
-      Watk: true
-      Matk: true
-      Speed: true
-      Regen: true
+      All: true
     Flags:
       BossResist: true
   - Status: Sv_Roottwist
@@ -6948,6 +6945,8 @@ Body:
     DurationLookup: SP_SOULDIVISION
   - Status: Soulenergy
     Icon: EFST_SOULENERGY
+    CalcFlags:
+      Matk: true
   - Status: Use_Skill_Sp_Spa
     Icon: EFST_USE_SKILL_SP_SPA
     Flags:
