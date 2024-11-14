@@ -614,12 +614,6 @@ int64 battle_attr_fix(struct block_list *src, struct block_list *target, int64 d
 #else
 					damage += (int64)(damage * 50 / 100);
 #endif
-				if (tsc->getSCE(SC_MISTYFROST))
-#ifdef RENEWAL
-					ratio += 15;
-#else
-					damage += (int64)(damage * 15 / 100);
-#endif
 				break;
 			case ELE_EARTH:
 				if (tsc->getSCE(SC_WIND_INSIGNIA))
@@ -692,6 +686,10 @@ static int32 battle_calc_cardfix_debuff( status_change& tsc, int32 rh_ele ){
 		case ELE_EARTH:
 			if (tsc.getSCE(SC_CLIMAX_EARTH))
 				ele_fix += 100;
+			break;
+		case ELE_WATER:
+			if (tsc.getSCE(SC_MISTYFROST))
+				ele_fix += 15;
 			break;
 	}
 	return ele_fix;
@@ -1834,14 +1832,6 @@ int64 battle_calc_damage(struct block_list *src,struct block_list *bl,struct Dam
 						if (sce = tsc->getSCE(SC_SPL_DEF))
 							damage -= damage * sce->val1 / 100;
 						break;
-					case RC2_OGH_ATK_DEF:
-						if (tsc->getSCE(SC_GLASTHEIM_DEF))
-							return 0;
-						break;
-					case RC2_OGH_HIDDEN:
-						if (sce = tsc->getSCE(SC_GLASTHEIM_HIDDEN))
-							damage -= damage * sce->val1 / 100;
-						break;
 					case RC2_BIO5_ACOLYTE_MERCHANT:
 						if (sce = tsc->getSCE(SC_LHZ_DUN_N1))
 							damage -= damage * sce->val2 / 100;
@@ -1988,10 +1978,6 @@ int64 battle_calc_damage(struct block_list *src,struct block_list *bl,struct Dam
 						case RC2_SPLENDIDE:
 							if (sce = sc->getSCE(SC_SPL_ATK))
 								damage += damage * sce->val1 / 100;
-							break;
-						case RC2_OGH_ATK_DEF:
-							if (sc->getSCE(SC_GLASTHEIM_ATK))
-								damage *= 2;
 							break;
 						case RC2_BIO5_SWORDMAN_THIEF:
 							if (sce = sc->getSCE(SC_LHZ_DUN_N1))
@@ -7907,7 +7893,7 @@ struct Damage battle_calc_magic_attack(struct block_list *src,struct block_list 
 	switch(skill_id) {
 		case WL_HELLINFERNO:
 			if (mflag & 2) { // ELE_DARK
-				ad.div_ = 3;
+				ad.div_ = -3;
 			}
 			break;
 		case NPC_PSYCHIC_WAVE:
@@ -8257,7 +8243,8 @@ struct Damage battle_calc_magic_attack(struct block_list *src,struct block_list 
 						skillratio += 300 + 40 * skill_lv;
 						break;
 					case WL_SOULEXPANSION:
-						skillratio += -100 + 1000 + skill_lv * 200 + sstatus->int_ / 6; // !TODO: Confirm INT bonus
+						skillratio += -100 + 1000 + skill_lv * 200;
+						skillratio += sstatus->int_;
 						RE_LVL_DMOD(100);
 						break;
 					case WL_FROSTMISTY:
@@ -8291,7 +8278,7 @@ struct Damage battle_calc_magic_attack(struct block_list *src,struct block_list 
 					case WL_HELLINFERNO:
 						skillratio += -100 + 400 * skill_lv;
 						if (mflag & 2) // ELE_DARK
-							skillratio += 200;
+							skillratio += 200 * skill_lv;
 						RE_LVL_DMOD(100);
 						break;
 					case WL_COMET:
