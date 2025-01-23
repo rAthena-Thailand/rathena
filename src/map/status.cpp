@@ -4383,6 +4383,8 @@ int32 status_calc_pc_sub(map_session_data* sd, uint8 opt)
 		base_status->hit += 20;
 	if ((skill = pc_checkskill_imperial_guard(sd, 2)) > 0)// IG_SPEAR_SWORD_M
 		base_status->hit += skill * 3;
+	if (sd->status.weapon == W_BOOK && (skill = pc_checkskill(sd, SKE_WAR_BOOK_MASTERY)) > 0)
+		base_status->hit += skill * 3;
 
 	if ((skill = pc_checkskill(sd, SU_SOULATTACK)) > 0)
 		base_status->rhw.range += skill_get_range2(&sd->bl, SU_SOULATTACK, skill, true);
@@ -4429,6 +4431,8 @@ int32 status_calc_pc_sub(map_session_data* sd, uint8 opt)
 		base_status->patk += skill + 2;
 	if ((skill = pc_checkskill(sd, SOA_TALISMAN_MASTERY)) > 0)
 		base_status->smatk += skill;
+	if (sd->status.weapon == W_BOOK && (skill = pc_checkskill(sd, SKE_WAR_BOOK_MASTERY)) > 0)
+		base_status->patk += skill+2;
 
 	// 2-Handed Staff Mastery
 	if( sd->status.weapon == W_2HSTAFF && ( skill = pc_checkskill( sd, AG_TWOHANDSTAFF ) ) > 0 ){
@@ -9241,6 +9245,8 @@ static int32 status_get_sc_interval(enum sc_type type)
 			return 3000;
 		case SC_SHIELDSPELL_SP:
 			return 5000;
+		case SC_STAR_BURST:
+			return 300;
 		default:
 			break;
 	}
@@ -12535,11 +12541,18 @@ int32 status_change_start(struct block_list* src, struct block_list* bl,enum sc_
 			val2 = 2 * val1;
 			break;
 		case SC_KI_SUL_RAMPAGE:
-			tick_time = 1000;
-			val4 = tick / tick_time;
+			tick_time = 100;
+			val4 = tick / 1000;
 			break;
 		case SC_BLESSING_OF_M_CREATURES:
 			val2 = val1 * 10;
+			break;
+		case SC_COLORS_OF_HYUN_ROK_BUFF:
+			val2 = 50;
+			break;
+		case SC_STAR_BURST:
+			tick_time = status_get_sc_interval(type);
+			val4 = tick - tick_time; // Remaining time
 			break;
 
 		default:
@@ -14684,6 +14697,16 @@ TIMER_FUNC(status_change_timer){
 			skill_castend_nodamage_id( bl, bl, SH_KI_SUL_RAMPAGE, sce->val1, tick, 1 );
 			sc_timer_next(1000 + tick);
 			return 0;
+		}
+		break;
+
+	case SC_STAR_BURST:
+		if (sce->val4 >= 0) {
+			block_list* src = map_id2bl( sce->val2 );
+
+			if( src != nullptr && tid != INVALID_TIMER ){
+				skill_unitsetting(src, SKE_STAR_BURST, sce->val1, bl->x, bl->y, 0);
+			}
 		}
 		break;
 	}
