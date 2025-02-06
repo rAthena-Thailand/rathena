@@ -205,7 +205,6 @@ struct Battle_Config
 	int32 mvp_exp_rate;
 	int32 mvp_hp_rate;
 	int32 monster_hp_rate;
-	int32 monster_max_aspd;
 	int32 view_range_rate;
 	int32 chase_range_rate;
 	int32 atc_spawn_quantity_limit;
@@ -749,6 +748,7 @@ struct Battle_Config
 	int32 macro_detection_timeout;
 	int32 macro_detection_punishment;
 	int32 macro_detection_punishment_time;
+	int32 macrochecker_delay;
 
 	int32 feature_dynamicnpc_timeout;
 	int32 feature_dynamicnpc_rangex;

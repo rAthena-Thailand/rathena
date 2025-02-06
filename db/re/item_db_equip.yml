@@ -12958,7 +12958,7 @@ Body:
     Buy: 1
     Weight: 10
     Attack: 5000
-    MagicAttack: 10000
+    MagicAttack: 5000
     Range: 2
     Locations:
       Right_Hand: true
@@ -12967,19 +12967,14 @@ Body:
     Refineable: true
     Script: |
       bonus bAllStats,50;
-      bonus bBaseAtk,3300;
-      bonus bMatkRate,200;
       bonus2 bHPDrainRate,1000,100;
       bonus2 bSPDrainRate,1000,20;
       bonus bHealPower,200;
-      bonus2 bAddClass,Class_All,100;
-      skill "WZ_STORMGUST",10;
-      skill "WZ_METEOR",10;
-      skill "WZ_VERMILION",10;
-      skill "GM_SANDMAN",1;
-      bonus bVariableCastrate,-100;
-      bonus bFixedCastrate,-100;
       bonus bAspdRate,100;
+      bonus bNoSizeFix;
+      bonus2 bAddClass,Class_All,100;
+      bonus bHit,100;
+      bonus bSplashRange,1;
   - Id: 1600
     AegisName: Sinister_Rod
     Name: Vicious Mind Rod
@@ -25131,33 +25126,21 @@ Body:
     Type: Armor
     Buy: 1
     Weight: 10
+    Defense: 5000
     Locations:
       Left_Hand: true
     ArmorLevel: 1
     EquipLevelMin: 1
-    Refineable: true
     View: 1
     Script: |
       bonus bAllStats,50;
-      bonus bMdef,99;
-      bonus bShortWeaponDamageReturn,100;
-      bonus2 bSubRace,RC_DemiHuman,95;
-      bonus2 bSubRace,RC_Player_Human,95;
-      skill "CR_FULLPROTECTION",5;
-      skill "WZ_ESTIMATION",1;
-      skill "ST_FULLSTRIP",5;
-      skill "HW_MAGICPOWER",10;
-      skill "ECL_SNOWFLIP",1;
-      skill "ECL_PEONYMAMY",1;
-      skill "ECL_SADAGUI",1;
-      skill "ECL_SEQUOIADUST",1;
-      bonus bMaxHPrate,200;
-      bonus bNoKnockback;
-      bonus bDelayrate,-100;
-      bonus bSpeedRate,25;
-      bonus bIntravision;
-      bonus bNoWalkDelay;
+      bonus bMdef,100;
+      bonus bUnbreakableShield;
+      bonus bNoMagicDamage,100;
       bonus bNoGemStone;
+      bonus bSpeedRate,25;
+      bonus bNoWalkDelay;
+      bonus bMaxHP,1000000;
   - Id: 2201
     AegisName: Sunglasses
     Name: Sunglasses
@@ -39242,6 +39225,12 @@ Body:
       skill "GM_AP_HEAL",1;
       */
       bonus bDelayrate,-100;
+      bonus2 bResEff,Eff_Curse,10000;
+      bonus2 bResEff,Eff_Silence,10000;
+      bonus2 bResEff,Eff_Sleep,10000;
+      bonus2 bResEff,Eff_Stun,10000;
+      bonus2 bResEff,Eff_Stone,10000;
+      bonus2 bResEff,Eff_Freeze,10000;
       skill "WZ_ESTIMATION",1;
   - Id: 2905
     AegisName: Super_Ora_Ora
@@ -69962,28 +69951,15 @@ Body:
     AegisName: AmeshaSpenta
     Name: Amesha Spenta
     Type: Armor
+    Defense: 1000
     Locations:
       Armor: true
     ArmorLevel: 1
-    Refineable: true
     Script: |
+      bonus bMdef,100;
+      bonus bUnbreakableArmor;
       bonus bDefEle,Ele_Ghost;
       bonus bIntravision;
-      skill "WZ_STORMGUST",10;
-      skill "WL_CRIMSONROCK",5;
-      skill "WL_FROSTMISTY",5;
-      skill "WL_JACKFROST",5;
-      skill "SO_PSYCHIC_WAVE",5;
-      skill "SO_VACUUM_EXTREME",5;
-      skill "GM_SANDMAN",1;
-      skill "WZ_ESTIMATION",1;
-      skill "ST_FULLSTRIP",5;
-      skill "HW_MAGICPOWER",10;
-      skill "CH_SOULCOLLECT",1;
-      skill "MO_EXPLOSIONSPIRITS",5;
-      skill "MO_EXTREMITYFIST",5;
-      skill "CR_ACIDDEMONSTRATION",10;
-      /*Todo : Skill GM_FORCE_TRANSFER, GM_WIDE_RESURRECTION*/
   - Id: 15066
     AegisName: Engraved_Armor
     Name: Engraved Plate Armor
