@@ -273,7 +273,7 @@ TBL_PC* unit_get_master(struct block_list *bl)
  * @param bl: char to get his master's teleport timer [HOM|ELEM|PET|MER]
  * @return timer or nullptr
  */
-int* unit_get_masterteleport_timer(struct block_list *bl)
+int32* unit_get_masterteleport_timer(struct block_list *bl)
 {
 	if(bl)
 		switch(bl->type) {
@@ -2818,7 +2818,7 @@ int32 unit_calc_pos(struct block_list *bl, int32 tx, int32 ty, uint8 dir)
 			int32 i;
 
 			for( i = 0; i < 12; i++ ) {
-				int32 k = rnd_value<int>(DIR_NORTH, DIR_NORTHEAST); // Pick a Random Dir
+				int32 k = rnd_value<int32>(DIR_NORTH, DIR_NORTHEAST); // Pick a Random Dir
 
 				dx = -dirx[k] * 2;
 				dy = -diry[k] * 2;
@@ -3738,6 +3738,9 @@ int32 unit_free(struct block_list *bl, clr_type clrtype)
 
 			skill_clear_unitgroup(bl);
 			status_change_clear(bl,1);
+
+			// Do not call the destructor here, it will be done in chrif_auth_delete
+			// sd->~map_session_data();
 			break;
 		}
 		case BL_PET: {
@@ -3859,10 +3862,11 @@ int32 unit_free(struct block_list *bl, clr_type clrtype)
 			if( sd )
 				sd->hd = nullptr;
 			hd->master = nullptr;
-			hd->~homun_data();
 
 			skill_clear_unitgroup(bl);
 			status_change_clear(bl,1);
+
+			hd->~homun_data();
 			break;
 		}
 		case BL_MER: {
@@ -3884,10 +3888,11 @@ int32 unit_free(struct block_list *bl, clr_type clrtype)
 			skill_blockmerc_clear(*md); // Clear all skill cooldown related
 			mercenary_contract_stop(md);
 			md->master = nullptr;
-			md->~s_mercenary_data();
 
 			skill_clear_unitgroup(bl);
 			status_change_clear(bl,1);
+
+			md->~s_mercenary_data();
 			break;
 		}
 		case BL_ELEM: {
@@ -3936,7 +3941,7 @@ static TIMER_FUNC(unit_shadowscar_timer) {
 	if (ud == nullptr)
 		return 1;
 
-	std::vector<int>::iterator it = ud->shadow_scar_timer.begin();
+	std::vector<int32>::iterator it = ud->shadow_scar_timer.begin();
 
 	while (it != ud->shadow_scar_timer.end()) {
 		if (*it == tid) {

@@ -7494,7 +7494,7 @@ ACMD_FUNC(pettalk)
 		};
 		int32 i;
 		ARR_FIND( 0, ARRAYLENGTH(emo), i, stricmp(message, emo[i]) == 0 );
-		if( i == ET_DICE1 ) i = rnd_value<int>(ET_DICE1, ET_DICE6); // randomize /dice
+		if( i == ET_DICE1 ) i = rnd_value<int32>(ET_DICE1, ET_DICE6); // randomize /dice
 		if( i < ARRAYLENGTH(emo) )
 		{
 			if (sd->emotionlasttime + 1 >= time(nullptr)) { // not more than 1 per second
@@ -10532,8 +10532,8 @@ ACMD_FUNC(langtype)
 	return -1;
 }
 
-#ifdef VIP_ENABLE
 ACMD_FUNC(vip) {
+#ifdef VIP_ENABLE
 	map_session_data* pl_sd = nullptr;;
 	char * modif_p;
 	int32 vipdifftime = 0;
@@ -10603,10 +10603,15 @@ ACMD_FUNC(vip) {
 	}
 	chrif_req_login_operation(pl_sd->status.account_id, pl_sd->status.name, CHRIF_OP_LOGIN_VIP, vipdifftime, 7, 0); 
 	return 0;
+#else
+	clif_displaymessage( fd, msg_txt( sd, 774 ) ); // This command is disabled via configuration.
+	return -1;
+#endif
 }
 
 /** Enable/disable rate info */
 ACMD_FUNC(showrate) {
+#ifdef VIP_ENABLE
 	nullpo_retr(-1,sd);
 	if (!sd->vip.disableshowrate) {
 		safestrncpy(atcmd_output,msg_txt(sd,718),CHAT_SIZE_MAX); //Personal rate information is not displayed now.
@@ -10617,8 +10622,11 @@ ACMD_FUNC(showrate) {
 	}
 	clif_displaymessage(fd,atcmd_output);
 	return 0;
-}
+#else
+	clif_displaymessage( fd, msg_txt( sd, 774 ) ); // This command is disabled via configuration.
+	return -1;
 #endif
+}
 
 ACMD_FUNC(fullstrip) {
 	int32 i;
@@ -11179,45 +11187,6 @@ ACMD_FUNC(addfame)
 	return 0;
 }
 
-/*==========================================
-* @afk
-*------------------------------------------*/
-ACMD_FUNC(afk) {
- 
-        nullpo_retr(-1, sd);
-				
-				if( map_getcell(sd->bl.m,sd->bl.x,sd->bl.y,CELL_CHKNOVENDING) ) {
-					clif_displaymessage(fd, "ไม่สามารถใช้ คำสั่ง @afk ใกล้ NPC ได้");
-				return true;
-				}
-				
-				if( pc_isdead(sd) ) {
-					clif_displaymessage(fd, "ไม่สามารถใช้คำสั่ง @afk ถ้าคุณตาย.");
-				return -1;
-				}
-				
-                if( battle_config.autotrade_mapflag == map_getmapflag(sd->bl.m, MF_AUTOTRADE))
-                {
-
-                if(map_getmapflag(sd->bl.m, MF_PVP)  || map_getmapflag(sd->bl.m, MF_GVG)){
-					clif_displaymessage(fd, "ไม่สามารถใช้คำสั่ง@afk ในแมพ PVP หรือ GVG.");
-                return -1;}
-
-                        sd->state.autotrade = 1;
-			 			pc_setsit(sd);
-                        skill_sit(sd,1);
-                        clif_sitting(&sd->bl);                     
-                        if( battle_config.afk_timeout )
-                        {
-                                int timeout = atoi(message);
-                                status_change_start(NULL, &sd->bl, SC_AUTOTRADE, 10000,0,0,0,0, ((timeout > 0) ? min(timeout,battle_config.afk_timeout) : battle_config.afk_timeout)*60000,0);
-                        }
-                        clif_authfail_fd(fd, 15);
-                } else
-					clif_displaymessage(fd, "ไม่สามารถใช้ คำสั่ง @afk ในแมพนี้ได้.");
-        return 0;
-}
-
 /**
  * Opens the enchantgrade UI
  * Usage: @enchantgradeui
@@ -11286,6 +11255,7 @@ ACMD_FUNC(setcard)
 		sprintf(atcmd_output, msg_txt(sd,1005), EQP_HEAD_TOP); // %d: Top Headgear
 		clif_displaymessage(fd, atcmd_output);
 		sprintf(atcmd_output, msg_txt(sd,1006), EQP_HEAD_MID); // %d: Mid Headgear
+		clif_displaymessage(fd, atcmd_output);
 		return -1;
 	}
 	if (position < EQP_HEAD_LOW || position > EQP_HEAD_MID) {
@@ -11325,6 +11295,78 @@ ACMD_FUNC(setcard)
 	clif_delitem( *sd, i, 1, 0 );
 	clif_additem(sd, i, 1, 0);
 	pc_equipitem(sd, i, current_position);
+	return 0;
+}
+
+int32 atcommand_macrochecker_sub( block_list* bl, va_list ap ){
+	uint32 reporter_aid = va_arg( ap, uint32 );
+	uint32 reporter_gmlv = va_arg( ap, uint32 );
+
+	map_session_data* tsd = reinterpret_cast<map_session_data*>( bl );
+
+	// Dont start the macro checking on self
+	if( tsd->status.account_id == reporter_aid ){
+		return 0;
+	}
+
+	// Dont start it on other GMs with same or higher level
+	if( pc_get_group_level( tsd ) >= reporter_gmlv ){
+		return 0;
+	}
+
+	// Dont start it on autotraders
+	if( !session_isActive( tsd->fd ) ){
+		return 0;
+	}
+
+	// Start the macro checking on the player
+	pc_macro_reporter_process( *tsd, reporter_aid );
+
+	return 1;
+}
+
+ACMD_FUNC(macrochecker){
+	int16 mapid;
+
+	if( !message || !*message ){
+		mapid = sd->bl.m;
+	}else{
+		mapid = map_mapname2mapid( message );
+
+		if( mapid < 0 ){
+			clif_macro_checker( *sd, MACROCHECKER_UNKNOWN_MAP );
+			return -1;
+		}
+	}
+
+	map_data* mapdata = map_getmapdata( mapid );
+
+	if( !mapdata ){
+		// Should not happen
+		return -1;
+	}
+
+	if( mapdata->getMapFlag( MF_NOMACROCHECKER ) ){
+		clif_macro_checker( *sd, MACROCHECKER_MAPFLAG );
+		return -1;
+	}
+
+	if( DIFF_TICK( gettick(), mapdata->last_macrocheck ) < battle_config.macrochecker_delay ){
+		clif_macro_checker( *sd, MACROCHECKER_COOLDOWN );
+		return -1;
+	}
+
+	int32 count = map_foreachinmap( atcommand_macrochecker_sub, mapid, BL_PC, sd->status.account_id, pc_get_group_level( sd ) );
+
+	clif_macro_checker( *sd, MACROCHECKER_SUCCESS );
+
+	sprintf( atcmd_output, msg_txt( sd, 1538 ), count ); // Macro detection has been started on %d players.
+	clif_displaymessage( fd, atcmd_output );
+
+	if( count > 0 ){
+		mapdata->last_macrocheck = gettick();
+	}
+
 	return 0;
 }
 
@@ -11612,7 +11654,7 @@ void atcommand_basecommands(void) {
 		ACMD_DEF(resetstat),
 		ACMD_DEF2("storagelist", itemlist),
 		ACMD_DEF2("cartlist", itemlist),
-		ACMD_DEF2("itemlist", itemlist),
+		ACMD_DEF(itemlist),
 		ACMD_DEF(stats),
 		ACMD_DEF(delitem),
 		ACMD_DEF(charcommands),
@@ -11632,11 +11674,8 @@ void atcommand_basecommands(void) {
 		ACMD_DEFR(channel,ATCMD_NOSCRIPT),
 		ACMD_DEF(fontcolor),
 		ACMD_DEF(langtype),
-		ACMD_DEF(afk),
-#ifdef VIP_ENABLE
 		ACMD_DEF(vip),
 		ACMD_DEF(showrate),
-#endif
 		ACMD_DEF(fullstrip),
 		ACMD_DEF(costume),
 		ACMD_DEF(cloneequip),
@@ -11659,6 +11698,7 @@ void atcommand_basecommands(void) {
 		ACMD_DEFR(enchantgradeui, ATCMD_NOCONSOLE|ATCMD_NOAUTOTRADE),
 		ACMD_DEFR(roulette, ATCMD_NOCONSOLE|ATCMD_NOAUTOTRADE),
 		ACMD_DEF(setcard),
+		ACMD_DEF(macrochecker),
 	};
 	AtCommandInfo* atcommand;
 	int32 i;
@@ -11995,6 +12035,28 @@ void atcommand_doload(void) {
 	atcommand_db = stridb_alloc((DBOptions)(DB_OPT_DUP_KEY|DB_OPT_RELEASE_DATA), ATCOMMAND_LENGTH);
 	atcommand_basecommands(); //fills initial atcommand_db with known commands
 	atcommand_alias_db.load();
+
+#if defined(BUILDBOT)
+	DBIterator* atcommand_iter = db_iterator( atcommand_db );
+
+	for( AtCommandInfo* command_info = static_cast<AtCommandInfo*>( dbi_first( atcommand_iter ) ); dbi_exists( atcommand_iter ); command_info = static_cast<AtCommandInfo*>( dbi_next( atcommand_iter ) ) ){
+		// Attempt to find the command
+		std::shared_ptr<s_atcommand_alias_info> info = atcommand_alias_db.find( command_info->command );
+
+		// Failed to find the help property in the configuration file
+		if( info == nullptr ){
+			ShowError( "atcommand_doload: No entry for atcommand \"%s\" found in \"%s\"\n", command_info->command, atcommand_alias_db.getDefaultLocation().c_str() );
+			continue;
+		}
+
+		if( info->help.empty() ){
+			ShowError( "atcommand_doload: No help for atcommand \"%s\" contained in \"%s\"\n", command_info->command, atcommand_alias_db.getDefaultLocation().c_str() );
+			continue;
+		}
+	}
+
+	dbi_destroy( atcommand_iter );
+#endif
 }
 
 void do_init_atcommand(void) {
