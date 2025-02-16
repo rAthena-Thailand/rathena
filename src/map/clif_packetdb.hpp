@@ -77,8 +77,6 @@
 	parseable_packet(0x00ce,2,clif_parse_GMKickAll,0);
 	parseable_packet(0x00cf,27,clif_parse_PMIgnore,2,26);
 	parseable_packet(0x00d0,3,clif_parse_PMIgnoreAll,2);
-	packet(0x00d1,4);
-	packet(0x00d2,4);
 	parseable_packet(0x00d3,2,clif_parse_PMIgnoreList,0);
 	packet(0x00d4,-1);
 	parseable_packet( HEADER_CZ_CREATE_CHATROOM, -1, clif_parse_CreateChatRoom, 0 );
@@ -432,7 +430,6 @@
 // 2004-11-01aSakexe
 #if PACKETVER >= 20041101
 	packet(0x0084,-1);
-	packet(0x0215,6);
 #endif
 
 // 2004-11-08aSakexe

@@ -5114,16 +5114,14 @@ void clif_getareachar_unit( map_session_data* sd,struct block_list *bl ){
 
 //Modifies the type of damage according to target status changes [Skotlex]
 //Aegis data specifies that: 4 endure against single hit sources, 9 against multi-hit.
-static enum e_damage_type clif_calc_delay( block_list& bl, e_damage_type type, int32 div, int64 damage ) {
+static enum e_damage_type clif_calc_delay(block_list& bl, e_damage_type type, int32 div, int64 damage, int32 delay) {
 	if (damage < 1)
 		return type;
 
-	status_change* sc = status_get_sc( &bl );
-
-	if (sc == nullptr || sc->empty())
-		return type;
-	
-	if (sc->getSCE(SC_ENDURE) == nullptr)	// !TODO: should berserk status also change the type?
+	// Currently we set dmotion to 0 to mark situations that should use the endure effect
+	// However, this also impacts units that naturally have 0 dmotion
+	// TODO: Collect all possible situations that create the endure effect and implement function
+	if (delay != 0)
 		return type;
 
 	switch( type ) {
@@ -5235,7 +5233,8 @@ int32 clif_damage(block_list& src, block_list& dst, t_tick tick, int32 sdelay, i
 	int32 damage = (int32)cap_value(sdamage,INT_MIN,INT_MAX);
 	int32 damage2 = (int32)cap_value(sdamage2,INT_MIN,INT_MAX);
 
-	type = clif_calc_delay( dst, type, div, damage+damage2 );
+	if (type != DMG_MULTI_HIT_CRITICAL)
+		type = clif_calc_delay( dst, type, div, damage+damage2, ddelay );
 
 	damage = static_cast<decltype(damage)>(clif_hallucination_damage(dst, damage));
 	damage2 = static_cast<decltype(damage2)>(clif_hallucination_damage(dst, damage2));
@@ -5305,6 +5304,11 @@ int32 clif_damage(block_list& src, block_list& dst, t_tick tick, int32 sdelay, i
 
 	if(&src == &dst) 
 		unit_setdir(&src, unit_getdir(&src));
+
+	// In case this assignment is bypassed by DMG_MULTI_HIT_CRITICAL
+	if( type == DMG_MULTI_HIT_CRITICAL ){
+		type = clif_calc_delay( dst, type, div, damage+damage2, ddelay );
+	}
 
 	//Return adjusted can't walk delay for further processing.
 	return clif_calc_walkdelay(dst, ddelay, type, damage+damage2, div);
@@ -6023,7 +6027,7 @@ void clif_skill_cooldown( map_session_data &sd, uint16 skill_id, t_tick tick ){
 /// 0114 <skill id>.W <src id>.L <dst id>.L <tick>.L <src delay>.L <dst delay>.L <damage>.W <level>.W <div>.W <type>.B (ZC_NOTIFY_SKILL)
 /// 01de <skill id>.W <src id>.L <dst id>.L <tick>.L <src delay>.L <dst delay>.L <damage>.L <level>.W <div>.W <type>.B (ZC_NOTIFY_SKILL2)
 int32 clif_skill_damage( block_list& src, block_list& dst, t_tick tick, int32 sdelay, int32 ddelay, int64 sdamage, int32 div, uint16 skill_id, uint16 skill_lv, e_damage_type type ){
-	type = clif_calc_delay( dst, type, div, sdamage );
+	type = clif_calc_delay( dst, type, div, sdamage, ddelay );
 	sdamage = clif_hallucination_damage( dst, sdamage );
 
 	PACKET_ZC_NOTIFY_SKILL packet{};
@@ -9585,8 +9589,8 @@ void clif_GM_silence( map_session_data& sd, map_session_data& tsd, bool muted ){
 	clif_send( &p, sizeof( p ), &tsd.bl, SELF );
 }
 
-/// Notifies the client about the result of a request to allow/deny whispers from a player (ZC_SETTING_WHISPER_PC).
-/// 00d1 <type>.B <result>.B
+/// Notifies the client about the result of a request to allow/deny whispers from a player.
+/// 00d1 <type>.B <result>.B (ZC_SETTING_WHISPER_PC)
 /// type:
 ///     0 = /ex (deny)
 ///     1 = /in (allow)
@@ -9594,40 +9598,32 @@ void clif_GM_silence( map_session_data& sd, map_session_data& tsd, bool muted ){
 ///     0 = success
 ///     1 = failure
 ///     2 = too many blocks
-void clif_wisexin(map_session_data *sd,int32 type,int32 flag)
-{
-	int32 fd;
+void clif_wisexin( map_session_data& sd, uint8 type, uint8 flag ){
+	PACKET_ZC_SETTING_WHISPER_PC p{};
 
-	nullpo_retv(sd);
+	p.packetType = HEADER_ZC_SETTING_WHISPER_PC;
+	p.type = type;
+	p.result = flag;
 
-	fd=sd->fd;
-	WFIFOHEAD(fd,packet_len(0xd1));
-	WFIFOW(fd,0)=0xd1;
-	WFIFOB(fd,2)=type;
-	WFIFOB(fd,3)=flag;
-	WFIFOSET(fd,packet_len(0xd1));
+	clif_send( &p, sizeof( p ), &sd.bl, SELF );
 }
 
-/// Notifies the client about the result of a request to allow/deny whispers from anyone (ZC_SETTING_WHISPER_STATE).
-/// 00d2 <type>.B <result>.B
+/// Notifies the client about the result of a request to allow/deny whispers from anyone.
+/// 00d2 <type>.B <result>.B (ZC_SETTING_WHISPER_STATE)
 /// type:
 ///     0 = /exall (deny)
 ///     1 = /inall (allow)
 /// result:
 ///     0 = success
 ///     1 = failure
-void clif_wisall(map_session_data *sd,int32 type,int32 flag)
-{
-	int32 fd;
+void clif_wisall( map_session_data& sd, uint8 type, uint8 flag ){
+	PACKET_ZC_SETTING_WHISPER_STATE p{};
 
-	nullpo_retv(sd);
+	p.packetType = HEADER_ZC_SETTING_WHISPER_STATE;
+	p.type = type;
+	p.result = flag;
 
-	fd=sd->fd;
-	WFIFOHEAD(fd,packet_len(0xd2));
-	WFIFOW(fd,0)=0xd2;
-	WFIFOB(fd,2)=type;
-	WFIFOB(fd,3)=flag;
-	WFIFOSET(fd,packet_len(0xd2));
+	clif_send( &p, sizeof( p ), &sd.bl, SELF );
 }
 
 /// Play a BGM! [Rikter/Yommy] (ZC_PLAY_NPC_BGM).
@@ -10151,8 +10147,8 @@ void clif_party_xy_remove(map_session_data* sd)
 }
 
 
-/// Displays a skill message (thanks to Rayce) (ZC_SKILLMSG).
-/// 0215 <msg id>.L
+/// Displays a skill message.
+/// 0215 <msg id>.L (ZC_SKILLMSG)
 /// msg id:
 ///     0x15 = End all negative status (PA_GOSPEL)
 ///     0x16 = Immunity to all status (PA_GOSPEL)
@@ -10166,14 +10162,15 @@ void clif_party_xy_remove(map_session_data* sd)
 ///     0x20 = HIT/Flee +50 (PA_GOSPEL)
 ///     0x28 = Full strip failed because of coating (ST_FULLSTRIP)
 ///     ? = nothing
-void clif_gospel_info(map_session_data *sd, int32 type)
-{
-	int32 fd=sd->fd;
-	WFIFOHEAD(fd,packet_len(0x215));
-	WFIFOW(fd,0)=0x215;
-	WFIFOL(fd,2)=type;
-	WFIFOSET(fd, packet_len(0x215));
+void clif_gospel_info( map_session_data& sd, int32 type ){
+#if PACKETVER >= 20041101
+	PACKET_ZC_SKILLMSG p{};
 
+	p.packetType = HEADER_ZC_SKILLMSG;
+	p.msgId = type;
+
+	clif_send( &p, sizeof( p ), &sd.bl, SELF );
+#endif
 }
 
 
@@ -15130,18 +15127,18 @@ void clif_parse_PMIgnore(int32 fd, map_session_data* sd)
 
 	if( type == 0 ) { // Add name to ignore list (block)
 		if (strcmp(wisp_server_name, nick) == 0) {
-			clif_wisexin(sd, type, 1); // fail
+			clif_wisexin( *sd, type, 1 ); // fail
 			return;
 		}
 
 		// try to find a free spot, while checking for duplicates at the same time
 		ARR_FIND( 0, MAX_IGNORE_LIST, i, sd->ignore[i].name[0] == '\0' || strcmp(sd->ignore[i].name, nick) == 0 );
 		if( i == MAX_IGNORE_LIST ) {// no space for new entry
-			clif_wisexin(sd, type, 2); // too many blocks
+			clif_wisexin( *sd, type, 2 ); // too many blocks
 			return;
 		}
 		if( sd->ignore[i].name[0] != '\0' ) {// name already exists
-			clif_wisexin(sd, type, 0); // Aegis reports success.
+			clif_wisexin( *sd, type, 0 ); // Aegis reports success.
 			return;
 		}
 
@@ -15152,7 +15149,7 @@ void clif_parse_PMIgnore(int32 fd, map_session_data* sd)
 		// find entry
 		ARR_FIND( 0, MAX_IGNORE_LIST, i, sd->ignore[i].name[0] == '\0' || strcmp(sd->ignore[i].name, nick) == 0 );
 		if( i == MAX_IGNORE_LIST || sd->ignore[i].name[0] == '\0' ) { //Not found
-			clif_wisexin(sd, type, 1); // fail
+			clif_wisexin( *sd, type, 1 ); // fail
 			return;
 		}
 		// move everything one place down to overwrite removed entry
@@ -15161,7 +15158,7 @@ void clif_parse_PMIgnore(int32 fd, map_session_data* sd)
 		memset(sd->ignore[MAX_IGNORE_LIST-1].name, 0, sizeof(sd->ignore[0].name));
 	}
 
-	clif_wisexin(sd, type, 0); // success
+	clif_wisexin( *sd, type, 0 ); // success
 }
 
 
@@ -15173,7 +15170,7 @@ void clif_parse_PMIgnore(int32 fd, map_session_data* sd)
 ///     1 = (/inall) allow all speech
 void clif_parse_PMIgnoreAll(int32 fd, map_session_data *sd)
 {
-	int32 type = RFIFOB(fd,packet_db[RFIFOW(fd,0)].pos[0]), flag;
+	uint8 type = RFIFOB(fd,packet_db[RFIFOW(fd,0)].pos[0]), flag;
 
 	if( type == 0 ) {// Deny all
 		if( sd->state.ignoreAll ) {
@@ -15197,7 +15194,7 @@ void clif_parse_PMIgnoreAll(int32 fd, map_session_data *sd)
 		}
 	}
 
-	clif_wisall(sd, type, flag);
+	clif_wisall( *sd, type, flag );
 }
 
 
