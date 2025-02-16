@@ -2231,6 +2231,17 @@ int32 skill_additional_effect( struct block_list* src, struct block_list *bl, ui
 	case SH_HOWLING_OF_CHUL_HO:
 		sc_start(src, bl, skill_get_sc(skill_id), 100, skill_lv, skill_get_time(skill_id, skill_lv));
 		break;
+	case SS_KAGEGARI:
+	case SS_FUUMASHOUAKU:
+	case SS_KUNAIWAIKYOKU:
+	case SS_ANTENPOU:
+		sc_start(src, bl, skill_get_sc(skill_id), 100, skill_lv, skill_get_time2(skill_id, skill_lv));
+		break;
+	case SS_KAGEAKUMU:
+	case SS_HITOUAKUMU:
+	case SS_ANKOKURYUUAKUMU:
+		status_change_end(bl, SC_NIGHTMARE);
+		break;
 	} //end switch skill_id
 
 	if (md && battle_config.summons_trigger_autospells && md->master_id && md->special_state.ai && md->special_state.ai != AI_ABR && md->special_state.ai != AI_BIONIC)
@@ -4191,9 +4202,6 @@ int32 skill_area_sub(struct block_list *bl, va_list ap)
 	flag = va_arg(ap,int32);
 	func = va_arg(ap,SkillFunc);
 
-	if (flag&BCT_WOS && src == bl)
-		return 0;
-
 	if(battle_check_target(src,bl,flag) > 0) {
 		// several splash skills need this initial dummy packet to display correctly
 		if (flag&SD_PREAMBLE && skill_area_temp[2] == 0)
@@ -5140,6 +5148,70 @@ static int32 skill_tarotcard(struct block_list* src, struct block_list *target, 
 	return card;
 }
 
+bool skill_mirage_cast( block_list& src, block_list* bl, uint16 skill_id, uint16 skill_lv, int16 x, int16 y, t_tick tick, int32 flag ){
+	unit_data* ud = unit_bl2ud( &src );
+
+	if( ud == nullptr || src.type != BL_PC || (flag&1) ){
+		return false;
+	}
+
+	for( const std::shared_ptr<s_skill_unit_group>& sug : ud->skillunits ){
+		if( sug->skill_id != SS_SHINKIROU ){
+			continue;
+		}
+
+		skill_unit* su = sug->unit;
+
+		if( su == nullptr ){
+			continue;
+		}
+
+		switch( skill_id ){
+			case SS_KUNAIWAIKYOKU: {
+				if( distance_xy( x, y, su->bl.x, su->bl.y ) > skill_get_range( skill_id, skill_lv ) ){
+					continue;
+				}
+				clif_skill_poseffect( su->bl, skill_id, skill_lv, x, y, tick );
+				int32 range = skill_get_splash( skill_id, skill_lv );
+				map_foreachinallarea( skill_area_sub, src.m, x - range, y - range, x + range, y + range, BL_CHAR, &src, skill_id, skill_lv, tick, flag | BCT_ENEMY | SKILL_ALTDMG_FLAG | 1, skill_castend_damage_id );
+				} break;
+			case SS_KAGENOMAI://nodamage splash
+			case SS_ANTENPOU://nodamage splash
+				clif_skill_nodamage( &su->bl, su->bl, skill_id, skill_lv, tick );
+				map_foreachinrange( skill_area_sub, &su->bl, skill_get_splash( skill_id, skill_lv ), BL_CHAR, &src, skill_id, skill_lv, tick, flag | BCT_ENEMY | SD_SPLASH | SD_ANIMATION | SKILL_ALTDMG_FLAG | 1, skill_castend_damage_id );
+				break;
+			case SS_KAGEGISSEN://damage splash
+				x = bl->x;
+				y = bl->y;
+				skill_area_temp[1] = 0;
+				clif_skill_nodamage( &su->bl, *bl, skill_id, skill_lv, tick );
+				if (battle_config.skill_eightpath_algorithm) {
+					//Use official AoE algorithm
+					map_foreachindir( skill_attack_area, su->bl.m, su->bl.x, su->bl.y, x, y, skill_get_splash( skill_id, skill_lv ), skill_get_maxcount( skill_id, skill_lv ), 0, splash_target( &src ), skill_get_type( skill_id ), &src, &src, skill_id, skill_lv, tick, SKILL_ALTDMG_FLAG, BCT_ENEMY );
+				} else {
+					map_foreachinpath( skill_attack_area, su->bl.m, su->bl.x, su->bl.y, x, y, skill_get_splash( skill_id, skill_lv ), skill_get_maxcount( skill_id, skill_lv ), splash_target( &src ), skill_get_type( skill_id ), &src, &src, skill_id, skill_lv, tick, SKILL_ALTDMG_FLAG, BCT_ENEMY );
+				}
+				break;
+		}
+	}
+
+	return true;
+}
+
+int32 skill_shimiru_check_cell( block_list* target, va_list ap ){
+	if( target != nullptr && target->type == BL_SKILL ){
+		skill_unit* su = reinterpret_cast<skill_unit*>( target );
+
+		if( su->group != nullptr && su->group->skill_id == SS_SHINKIROU ){
+			return 1;
+		}
+
+		return 0;
+	}
+
+	return 1;
+}
+
 /*==========================================
  *
  *
@@ -5321,6 +5393,7 @@ int32 skill_castend_damage_id (struct block_list* src, struct block_list *bl, ui
 	case SKE_MIDNIGHT_KICK:
 	case SKE_DAWN_BREAK:
 	case SKE_RISING_MOON:
+	case SS_FUUMAKOUCHIKU:
 		skill_attack(BF_WEAPON,src,src,bl,skill_id,skill_lv,tick,flag);
 		break;
 	case DK_DRAGONIC_AURA:
@@ -5453,6 +5526,10 @@ int32 skill_castend_damage_id (struct block_list* src, struct block_list *bl, ui
 		}
 		break;
 
+	case SS_KAGEGISSEN:
+		skill_mirage_cast(*src, bl, skill_id, skill_lv, 0, 0, tick, flag);
+		clif_skill_nodamage(src, *bl, skill_id, skill_lv);
+		[[fallthrough]];
 	case NC_FLAMELAUNCHER:
 		skill_area_temp[1] = bl->id;
 		if (battle_config.skill_eightpath_algorithm) {
@@ -5800,6 +5877,7 @@ int32 skill_castend_damage_id (struct block_list* src, struct block_list *bl, ui
 	case SOA_CIRCLE_OF_DIRECTIONS_AND_ELEMENTALS:
 	case SKE_SUNSET_BLAST:
 	case SKE_NOON_BLAST:
+	case SS_KINRYUUHOU:
 		if( flag&1 ) {//Recursive invocation
 			int32 sflag = skill_area_temp[0] & 0xFFF;
 			int32 heal = 0;
@@ -6027,6 +6105,10 @@ int32 skill_castend_damage_id (struct block_list* src, struct block_list *bl, ui
 					skill_area_temp[0] = map_foreachinallrange(skill_area_sub, bl, skill_get_splash(skill_id, skill_lv), BL_CHAR, src, skill_id, skill_lv, tick, BCT_ENEMY, skill_area_sub_count);
 					sc_start(src,src,skill_get_sc(skill_id),100,skill_lv,skill_get_time(skill_id,skill_lv));
 					break;
+				case SS_KINRYUUHOU:
+					skill_mirage_cast(*src, nullptr, SS_ANTENPOU, skill_lv, 0, 0, tick, flag | BCT_WOS);
+					clif_skill_nodamage(src, *bl, skill_id, skill_lv);
+					break;
 			}
 
 			// if skill damage should be split among targets, count them
@@ -6153,6 +6235,83 @@ int32 skill_castend_damage_id (struct block_list* src, struct block_list *bl, ui
 		}
 		skill_attack(skill_get_type(skill_id), src, src, bl, skill_id, skill_lv, tick, flag);
 		break;
+
+	case SS_KAGEGARI:
+	case SS_TOKEDASU:
+	case SS_KAGEAKUMU:
+	case SS_HITOUAKUMU:
+	case SS_KAGENOMAI:
+	case SS_ANTENPOU:
+	case SS_REIKETSUHOU:
+	case SS_KUNAIWAIKYOKU:
+		if (flag & 1)
+			skill_attack(skill_get_type(skill_id), src, src, bl, skill_id, skill_lv, tick, flag);
+		break;
+	case SS_ANKOKURYUUAKUMU:
+		if (flag & 1) {
+			skill_attack(skill_get_type(skill_id), src, src, bl, skill_id, skill_lv, tick, flag);
+
+			if( tsc != nullptr && tsc->getSCE( SC_NIGHTMARE ) != nullptr ){
+				skill_attack(skill_get_type(skill_id), src, src, bl, skill_id, skill_lv, tick, flag | SKILL_ALTDMG_FLAG);
+			}
+		}
+		break;
+	case SS_SHIMIRU: {
+		struct unit_data *ud = unit_bl2ud(src);
+
+		if (!check_distance_bl(src, bl, 0)) {
+			uint8 dir = map_calc_dir(src, bl->x, bl->y);
+			int16 x, y;
+
+			if (dir > DIR_NORTH && dir < DIR_SOUTH)
+				x = -1;
+			else if (dir > DIR_SOUTH)
+				x = 1;
+			else
+				x = 0;
+
+			if (dir > DIR_WEST && dir < DIR_EAST)
+				y = -1;
+			else if (dir == DIR_NORTHEAST || dir < DIR_WEST)
+				y = 1;
+			else
+				y = 0;
+
+			if (battle_check_target(src, bl, BCT_ENEMY) > 0 && unit_movepos(src, bl->x + x, bl->y + y, 2, true)) {// Display movement + animation.
+				dir = dir < 4 ? dir+4 : dir-4; // change direction [Celest]
+				unit_setdir(bl,dir);
+				clif_blown(src);
+			} else if (sd) {
+				clif_skill_fail( *sd, skill_id, USESKILL_FAIL_TARGET_SHADOW_SPACE );
+				break;
+			}
+		}
+
+		if (ud == nullptr)
+			break;
+
+		for (const std::shared_ptr<s_skill_unit_group>& sug : ud->skillunits) {
+			skill_unit* su = sug->unit;
+			std::shared_ptr<s_skill_unit_group> sg = su->group;
+			int16 dx = src->x - su->bl.x;
+			int16 dy = src->y - su->bl.y;
+
+			for( size_t count = 0; count < 1000; count++ ){
+				if (map_foreachincell(skill_shimiru_check_cell, src->m, su->bl.x + dx, su->bl.y + dy, BL_CHAR|BL_SKILL) == 0)
+					break;
+				dx += rnd() % 3 - 1;
+				dy += rnd() % 3 - 1;
+			}
+
+			if (sug->skill_id == SS_SHINKIROU)
+				skill_unit_move_unit_group(sg, src->m, dx,dy);
+		}
+
+		skill_attack(skill_get_type(skill_id), src, src, bl, skill_id, skill_lv, tick, flag);
+
+		sc_start(src, src, skill_get_sc(skill_id), 100, skill_lv, skill_get_time2(skill_id, skill_lv));
+		break;
+	}
 
 	//Place units around target
 	case NJ_BAKUENRYU:
@@ -7373,9 +7532,6 @@ static int32 skill_apply_songs(struct block_list* target, va_list ap)
 	uint16 skill_id = static_cast<uint16>(va_arg(ap, int32));
 	uint16 skill_lv = static_cast<uint16>(va_arg(ap, int32));
 	t_tick tick = va_arg(ap, t_tick);
-
-	if (flag & BCT_WOS && src == target)
-		return 0;
 
 	if (battle_check_target(src, target, flag) > 0) {
 		switch (skill_id) {
@@ -9043,9 +9199,10 @@ int32 skill_castend_nodamage_id (struct block_list *src, struct block_list *bl, 
 
 	case NPC_SELFDESTRUCTION:
 		//Self Destruction hits everyone in range (allies+enemies)
-		//Except for Summoned Marine spheres on non-versus maps, where it's just enemy.
+		//Except for Summoned Marine spheres on non-versus maps, where it's just enemies and your own slaves.
 		i = ((!md || md->special_state.ai == AI_SPHERE) && !map_flag_vs(src->m))?
-			BCT_ENEMY:BCT_ALL;
+			BCT_ENEMY|BCT_SLAVE:BCT_ALL;
+		clif_skill_nodamage(src, *src, skill_id, skill_lv);
 		map_delblock(src); //Required to prevent chain-self-destructions hitting back.
 		map_foreachinshootrange(skill_area_sub, bl,
 			skill_get_splash(skill_id, skill_lv), BL_CHAR|BL_SKILL,
@@ -9656,7 +9813,7 @@ int32 skill_castend_nodamage_id (struct block_list *src, struct block_list *bl, 
 		//Special message when trying to use strip on FCP [Jobbie]
 		if( sd && skill_id == ST_FULLSTRIP && tsc && tsc->getSCE(SC_CP_WEAPON) && tsc->getSCE(SC_CP_HELM) && tsc->getSCE(SC_CP_ARMOR) && tsc->getSCE(SC_CP_SHIELD))
 		{
-			clif_gospel_info(sd, 0x28);
+			clif_gospel_info( *sd, 0x28 );
 			break;
 		}
 
@@ -10141,23 +10298,38 @@ int32 skill_castend_nodamage_id (struct block_list *src, struct block_list *bl, 
 		break;
 
 	case NPC_RANDOMMOVE:
-		if (md) {
-			md->next_walktime = tick - 1;
-			if (md->special_state.ai == AI_SPHERE)
-				unit_escape(&md->bl, bl, 7, 2);
-			else
-				mob_randomwalk(md,tick);
+		if (md != nullptr) {
+			// This skill creates fake casting state where a monster moves while showing a cast bar
+			int32 tricktime = MOB_SKILL_INTERVAL * 3;
+			md->trickcasting = tick + tricktime;
+			clif_skillcasting(src, src->id, src->id, 0, 0, skill_id, skill_lv, ELE_FIRE, tricktime + MOB_SKILL_INTERVAL / 2);
+			// Monster cannot be stopped while moving
+			md->state.can_escape = 1;
+			// Move up to 8 cells
+			unit_escape(&md->bl, bl, 8, 3);
 		}
 		break;
 
 	case NPC_SPEEDUP:
-		{
-			// or does it increase casting rate? just a guess xD
-			int32 i_type = SC_ASPDPOTION0 + skill_lv - 1;
-			if (i_type > SC_ASPDPOTION3)
-				i_type = SC_ASPDPOTION3;
-			clif_skill_nodamage(src,*bl,skill_id,skill_lv,
-				sc_start(src,bl,(sc_type)i_type,100,skill_lv,skill_lv * 60000));
+		if (md != nullptr) {
+			// Officially, trickcasting continues as long as there are more than 700ms left
+			int32 trickstop = (MOB_SKILL_INTERVAL * 7) / 10;
+			if (DIFF_TICK(md->trickcasting, tick) >= trickstop) {
+				// This skill directly modifies a monster's base speed value
+				md->base_status->speed = std::max(md->base_status->speed - 250, MIN_WALK_SPEED);
+				// Need to recalc speed based on new base value
+				status_calc_bl(&md->bl, { SCB_SPEED });
+				// We use skills only on each full cell, to fix the inaccuracy we do this on last move interval
+				if (DIFF_TICK(md->trickcasting, tick) < trickstop + MOB_SKILL_INTERVAL)
+					md->last_skillcheck = tick + 50;
+			}
+			else {
+				// Synchronize skill usage
+				md->last_skillcheck = md->trickcasting;
+				// Causes monster to stop and get ready for next alchemist skill
+				md->trickcasting = 0;
+				md->state.can_escape = 0;
+			}
 		}
 		break;
 
@@ -10181,7 +10353,7 @@ int32 skill_castend_nodamage_id (struct block_list *src, struct block_list *bl, 
 				md->state.can_escape = 1;
 				mob_unlocktarget(md, tick);
 				// Official distance is 7, if level > 1, distance = level
-				t_tick time = unit_escape(src, tbl, skill_lv > 1 ? skill_lv : 7, 2);
+				t_tick time = unit_escape(src, tbl, skill_lv > 1 ? skill_lv : 7, 3);
 
 				if (time) {
 					// Need to set state here as it's not set otherwise
@@ -13433,6 +13605,32 @@ int32 skill_castend_nodamage_id (struct block_list *src, struct block_list *bl, 
 		clif_skill_nodamage(src, *src, skill_id, skill_lv);
 		break;
 
+
+	case SS_ANTENPOU:
+	case SS_KAGENOMAI:
+		skill_mirage_cast(*src, nullptr,skill_id, skill_lv, 0, 0, tick, flag | BCT_WOS);
+		[[fallthrough]];
+	case SS_KAGEAKUMU:
+	case SS_ANKOKURYUUAKUMU:
+	case SS_HITOUAKUMU: {
+		int32 range = skill_get_splash( skill_id, skill_lv );
+
+		clif_skill_nodamage(src, *bl, skill_id, skill_lv);
+
+		map_foreachinrange( skill_area_sub, bl, range, BL_CHAR, src, skill_id, skill_lv, tick, flag | BCT_ENEMY | SD_SPLASH | 1, skill_castend_damage_id );
+		} break;
+	case SS_AKUMUKESU:
+		if (flag & 1) {
+			status_change_end(bl, SC_NIGHTMARE);
+		} else {
+			int32 range = skill_get_splash( skill_id, skill_lv );
+
+			clif_skill_nodamage(src, *bl, skill_id, skill_lv);
+
+			map_foreachinrange( skill_area_sub, bl, range, BL_CHAR, src, skill_id, skill_lv, tick, flag | BCT_ENEMY | SD_SPLASH | 1, skill_castend_nodamage_id );
+		}
+		break;
+
 	default: {
 		std::shared_ptr<s_skill_db> skill = skill_db.find(skill_id);
 		ShowWarning("skill_castend_nodamage_id: missing code case for skill %s(%d)\n", skill ? skill->name : "UNKNOWN", skill_id);
@@ -14477,6 +14675,7 @@ int32 skill_castend_pos2(struct block_list* src, int32 x, int32 y, uint16 skill_
 	case GS_GROUNDDRIFT: //Ammo should be deleted right away.
 	case GN_WALLOFTHORN:
 	case GN_DEMONIC_FIRE:
+	case SS_FUUMASHOUAKU:
 		skill_unitsetting(src,skill_id,skill_lv,x,y,0);
 		break;
 
@@ -15328,6 +15527,88 @@ int32 skill_castend_pos2(struct block_list* src, int32 x, int32 y, uint16 skill_
 			}
 		} break;
 
+	case SS_KUNAIKUSSETSU:
+		map_foreachinallrange(skill_detonator, src, skill_get_splash(skill_id, skill_lv), BL_SKILL, src, skill_lv);
+		clif_skill_nodamage(src, *src, skill_id, skill_lv);
+		break;
+	case SS_RAIDENPOU:
+	case SS_SEKIENHOU:
+		skill_area_temp[1] = 0;
+		skill_mirage_cast(*src, nullptr, SS_ANTENPOU, skill_lv, x, y, tick, flag | BCT_WOS);
+		if (map_getcell(src->m, x, y, CELL_CHKLANDPROTECTOR)) {
+			clif_skill_fail( *sd, skill_id, USESKILL_FAIL );
+			return 0;
+		}
+		clif_skill_nodamage(src, *src, skill_id, skill_lv);
+		if (battle_config.skill_eightpath_algorithm) {
+			//Use official AoE algorithm
+			map_foreachindir(skill_attack_area, src->m, src->x, src->y, x, y,
+				skill_get_splash(skill_id, skill_lv), skill_get_maxcount(skill_id, skill_lv), 0, splash_target(src),
+				skill_get_type(skill_id), src, src, skill_id, skill_lv, tick, flag, BCT_ENEMY);
+		}
+		else {
+			map_foreachinpath(skill_attack_area, src->m, src->x, src->y, x, y,
+				skill_get_splash(skill_id, skill_lv), skill_get_maxcount(skill_id, skill_lv), splash_target(src),
+				skill_get_type(skill_id), src, src, skill_id, skill_lv, tick, flag, BCT_ENEMY);
+		}
+		break;
+	case SS_SHINKIROU:
+		flag |= 1;
+		clif_skill_nodamage(src, *src, skill_id, skill_lv);
+		sc_start(src, src, skill_get_sc(skill_id), 100, skill_lv, skill_get_time(skill_id, skill_lv));
+		skill_unitsetting(src, skill_id, skill_lv, x, y, 0);
+		break;
+	case SS_KAGEGARI:
+		i = skill_get_splash(skill_id, skill_lv);
+		map_foreachinallarea(skill_area_sub, src->m, x - i, y - i, x + i, y + i, BL_CHAR,
+			src, skill_id, skill_lv, tick, flag | BCT_ENEMY | 1, skill_castend_damage_id);
+		break;
+	case SS_REIKETSUHOU:
+		skill_mirage_cast(*src, nullptr, SS_ANTENPOU, skill_lv, 0, 0, tick, flag | BCT_WOS);
+		if (map_getcell(src->m, x, y, CELL_CHKLANDPROTECTOR)) {
+			clif_skill_fail( *sd, skill_id, USESKILL_FAIL );
+			return 0;
+		}
+		i = skill_get_splash(skill_id, skill_lv);
+		map_foreachinallarea(skill_area_sub, src->m, x - i, y - i, x + i, y + i, BL_CHAR,
+			src, skill_id, skill_lv, tick, flag | BCT_ENEMY | 1, skill_castend_damage_id);
+		break;
+	case SS_KUNAIWAIKYOKU:
+		skill_mirage_cast(*src, nullptr, skill_id, skill_lv, x, y, tick, flag | BCT_WOS);
+		i = skill_get_splash(skill_id, skill_lv);
+		map_foreachinallarea(skill_area_sub, src->m, x - i, y - i, x + i, y + i, BL_CHAR,
+			src, skill_id, skill_lv, tick, flag | BCT_ENEMY | 1, skill_castend_damage_id);
+		skill_unitsetting(src, skill_id, skill_lv, x, y, UNIT_NOCONSUME_AMMO);
+		break;
+	case SS_KUNAIKAITEN:
+		sc_start(src, src, skill_get_sc(skill_id), 100, skill_lv, skill_get_time2(skill_id, skill_lv));
+		skill_unitsetting(src, skill_id, skill_lv, x, y, UNIT_NOCONSUME_AMMO);
+		skill_unitsetting(src, SS_KUNAIWAIKYOKU, skill_lv, x, y, UNIT_NOCONSUME_AMMO);
+		break;
+	case SS_FUUMAKOUCHIKU:
+		skill_area_temp[1] = 0;
+		if (battle_config.skill_eightpath_algorithm) {
+			//Use official AoE algorithm
+			map_foreachindir(skill_attack_area, src->m, src->x, src->y, x, y,
+				skill_get_splash(skill_id, skill_lv), skill_get_maxcount(skill_id, skill_lv), 0, BL_CHAR | BL_SKILL,
+				skill_get_type(skill_id), src, src, skill_id, skill_lv, tick, flag, BCT_ENEMY);
+		}
+		else {
+			map_foreachinpath(skill_attack_area, src->m, src->x, src->y, x, y,
+				skill_get_splash(skill_id, skill_lv), skill_get_maxcount(skill_id, skill_lv), BL_CHAR | BL_SKILL,
+				skill_get_type(skill_id), src, src, skill_id, skill_lv, tick, flag, BCT_ENEMY);
+		}
+		break;
+	case SS_TOKEDASU:
+		i = skill_get_splash(skill_id, skill_lv);
+		map_foreachinallarea(skill_area_sub, src->m, x - i, y - i, x + i, y + i, BL_CHAR,
+			src, skill_id, skill_lv, tick, flag | BCT_ENEMY | 1, skill_castend_damage_id);
+		sc_start(src, src, skill_get_sc(skill_id), 100, skill_lv, skill_get_time2(skill_id, skill_lv));
+		unit_setdir(src, map_calc_dir_xy(src->x, src->y, x, y, unit_getdir(src)));
+		skill_blown(src, src, skill_get_blewcount(skill_id, skill_lv), unit_getdir(src), (enum e_skill_blown)(BLOWN_IGNORE_NO_KNOCKBACK | BLOWN_DONT_SEND_PACKET));
+		clif_blown(src);
+		break;
+
 	default:
 		ShowWarning("skill_castend_pos2: Unknown skill used:%d\n",skill_id);
 		return 1;
@@ -16013,7 +16294,8 @@ std::shared_ptr<s_skill_unit_group> skill_unitsetting(struct block_list *src, ui
 	group->link_group_id = link_group_id;
 	group->target_flag = target;
 	group->bl_flag = skill_get_unit_bl_target(skill_id);
-	group->state.ammo_consume = (sd && sd->state.arrow_atk && skill_id != GS_GROUNDDRIFT); //Store if this skill needs to consume ammo.
+	// Store if this skill needs to consume ammo.
+	group->state.ammo_consume = ( sd != nullptr && sd->state.arrow_atk && skill_id != GS_GROUNDDRIFT && !( flag&UNIT_NOCONSUME_AMMO ) );
 	group->state.song_dance = (((skill->unit_flag[UF_DANCE] || skill->unit_flag[UF_SONG])?1:0)|(skill->unit_flag[UF_ENSEMBLE]?2:0)); //Signals if this is a song/dance/duet
 	group->state.guildaura = ( skill_id >= GD_LEADERSHIP && skill_id <= GD_HAWKEYES )?1:0;
 	group->item_id = req_item;
@@ -16643,6 +16925,8 @@ int32 skill_unit_onplace_timer(struct skill_unit *unit, struct block_list *bl, t
 		case UNT_STAR_BURST:
 		case UNT_GRENADES_DROPPING:
 		case UNT_MISSION_BOMBARD:
+		case UNT_FUUMASHOUAKU:
+		case UNT_KUNAIKAITEN:
 			skill_attack(skill_get_type(sg->skill_id),ss,&unit->bl,bl,sg->skill_id,sg->skill_lv,tick,0);
 			break;
 #ifdef RENEWAL
@@ -16990,23 +17274,33 @@ int32 skill_unit_onplace_timer(struct skill_unit *unit, struct block_list *bl, t
 						break;
 					case 1: // End all negative status
 						status_change_clear_buffs(bl, SCCB_DEBUFFS | SCCB_REFRESH);
-						if (tsd) clif_gospel_info(tsd, 0x15);
+						if( tsd != nullptr ){
+							clif_gospel_info( *tsd, 0x15 );
+						}
 						break;
 					case 2: // Immunity to all status
 						sc_start(ss, bl, SC_SCRESIST, 100, 100, time);
-						if (tsd) clif_gospel_info(tsd, 0x16);
+						if( tsd != nullptr ){
+							clif_gospel_info( *tsd, 0x16 );
+						}
 						break;
 					case 3: // MaxHP +100%
 						sc_start(ss, bl, SC_INCMHPRATE, 100, 100, time);
-						if (tsd) clif_gospel_info(tsd, 0x17);
+						if( tsd != nullptr ){
+							clif_gospel_info( *tsd, 0x17 );
+						}
 						break;
 					case 4: // MaxSP +100%
 						sc_start(ss, bl, SC_INCMSPRATE, 100, 100, time);
-						if (tsd) clif_gospel_info(tsd, 0x18);
+						if( tsd != nullptr ){
+							clif_gospel_info( *tsd, 0x18 );
+						}
 						break;
 					case 5: // All stats +20
 						sc_start(ss, bl, SC_INCALLSTATUS, 100, 20, time);
-						if (tsd) clif_gospel_info(tsd, 0x19);
+						if( tsd != nullptr ){
+							clif_gospel_info( *tsd, 0x19 );
+						}
 						break;
 					case 6: // Level 10 Blessing
 						sc_start(ss, bl, SC_BLESSING, 100, 10, skill_get_time(AL_BLESSING, 10));
@@ -17016,24 +17310,34 @@ int32 skill_unit_onplace_timer(struct skill_unit *unit, struct block_list *bl, t
 						break;
 					case 8: // Enchant weapon with Holy element
 						sc_start(ss, bl, SC_ASPERSIO, 100, 1, time);
-						if (tsd) clif_gospel_info(tsd, 0x1c);
+						if( tsd != nullptr ){
+							clif_gospel_info( *tsd, 0x1c );
+						}
 						break;
 					case 9: // Enchant armor with Holy element
 						sc_start(ss, bl, SC_BENEDICTIO, 100, 1, time);
-						if (tsd) clif_gospel_info(tsd, 0x1d);
+						if( tsd != nullptr ){
+							clif_gospel_info( *tsd, 0x1d );
+						}
 						break;
 					case 10: // DEF +25%
 						sc_start(ss, bl, SC_INCDEFRATE, 100, 25, 10000); //10 seconds
-						if (tsd) clif_gospel_info(tsd, 0x1e);
+						if( tsd != nullptr ){
+							clif_gospel_info( *tsd, 0x1e );
+						}
 						break;
 					case 11: // ATK +100%
 						sc_start(ss, bl, SC_INCATKRATE, 100, 100, time);
-						if (tsd) clif_gospel_info(tsd, 0x1f);
+						if( tsd != nullptr ){
+							clif_gospel_info( *tsd, 0x1f );
+						}
 						break;
 					case 12: // HIT/Flee +50
 						sc_start(ss, bl, SC_INCHIT, 100, 50, time);
 						sc_start(ss, bl, SC_INCFLEE, 100, 50, time);
-						if (tsd) clif_gospel_info(tsd, 0x20);
+						if( tsd != nullptr ){
+							clif_gospel_info( *tsd, 0x20 );
+						}
 						break;
 				}
 			}
@@ -20698,6 +21002,21 @@ int32 skill_attack_area(struct block_list *bl, va_list ap)
 		return (int32)skill_attack(atk_type,src,dsrc,bl,skill_id,skill_lv,tick,flag);
 	}
 
+	if (skill_id == SS_FUUMAKOUCHIKU && bl->type == BL_SKILL) {
+		skill_unit* unit = reinterpret_cast<skill_unit*>( bl );
+
+		if( unit->group == nullptr ){
+			return 0;
+		}
+
+		if (unit->group->skill_id == SS_FUUMASHOUAKU) {
+			map_foreachinallrange(skill_area_sub, bl, skill_get_splash(SS_FUUMAKOUCHIKU,skill_lv), BL_CHAR,
+				src, SS_FUUMAKOUCHIKU, skill_lv, tick, flag | BCT_ENEMY | SD_SPLASH | SKILL_ALTDMG_FLAG | 1, skill_castend_damage_id);
+			skill_delunit(unit);
+			return 1;
+		}
+	}
+
 	if(battle_check_target(dsrc,bl,type) <= 0 ||
 		!status_check_skilluse(nullptr, bl, skill_id, 2))
 		return 0;
@@ -20866,6 +21185,7 @@ int32 skill_detonator(struct block_list *bl, va_list ap)
 
 	block_list *src = va_arg(ap, block_list *);
 	skill_unit *unit = (skill_unit *)bl;
+	int32 flag = va_arg( ap, int32 );
 
 	if (unit == nullptr)
 		return 0;
@@ -20906,6 +21226,11 @@ int32 skill_detonator(struct block_list *bl, va_list ap)
 			group->unit_id = UNT_USED_TRAPS;
 			group->limit = DIFF_TICK(gettick(),group->tick) +
 				(unit_id == UNT_TALKIEBOX ? 5000 : (unit_id == UNT_CLUSTERBOMB || unit_id == UNT_ICEBOUNDTRAP? 2500 : (unit_id == UNT_FIRINGTRAP ? 0 : 1500)) );
+			break;
+
+		case UNT_KUNAIWAIKYOKU:
+			skill_delunit(unit);
+			skill_unitsetting(src, SS_KUNAIKUSSETSU, flag, bl->x, bl->y, UNIT_NOCONSUME_AMMO);
 			break;
 	}
 	return 0;
@@ -21069,6 +21394,13 @@ static int32 skill_cell_overlap(struct block_list *bl, va_list ap)
 						skill_delunit(unit);
 					return 1;
 				}
+			}
+			break;
+
+		case SS_KUNAIWAIKYOKU:
+			if (unit->group->skill_id == skill_id) {
+				skill_delunit(unit);
+				return 1;
 			}
 			break;
 	}
