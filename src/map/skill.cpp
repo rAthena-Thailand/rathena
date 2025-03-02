@@ -9200,8 +9200,15 @@ int32 skill_castend_nodamage_id (struct block_list *src, struct block_list *bl, 
 	case NPC_SELFDESTRUCTION:
 		//Self Destruction hits everyone in range (allies+enemies)
 		//Except for Summoned Marine spheres on non-versus maps, where it's just enemies and your own slaves.
-		i = ((!md || md->special_state.ai == AI_SPHERE) && !map_flag_vs(src->m))?
-			BCT_ENEMY|BCT_SLAVE:BCT_ALL;
+		if ((md == nullptr || md->special_state.ai == AI_SPHERE) && !map_flag_vs(src->m)) {
+			// Enable Marine Spheres to damage own Homunculus and summons outside PVP
+			if (battle_config.alchemist_summon_setting&8)
+				i = BCT_ENEMY|BCT_SLAVE;
+			else
+				i = BCT_ENEMY;
+		} else {
+			i = BCT_ALL;
+		}
 		clif_skill_nodamage(src, *src, skill_id, skill_lv);
 		map_delblock(src); //Required to prevent chain-self-destructions hitting back.
 		map_foreachinshootrange(skill_area_sub, bl,
@@ -9531,9 +9538,11 @@ int32 skill_castend_nodamage_id (struct block_list *src, struct block_list *bl, 
 			if (sd && sd->sc.getSCE(SC_PETROLOGY_OPTION))
 				brate = sd->sc.getSCE(SC_PETROLOGY_OPTION)->val3;
 
-			if (sc_start2(src, bl, type, (skill_lv * 4 + 20) + brate, skill_lv, src->id, skill_get_time2(skill_id, skill_lv), skill_get_time(skill_id, skill_lv)))
+			// Except for players, the skill animation shows even if the status change doesn't start
+			// Players get a skill has failed message instead
+			if (sc_start2(src, bl, type, (skill_lv * 4 + 20) + brate, skill_lv, src->id, skill_get_time2(skill_id, skill_lv), skill_get_time(skill_id, skill_lv)) || sd == nullptr)
 				clif_skill_nodamage(src, *bl, skill_id, skill_lv);
-			else if(sd) {
+			else {
 				clif_skill_fail( *sd, skill_id );
 				// Level 6-10 doesn't consume a red gem if it fails [celest]
 				if (skill_lv > 5)
@@ -10321,7 +10330,7 @@ int32 skill_castend_nodamage_id (struct block_list *src, struct block_list *bl, 
 				status_calc_bl(&md->bl, { SCB_SPEED });
 				// We use skills only on each full cell, to fix the inaccuracy we do this on last move interval
 				if (DIFF_TICK(md->trickcasting, tick) < trickstop + MOB_SKILL_INTERVAL)
-					md->last_skillcheck = tick + 50;
+					md->last_skillcheck = tick + 100;
 			}
 			else {
 				// Synchronize skill usage
@@ -10357,9 +10366,9 @@ int32 skill_castend_nodamage_id (struct block_list *src, struct block_list *bl, 
 
 				if (time) {
 					// Need to set state here as it's not set otherwise
-					md->state.skillstate = MSS_WALK;
+					mob_setstate(*md, MSS_WALK);
 					// Set AI to inactive for the duration of this movement
-					md->last_thinktime = tick + time;
+					md->next_thinktime = tick + time;
 				}
 			}
 		}
@@ -14004,7 +14013,9 @@ TIMER_FUNC(skill_castend_id){
 			break;
 
 		if(md) {
-			md->last_thinktime=tick +MIN_MOBTHINKTIME;
+			// When a monster uses a skill, its AI will be inactive for its attack motion
+			// This is also the reason why it doesn't move during this time
+			md->next_thinktime = tick + status_get_amotion(src);
 			if(md->skill_idx >= 0 && md->db->skill[md->skill_idx]->emotion >= 0)
 				clif_emotion( *src, static_cast<emotion_type>( md->db->skill[md->skill_idx]->emotion ) );
 		}
@@ -14105,6 +14116,10 @@ TIMER_FUNC(skill_castend_id){
 					skill_blockpc_start(*sd, ud->skill_id, cooldown);
 			}
 			break;
+			case BL_MOB:
+				// Sets cooldowns and attack delay
+				mobskill_end(*md, tick);
+			break;
 			case BL_HOM:
 			{
 				homun_data &hd = reinterpret_cast<homun_data &>(*src);
@@ -14158,10 +14173,9 @@ TIMER_FUNC(skill_castend_id){
 			}
 		}
 		if (skill_get_state(ud->skill_id) != ST_MOVE_ENABLE) {
-			// When monsters used a skill they won't walk for amotion, this does not apply to players
-			// This is also important for monster skill usage behavior
+			// Monsters don't need a default walk delay as their AI is inactive after using a skill in general
 			if (src->type == BL_MOB)
-				unit_set_walkdelay(src, tick, max((int32)status_get_amotion(src), skill_get_walkdelay(ud->skill_id, ud->skill_lv)), 1);
+				unit_set_walkdelay(src, tick, skill_get_walkdelay(ud->skill_id, ud->skill_lv), 1);
 			else
 				unit_set_walkdelay(src, tick, battle_config.default_walk_delay + skill_get_walkdelay(ud->skill_id, ud->skill_lv), 1);
 		}
@@ -14343,7 +14357,9 @@ TIMER_FUNC(skill_castend_pos){
 			break;
 
 		if(md) {
-			md->last_thinktime=tick +MIN_MOBTHINKTIME;
+			// When a monster uses a skill, its AI will be inactive for its attack motion
+			// This is also the reason why it doesn't move during this time
+			md->next_thinktime = tick + status_get_amotion(src);
 			if(md->skill_idx >= 0 && md->db->skill[md->skill_idx]->emotion >= 0)
 				clif_emotion( *src, static_cast<emotion_type>( md->db->skill[md->skill_idx]->emotion ) );
 		}
@@ -14361,6 +14377,10 @@ TIMER_FUNC(skill_castend_pos){
 			int32 cooldown = pc_get_skillcooldown(sd,ud->skill_id, ud->skill_lv);
 			if(cooldown) skill_blockpc_start(*sd, ud->skill_id, cooldown);
 		}
+		else if (md != nullptr) {
+			// Sets cooldowns and attack delay
+			mobskill_end(*md, tick);
+		}
 		if( battle_config.display_status_timers && sd )
 			clif_status_change(src, EFST_POSTDELAY, 1, skill_delayfix(src, ud->skill_id, ud->skill_lv), 0, 0, 0);
 //		if( sd )
@@ -14372,10 +14392,9 @@ TIMER_FUNC(skill_castend_pos){
 //				break;
 //			}
 //		}
-		// When monsters used a skill they won't walk for amotion, this does not apply to players
-		// This is also important for monster skill usage behavior
+		// Monsters don't need a default walk delay as their AI is inactive after using a skill in general
 		if (src->type == BL_MOB)
-			unit_set_walkdelay(src, tick, max((int32)status_get_amotion(src), skill_get_walkdelay(ud->skill_id, ud->skill_lv)), 1);
+			unit_set_walkdelay(src, tick, skill_get_walkdelay(ud->skill_id, ud->skill_lv), 1);
 		else
 			unit_set_walkdelay(src, tick, battle_config.default_walk_delay + skill_get_walkdelay(ud->skill_id, ud->skill_lv), 1);
 		map_freeblock_lock();
@@ -19473,7 +19492,7 @@ bool skill_check_condition_castend( map_session_data& sd, uint16 skill_id, uint1
 			if(battle_config.land_skill_limit && maxcount>0 && (battle_config.land_skill_limit&BL_PC)) {
 				i = map_foreachinmap(skill_check_condition_mob_master_sub, sd.bl.m, BL_MOB, sd.bl.id, mob_class, skill_id, &c);
 				if(c >= maxcount ||
-					(skill_id==AM_CANNIBALIZE && c != i && battle_config.summon_flora&2))
+					(skill_id==AM_CANNIBALIZE && c != i && battle_config.alchemist_summon_setting&4))
 				{	//Fails when: exceed max limit. There are other plant types already out.
 					clif_skill_fail( sd, skill_id );
 					return false;
