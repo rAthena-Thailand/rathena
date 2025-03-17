@@ -1532,13 +1532,7 @@ bool battle_status_block_damage(struct block_list *src, struct block_list *targe
 
 	if ((sce = sc->getSCE(SC_PARRYING)) && flag&BF_WEAPON && skill_id != WS_CARTTERMINATION && rnd() % 100 < sce->val2) {
 		clif_skill_nodamage(target, *target, LK_PARRYING, sce->val1);
-
-		if (skill_id == LK_PARRYING) {
-			unit_data *ud = unit_bl2ud(target);
-
-			if (ud != nullptr) // Delay the next attack
-				ud->attackabletime = gettick() + status_get_adelay(target);
-		}
+		unit_set_attackdelay(*target, gettick(), DELAY_EVENT_PARRY);
 		return false;
 	}
 
@@ -1673,6 +1667,11 @@ int64 battle_calc_damage(struct block_list *src,struct block_list *bl,struct Dam
 	}
 
 	if( tsc != nullptr && !tsc->empty() ) {
+		// Barrier just sets damage to 1 per hit and prevents the rest of the code from being processed
+		// But only if the damage at this point is greater than 0
+		if (damage > 0 && tsc->getSCE(SC_BARRIER) != nullptr)
+			return div_;
+
 		// Damage increasing effects
 #ifdef RENEWAL // Flat +400% damage from melee
 		if (tsc->getSCE(SC_KAITE) && (flag&(BF_SHORT|BF_MAGIC)) == BF_SHORT)
@@ -2862,20 +2861,24 @@ static bool is_skill_using_arrow(struct block_list *src, int32 skill_id)
 
 	map_session_data *sd = BL_CAST(BL_PC, src);
 
-	if (sd != nullptr && sd->state.arrow_atk)
-		return true;
-
-	if (sd == nullptr && skill_id != 0) {
-		if (skill_get_ammotype(skill_id) != 0)
+	if( sd != nullptr ){
+		if( sd->state.arrow_atk ){
 			return true;
+		}
+	}else{
+		if( skill_id != 0 && skill_get_ammotype( skill_id ) != AMMO_NONE ){
+			return true;
+		}
 
 		status_data* sstatus = status_get_status_data(*src);
 
-		if (sstatus->rhw.range > 3)
+		if( sstatus != nullptr && sstatus->rhw.range > 3 ){
 			return true;
+		}
 	}
 
 	switch( skill_id ) {
+		case HT_FREEZINGTRAP:
 		case HT_PHANTASMIC:
 		case GS_GROUNDDRIFT:
 		case SS_KUNAIKUSSETSU:
@@ -9648,6 +9651,12 @@ struct Damage battle_calc_misc_attack(struct block_list *src,struct block_list *
 		case HW_GRAVITATION:
 			md.damage = 200 + 200 * skill_lv;
 			md.dmotion = 0; //No flinch animation
+			if (target->type == BL_MOB) {
+				mob_data& mob = *reinterpret_cast<mob_data*>(target);
+				// Deals 400 damage to Emperium on all levels
+				if (mob.mob_id == MOBID_EMPERIUM)
+					md.damage = 400;
+			}
 			break;
 		case PA_PRESSURE:
 			md.damage = 500 + 300 * skill_lv;
@@ -11774,6 +11783,7 @@ static const struct _battle_data {
 	{ "exp_bonus_attacker",                 &battle_config.exp_bonus_attacker,              25,     0,      INT_MAX,        },
 	{ "exp_bonus_max_attacker",             &battle_config.exp_bonus_max_attacker,          12,     2,      INT_MAX,        },
 	{ "min_skill_delay_limit",              &battle_config.min_skill_delay_limit,           100,    10,     INT_MAX,        },
+	{ "amotion_min_skill_delay",            &battle_config.amotion_min_skill_delay,         0,      0,      1,              },
 	{ "default_walk_delay",                 &battle_config.default_walk_delay,              300,    0,      INT_MAX,        },
 	{ "no_skill_delay",                     &battle_config.no_skill_delay,                  BL_MOB, BL_NUL, BL_ALL,         },
 	{ "attack_walk_delay",                  &battle_config.attack_walk_delay,               BL_ALL, BL_NUL, BL_ALL,         },
