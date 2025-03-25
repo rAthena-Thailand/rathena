@@ -176,6 +176,9 @@ enum e_aegis_monstertype : uint16 {
 	MONSTER_TYPE_25 = 0x1,
 	MONSTER_TYPE_26 = 0xB695,
 	MONSTER_TYPE_27 = 0x8084,
+	// Special AI
+	MONSTER_TYPE_ABR_PASSIVE = 0x21,
+	MONSTER_TYPE_ABR_OFFENSIVE = 0xA5,
 };
 
 /// Aegis monster class types
@@ -544,9 +547,10 @@ int32 mob_warpslave(struct block_list *bl, int32 range);
 int32 mob_linksearch(struct block_list *bl,va_list ap);
 
 bool mob_chat_display_message (mob_data &md, uint16 msg_id);
-void mobskill_end(mob_data& md, t_tick tick);
+void mobskill_delay(mob_data& md, t_tick tick);
 bool mobskill_use(struct mob_data *md,t_tick tick,int32 event, int64 damage = 0);
 int32 mobskill_event(struct mob_data *md,struct block_list *src,t_tick tick, int32 flag, int64 damage = 0);
+void mob_set_delay(mob_data& md, t_tick tick, e_delay_event event);
 int32 mob_summonslave(struct mob_data *md2,int32 *value,int32 amount,uint16 skill_id);
 int32 mob_countslave(struct block_list *bl);
 int32 mob_count_sub(struct block_list *bl, va_list ap);
