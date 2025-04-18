@@ -3647,7 +3647,7 @@ static void clif_longlongpar_change(map_session_data& sd, uint16 varId, int64 am
 void clif_updatestatus( map_session_data& sd, enum _sp type ){
 	switch(type){
 		case SP_WEIGHT:
-			pc_updateweightstatus(&sd);
+			pc_updateweightstatus(sd);
 			clif_par_change(sd, type, sd.weight);
 			break;
 		case SP_MAXWEIGHT:
@@ -5119,14 +5119,12 @@ void clif_getareachar_unit( map_session_data* sd,struct block_list *bl ){
 
 //Modifies the type of damage according to target status changes [Skotlex]
 //Aegis data specifies that: 4 endure against single hit sources, 9 against multi-hit.
-static enum e_damage_type clif_calc_delay(block_list& bl, e_damage_type type, int32 div, int64 damage, int32 delay) {
+static enum e_damage_type clif_calc_delay(block_list& bl, e_damage_type type, int32 div, int64 damage, int32 delay, t_tick tick) {
 	if (damage < 1)
 		return type;
 
-	// Currently we set dmotion to 0 to mark situations that should use the endure effect
-	// However, this also impacts units that naturally have 0 dmotion
-	// TODO: Collect all possible situations that create the endure effect and implement function
-	if (delay != 0)
+	// Check if unit has endure
+	if (!status_isendure(bl, tick, true))
 		return type;
 
 	// General change of type based on div against target with endure effect
@@ -5153,33 +5151,6 @@ static enum e_damage_type clif_calc_delay(block_list& bl, e_damage_type type, in
 
 	// Custom, unknown result of endure with types not listed
 	return (div > 1 ? DMG_MULTI_HIT_ENDURE : DMG_ENDURE);
-}
-
-/*==========================================
- * Estimates walk delay based on the damage criteria. [Skotlex]
- *------------------------------------------*/
-static int32 clif_calc_walkdelay( block_list &bl, int32 delay, e_damage_type type, int64 damage, int32 div_ ) {
-	if (damage < 1)
-		return 0;
-
-	switch( type ) {
-		case DMG_ENDURE:
-		case DMG_MULTI_HIT_ENDURE:
-		case DMG_SPLASH_ENDURE:
-			return 0;
-	}
-
-	if (bl.type == BL_PC) {
-		if (battle_config.pc_walk_delay_rate != 100)
-			delay = delay*battle_config.pc_walk_delay_rate/100;
-	} else
-		if (battle_config.walk_delay_rate != 100)
-			delay = delay*battle_config.walk_delay_rate/100;
-
-	if (div_ > 1) //Multi-hit skills mean higher delays.
-		delay += battle_config.multihit_delay*(div_-1);
-
-	return (delay > 0) ? delay : 1; //Return 1 to specify there should be no noticeable delay, but you should stop walking.
 }
 
 /*========================================== [Playtester]
@@ -5240,12 +5211,11 @@ static int64 clif_hallucination_damage( block_list& bl, int64 damage ){
 ///     11 = lucky dodge
 ///     12 = (touch skill?)
 ///     13 = multi-hit critical
-int32 clif_damage(block_list& src, block_list& dst, t_tick tick, int32 sdelay, int32 ddelay, int64 sdamage, int32 div, enum e_damage_type type, int64 sdamage2, bool spdamage){
+void clif_damage(block_list& src, block_list& dst, t_tick tick, int32 sdelay, int32 ddelay, int64 sdamage, int16 div, enum e_damage_type type, int64 sdamage2, bool spdamage){
 	int32 damage = (int32)cap_value(sdamage,INT_MIN,INT_MAX);
 	int32 damage2 = (int32)cap_value(sdamage2,INT_MIN,INT_MAX);
 
-	if (type != DMG_MULTI_HIT_CRITICAL)
-		type = clif_calc_delay( dst, type, div, damage+damage2, ddelay );
+	type = clif_calc_delay(dst, type, div, damage+damage2, ddelay, tick);
 
 	damage = static_cast<decltype(damage)>(clif_hallucination_damage(dst, damage));
 	damage2 = static_cast<decltype(damage2)>(clif_hallucination_damage(dst, damage2));
@@ -5315,14 +5285,6 @@ int32 clif_damage(block_list& src, block_list& dst, t_tick tick, int32 sdelay, i
 
 	if(&src == &dst) 
 		unit_setdir(&src, unit_getdir(&src));
-
-	// In case this assignment is bypassed by DMG_MULTI_HIT_CRITICAL
-	if( type == DMG_MULTI_HIT_CRITICAL ){
-		type = clif_calc_delay( dst, type, div, damage+damage2, ddelay );
-	}
-
-	//Return adjusted can't walk delay for further processing.
-	return clif_calc_walkdelay(dst, ddelay, type, damage+damage2, div);
 }
 
 /*==========================================
@@ -6041,8 +6003,8 @@ void clif_skill_cooldown( map_session_data &sd, uint16 skill_id, t_tick tick ){
 /// Skill attack effect and damage.
 /// 0114 <skill id>.W <src id>.L <dst id>.L <tick>.L <src delay>.L <dst delay>.L <damage>.W <level>.W <div>.W <type>.B (ZC_NOTIFY_SKILL)
 /// 01de <skill id>.W <src id>.L <dst id>.L <tick>.L <src delay>.L <dst delay>.L <damage>.L <level>.W <div>.W <type>.B (ZC_NOTIFY_SKILL2)
-int32 clif_skill_damage( block_list& src, block_list& dst, t_tick tick, int32 sdelay, int32 ddelay, int64 sdamage, int32 div, uint16 skill_id, uint16 skill_lv, e_damage_type type ){
-	type = clif_calc_delay( dst, type, div, sdamage, ddelay );
+void clif_skill_damage( block_list& src, block_list& dst, t_tick tick, int32 sdelay, int32 ddelay, int64 sdamage, int16 div, uint16 skill_id, uint16 skill_lv, e_damage_type type ){
+	type = clif_calc_delay(dst, type, div, sdamage, ddelay, tick);
 	sdamage = clif_hallucination_damage( dst, sdamage );
 
 	PACKET_ZC_NOTIFY_SKILL packet{};
@@ -6093,9 +6055,6 @@ int32 clif_skill_damage( block_list& src, block_list& dst, t_tick tick, int32 sd
 		}
 		clif_send( &packet, sizeof( packet ), &src, SELF );
 	}
-
-	//Because the damage delay must be synced with the client, here is where the can-walk tick must be updated. [Skotlex]
-	return clif_calc_walkdelay( dst, ddelay, type, damage, div );
 }
 
 
@@ -12775,12 +12734,10 @@ static void clif_parse_UseSkillToPos_homun(struct homun_data *hd, map_session_da
 		return;
 	}
 
-#ifdef RENEWAL
-	if (hd->sc.getSCE(SC_BASILICA_CELL))
-#else
+#ifndef RENEWAL
 	if (hd->sc.getSCE(SC_BASILICA))
-#endif
 		return;
+#endif
 	lv = hom_checkskill(hd, skill_id);
 	if( skill_lv > lv )
 		skill_lv = lv;
@@ -12828,12 +12785,10 @@ static void clif_parse_UseSkillToPos_mercenary(s_mercenary_data *md, map_session
 		return;
 	}
 
-#ifdef RENEWAL
-	if (md->sc.getSCE(SC_BASILICA_CELL))
-#else
+#ifndef RENEWAL
 	if (md->sc.getSCE(SC_BASILICA))
-#endif
 		return;
+#endif
 	lv = mercenary_checkskill(md, skill_id);
 	if( skill_lv > lv )
 		skill_lv = lv;
@@ -22003,11 +21958,7 @@ void clif_weight_limit( map_session_data* sd ){
 
 	WFIFOHEAD(fd, packet_len(0xADE));
 	WFIFOW(fd, 0) = 0xADE;
-#ifdef RENEWAL
-	WFIFOL(fd, 2) = battle_config.natural_heal_weight_rate_renewal;
-#else
 	WFIFOL(fd, 2) = battle_config.natural_heal_weight_rate;
-#endif
 	WFIFOSET(fd, packet_len(0xADE));
 #endif
 }
@@ -24439,7 +24390,7 @@ void clif_parse_item_reform_start( int32 fd, map_session_data* sd ){
 void clif_enchantwindow_open( map_session_data& sd, uint64 clientLuaIndex ){
 #if PACKETVER_RE_NUM >= 20211103 || PACKETVER_MAIN_NUM >= 20220330
 	// Hardcoded clientside check
-	if( sd.weight > ( ( sd.max_weight * 70 ) / 100 ) ){
+	if( pc_getpercentweight(sd) >= 70 ){
 		clif_msg_color( sd, MSI_ENCHANT_FAILED_OVER_WEIGHT, color_table[COLOR_RED] );
 		sd.state.item_enchant_index = 0;
 		return;
