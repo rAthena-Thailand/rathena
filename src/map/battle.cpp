@@ -8196,13 +8196,7 @@ struct Damage battle_calc_magic_attack(struct block_list *src,struct block_list 
 				// Fire and undead units hit by firewall cannot be stopped for 2 seconds
 				if (unit_data* ud = unit_bl2ud(target); ud != nullptr)
 					ud->endure_tick = gettick() + 2000;
-				break;
 			}
-			[[fallthrough]];
-		case NJ_KAENSIN:
-		case PR_SANCTUARY:
-			// TODO: This code is a temporary workaround because right now we stop monsters for their dmotion which is not official
-			ad.dmotion = 1;
 			break;
 	}
 
@@ -11576,8 +11570,8 @@ static const struct _battle_data {
 	{ "item_auto_get",                      &battle_config.item_auto_get,                   0,      0,      1,              },
 	{ "first_attack_loot_bonus",            &battle_config.first_attack_loot_bonus,         30,     0,      100,            },
 	{ "item_first_get_time",                &battle_config.item_first_get_time,             3000,   0,      INT_MAX,        },
-	{ "item_second_get_time",               &battle_config.item_second_get_time,            1000,   0,      INT_MAX,        },
-	{ "item_third_get_time",                &battle_config.item_third_get_time,             1000,   0,      INT_MAX,        },
+	{ "item_second_get_time",               &battle_config.item_second_get_time,            2000,   0,      INT_MAX,        },
+	{ "item_third_get_time",                &battle_config.item_third_get_time,             2000,   0,      INT_MAX,        },
 	{ "mvp_item_first_get_time",            &battle_config.mvp_item_first_get_time,         10000,  0,      INT_MAX,        },
 	{ "mvp_item_second_get_time",           &battle_config.mvp_item_second_get_time,        10000,  0,      INT_MAX,        },
 	{ "mvp_item_third_get_time",            &battle_config.mvp_item_third_get_time,         2000,   0,      INT_MAX,        },
