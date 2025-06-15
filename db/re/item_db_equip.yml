@@ -15307,7 +15307,7 @@ Body:
       bonus bFixedCastrate,-getrefine();
   - Id: 1680
     AegisName: Scarlet_Rod
-    Name: Crimson One-Handed Staff
+    Name: Crimson Rod
     Type: Weapon
     SubType: Staff
     Buy: 10
@@ -15718,7 +15718,7 @@ Body:
       bonus bMaxSP,(.@r/3)*10;
   - Id: 1695
     AegisName: Detail_Model_Foxtail
-    Name: Delicate Foxtail Model
+    Name: Fine Foxtail Replica
     Type: Weapon
     SubType: Staff
     Buy: 50000
@@ -23178,7 +23178,6 @@ Body:
     AegisName: Novice_Guard
     Name: Novice Guard
     Type: Armor
-    Buy: 1
     Weight: 1
     Defense: 20
     Jobs:
@@ -74428,7 +74427,7 @@ Body:
       }
   - Id: 15346
     AegisName: Overwhelm_Luk_Armor
-    Name: Unexpected Fortune Armor
+    Name: Overwelm Luk Armor
     Type: Armor
     Weight: 2000
     Defense: 120
@@ -74457,7 +74456,7 @@ Body:
       }
   - Id: 15347
     AegisName: Overwhelm_Vit_Armor
-    Name: Strong Healthy Armor
+    Name: Overwelm Vit Armor
     Type: Armor
     Weight: 2000
     Defense: 120
@@ -87786,7 +87785,6 @@ Body:
     AegisName: Cheesy_Snack_In_Mouth
     Name: Cheesy Snack In Mouth
     Type: Armor
-    Buy: 20
     Weight: 200
     Jobs:
       All: true
@@ -91489,7 +91487,6 @@ Body:
     AegisName: LoveLove_Balloon
     Name: LoveLove Balloon
     Type: Armor
-    Buy: 10
     Weight: 200
     Defense: 5
     Locations:
@@ -98693,13 +98690,13 @@ Body:
     AegisName: Subject_Aura
     Name: Vicious Mind Aura
     Type: Armor
-    View: 1267
     Weight: 100
     Defense: 5
     Locations:
       Head_Low: true
     ArmorLevel: 1
     EquipLevelMin: 170
+    View: 1267
   - Id: 19443
     AegisName: Star_Eyepatch_JP
     Name: Star Eyepatch
@@ -106058,7 +106055,7 @@ Body:
     View: 441
   - Id: 20097
     AegisName: C_Fillet_White
-    Name: Costume White Ribbon
+    Name: Costume White Ribbon Headband
     Type: Armor
     Locations:
       Costume_Head_Top: true
@@ -111021,7 +111018,7 @@ Body:
     View: 120
   - Id: 20618
     AegisName: C_Big_B_Rabbit
-    Name: Costume Big Black Rabbit    # !todo check english name
+    Name: Costume Big Black Rabbit
     Type: Armor
     Locations:
       Costume_Garment: true
@@ -120048,7 +120045,7 @@ Body:
          bonus bBaseAtk,50;
   - Id: 22114
     AegisName: Modify_Int_Boots_
-    Name: Modified Int Boots
+    Name: Modified Intelligence Boots
     Type: Armor
     Buy: 20
     Weight: 600
@@ -120074,7 +120071,7 @@ Body:
          bonus bMatk,60;
   - Id: 22115
     AegisName: Modify_Agi_Boots_
-    Name: Modified Agi Boots
+    Name: Modified Agility Boots
     Type: Armor
     Buy: 20
     Weight: 600
@@ -120099,7 +120096,7 @@ Body:
          bonus bAspd,1;
   - Id: 22116
     AegisName: Modify_Vit_Boots_
-    Name: Modified Vit Boots
+    Name: Modified Vitality Boots
     Type: Armor
     Buy: 20
     Weight: 600
@@ -137699,6 +137696,7 @@ Body:
     Script: |
       .@r = getrefine();
       bonus bMaxHP,.@r*10;
+      bonus2 bSkillAtk,"CD_ARBITRIUM",5+(.@r/3);
       bonus2 bSkillAtk,"CD_ARBITRIUM_ATK",5+(.@r/3);
       bonus bMatk,10*(.@r/2);
   - Id: 24969
@@ -137879,7 +137877,7 @@ Body:
       bonus bBaseAtk,4*(.@r/2);
   - Id: 24979
     AegisName: S_EM_CO_Earring
-    Name: Confractive Earring Shadow    # !todo check english name
+    Name: Conflagrative Shadow Earring
     Type: ShadowGear
     Jobs:
       Sage: true
@@ -137896,7 +137894,7 @@ Body:
       bonus bMatk,10*(.@r/2);
   - Id: 24980
     AegisName: S_EM_CO_Pendant
-    Name: Confractive Pendant Shadow    # !todo check english name
+    Name: Conflagrative Shadow Pendant
     Type: ShadowGear
     Jobs:
       Sage: true
@@ -137913,7 +137911,7 @@ Body:
       bonus bMatk,10*(.@r/2);
   - Id: 24981
     AegisName: S_EM_LS_Armor
-    Name: Lightning Swamp Armor Shadow    # !todo check english name
+    Name: Lightning Swamp Shadow Armor
     Type: ShadowGear
     Jobs:
       Sage: true
@@ -137930,7 +137928,7 @@ Body:
       bonus bMatk,7*(.@r/2);
   - Id: 24982
     AegisName: S_EM_LS_Shoes
-    Name: Lightning Swamp Shoes Shadow    # !todo check english name
+    Name: Lightning Swamp Shadow Shoes
     Type: ShadowGear
     Jobs:
       Sage: true
@@ -137947,7 +137945,7 @@ Body:
       bonus bMatk,7*(.@r/2);
   - Id: 24983
     AegisName: S_ABC_AF_Earring
-    Name: Abyss Flame Earring Shadow    # !todo check english name
+    Name: Abyss Flame Shadow Earring
     Type: ShadowGear
     Jobs:
       Rogue: true
@@ -137965,7 +137963,7 @@ Body:
       bonus bMatk,10*(.@r/2);
   - Id: 24984
     AegisName: S_ABC_AF_Pendant
-    Name: Abyss Flame Pendant Shadow    # !todo check english name
+    Name: Abyss Flame Shadow Pendant
     Type: ShadowGear
     Jobs:
       Rogue: true
@@ -137983,7 +137981,7 @@ Body:
       bonus bMatk,10*(.@r/2);
   - Id: 24985
     AegisName: S_ABC_FA_Armor
-    Name: From Abyss Armor Shadow    # !todo check english name
+    Name: From Abyss Shadow Armor
     Type: ShadowGear
     Jobs:
       Rogue: true
@@ -138000,7 +137998,7 @@ Body:
       bonus bMatk,7*(.@r/2);
   - Id: 24986
     AegisName: S_ABC_FA_Shoes
-    Name: From Abyss Shoes Shadow    # !todo check english name
+    Name: From Abyss Shadow Shoes
     Type: ShadowGear
     Jobs:
       Rogue: true
@@ -138017,7 +138015,7 @@ Body:
       bonus bMatk,7*(.@r/2);
   - Id: 24987
     AegisName: S_SOA_TOWB_Earring
-    Name: Baekhyunbu Earring Shadow    # !todo check english name
+    Name: Talisman of White Black Shadow Earring
     Type: ShadowGear
     Jobs:
       SoulLinker: true
@@ -138034,7 +138032,7 @@ Body:
       bonus bMatk,7*(.@r/2);
   - Id: 24988
     AegisName: S_SOA_TOWB_Pendant
-    Name: Baekhyunbu Pendant Shadow    # !todo check english name
+    Name: Talisman of White Black Shadow Pendant
     Type: ShadowGear
     Jobs:
       SoulLinker: true
@@ -138051,7 +138049,7 @@ Body:
       bonus bMatk,7*(.@r/2);
   - Id: 24989
     AegisName: S_SOA_TOFG_Armor
-    Name: Four-Way God Armor Shadow    # !todo check english name
+    Name: Four Bearing God Shadow Armor
     Type: ShadowGear
     Jobs:
       SoulLinker: true
@@ -138068,7 +138066,7 @@ Body:
       bonus bMatk,10*(.@r/2);
   - Id: 24990
     AegisName: S_SOA_TOFG_Shoes
-    Name: Four-Way God Shoes Shadow    # !todo check english name
+    Name: Four Bearing God Shadow Shoes
     Type: ShadowGear
     Jobs:
       SoulLinker: true
@@ -138085,7 +138083,7 @@ Body:
       bonus bMatk,10*(.@r/2);
   - Id: 24993
     AegisName: S_Magical_M_Armor
-    Name: Magical Master Armor Shadow    # !todo check english name
+    Name: Magical Master Shadow Armor
     Type: ShadowGear
     Locations:
       Shadow_Armor: true
@@ -138106,7 +138104,7 @@ Body:
       }
   - Id: 24994
     AegisName: S_Magical_M_Shoes
-    Name: Magical Master Shoes Shadow    # !todo check english name
+    Name: Magical Master Shadow Shoes
     Type: ShadowGear
     Locations:
       Shadow_Shoes: true
@@ -138127,7 +138125,7 @@ Body:
       }
   - Id: 24995
     AegisName: S_Magical_M_Earring
-    Name: Magical Master Earrings Shadow    # !todo check english name
+    Name: Magical Master Shadow Earring
     Type: ShadowGear
     Locations:
       Shadow_Right_Accessory: true
@@ -138148,7 +138146,7 @@ Body:
       }
   - Id: 24996
     AegisName: S_Magical_M_Pendant
-    Name: Magical Master Pendant Shadow    # !todo check english name
+    Name: Magical Master Shadow Pendant
     Type: ShadowGear
     Locations:
       Shadow_Left_Accessory: true
@@ -138169,7 +138167,7 @@ Body:
       }
   - Id: 24997
     AegisName: S_Spell_M_Armor
-    Name: Spell Master Armor Shadow    # !todo check english name
+    Name: Spell Master Shadow Armor
     Type: ShadowGear
     Locations:
       Shadow_Armor: true
@@ -138190,7 +138188,7 @@ Body:
       }
   - Id: 24998
     AegisName: S_Spell_M_Shoes
-    Name: Spell Master Shoes Shadow    # !todo check english name
+    Name: Spell Master Shadow Shoes
     Type: ShadowGear
     Locations:
       Shadow_Shoes: true
@@ -138211,7 +138209,7 @@ Body:
       }
   - Id: 24999
     AegisName: S_Spell_M_Earring
-    Name: Spell Master Earrings Shadow    # !todo check english name
+    Name: Spell Master Shadow Earring
     Type: ShadowGear
     Locations:
       Shadow_Right_Accessory: true
@@ -150985,7 +150983,7 @@ Body:
       }
   - Id: 28789
     AegisName: Time_Gap_SS_Dagger1
-    Name: Time Gap Kurojin (A)    # !todo check english name
+    Name: Time Gap Kurojin (A)
     Type: Weapon
     SubType: Dagger
     Weight: 1500
@@ -153052,7 +153050,7 @@ Body:
     View: 845
   - Id: 31093
     AegisName: C_Underlamp
-    Name: Costume Under Lamp
+    Name: "Costume: Lamp of Fairy"
     Type: Armor
     Locations:
       Costume_Head_Low: true
@@ -160632,7 +160630,7 @@ Body:
     View: 32
   - Id: 31921
     AegisName: C_Fairy_Long_CB
-    Name: Costume Fairy Long (Sakura)
+    Name: "Costume: Choa Hairstyle (Peach)"
     Type: Armor
     Locations:
       Costume_Head_Low: true
@@ -164226,19 +164224,19 @@ Body:
     AegisName: C_Pierced_Apple
     Name: Pierced Apple
     Type: Armor
-    View: 1952
     Locations:
       Head_Top: true
     ArmorLevel: 1
     Refineable: true
+    View: 1952
   - Id: 400046
     AegisName: C_Pierced_Apple_
     Name: Costume Pierced Apple
     Type: Armor
-    View: 1952
     Locations:
       Costume_Head_Top: true
     ArmorLevel: 1
+    View: 1952
   - Id: 400047
     AegisName: Runaway_Accelerator
     Name: Runaway Accelerator
@@ -177738,6 +177736,14 @@ Body:
       Costume_Head_Top: true
     ArmorLevel: 1
     View: 2585
+  - Id: 400727
+    AegisName: aegis_400727
+    Name: Costume Doram Hairband    # !todo check english name
+    Type: Armor
+    Locations:
+      Costume_Head_Top: true
+    ArmorLevel: 1
+    View: 2593
   - Id: 400728
     AegisName: aegis_400728
     Name: Costume Research Team Hat
@@ -177869,7 +177875,7 @@ Body:
     View: 2638
   - Id: 400745
     AegisName: C_CLB_KP_DC
-    Name: Costume Dragon Warrior Hat    # !todo check english name
+    Name: Costume Dragon Warrior Hat
     Type: Armor
     Locations:
       Costume_Head_Top: true
@@ -177884,7 +177890,7 @@ Body:
       NoAuction: true
   - Id: 400746
     AegisName: C_CLB_KP_Ta
-    Name: Costume Stretched Tigress Doll    # !todo check english name
+    Name: Costume Drooping Tigress
     Type: Armor
     Locations:
       Costume_Head_Top: true
@@ -177899,7 +177905,7 @@ Body:
       NoAuction: true
   - Id: 400747
     AegisName: C_CLB_KP_SF
-    Name: Costume Stretched Shifu Doll    # !todo check english name
+    Name: Costume Drooping Shifu
     Type: Armor
     Locations:
       Costume_Head_Top: true
@@ -177914,7 +177920,7 @@ Body:
       NoAuction: true
   - Id: 400748
     AegisName: C_CLB_KP_Zh
-    Name: Costume Stretched Zen Doll    # !todo check english name
+    Name: Costume Drooping Zhen
     Type: Armor
     Locations:
       Costume_Head_Top: true
@@ -177929,7 +177935,7 @@ Body:
       NoAuction: true
   - Id: 400749
     AegisName: aegis_400749
-    Name: Costume Lion's Guide Helmet    # !todo check english name
+    Name: Costume Afterlife Guide Cap
     Type: Armor
     Locations:
       Costume_Head_Top: true
@@ -178113,7 +178119,7 @@ Body:
       }
   - Id: 400760
     AegisName: aegis_400760
-    Name: Costume Ujet    # !todo check english name
+    Name: Costume Wadjet
     Type: Armor
     Locations:
       Costume_Head_Top: true
@@ -178204,6 +178210,21 @@ Body:
       Costume_Head_Top: true
     ArmorLevel: 1
     View: 2668
+  - Id: 400818
+    AegisName: C_CLB_HM_Uzagi
+    Name: Costume Ujagi Hat    # !todo check english name
+    Type: Armor
+    Locations:
+      Costume_Head_Top: true
+    ArmorLevel: 1
+    View: 2681
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoCart: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
   - Id: 410000
     AegisName: Resonate_Taego_J
     Name: Ancient Resonance
@@ -182472,12 +182493,20 @@ Body:
     View: 2649
   - Id: 410385
     AegisName: aegis_410385
-    Name: Costume Judgement's Scales    # !todo check english name
+    Name: Costume Judgement Scales
     Type: Armor
     Locations:
       Costume_Head_Mid: true
     ArmorLevel: 1
     View: 2651
+  - Id: 410387
+    AegisName: aegis_410387
+    Name: Costume Maid Frill    # !todo check english name
+    Type: Armor
+    Locations:
+      Costume_Head_Mid: true
+    ArmorLevel: 1
+    View: 2656
   - Id: 410392
     AegisName: aegis_410392
     Name: Costume Thanatos's Dolor Mask
@@ -184372,7 +184401,7 @@ Body:
     View: 2369
   - Id: 420209
     AegisName: C_Cookie_PinkRibbon
-    Name: Costume Cookie Ribbon    # !todo check english name
+    Name: Costume Cookie Ribbon
     Type: Armor
     Locations:
       Costume_Head_Low: true
@@ -186185,14 +186214,14 @@ Body:
     View: 2648
   - Id: 420429
     AegisName: aegis_420429
-    Name: Costume Guide's Letter    # !todo check english name
+    Name: Costume Guide's Letter
     Type: Armor
     Locations:
       Costume_Head_Low: true
     ArmorLevel: 1
   - Id: 420430
     AegisName: aegis_420430
-    Name: Costume Guardian's Text    # !todo check english name
+    Name: Costume Guardian's Letter
     Type: Armor
     Locations:
       Costume_Head_Low: true
@@ -186205,6 +186234,22 @@ Body:
       Costume_Head_Mid: true
     ArmorLevel: 1
     View: 2653
+  - Id: 420435
+    AegisName: aegis_420435
+    Name: Costume Strawberry Donut in Mouth    # !todo check english name
+    Type: Armor
+    Locations:
+      Costume_Head_Low: true
+    ArmorLevel: 1
+    View: 2658
+  - Id: 420439
+    AegisName: aegis_420439
+    Name: Costume Food Truck
+    Type: Armor
+    Locations:
+      Costume_Head_Low: true
+    ArmorLevel: 1
+    View: 2660
   - Id: 420440
     AegisName: aegis_420440
     Name: Costume Rigel Hair
@@ -186213,6 +186258,20 @@ Body:
       Costume_Head_Low: true
     ArmorLevel: 1
     View: 2666
+  - Id: 420451
+    AegisName: C_CLB_HM_Munch
+    Name: Costume Successful Munch    # !todo check english name
+    Type: Armor
+    Locations:
+      Costume_Head_Low: true
+    ArmorLevel: 1
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoCart: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
   - Id: 430001
     AegisName: C_Helm_Of_Ra
     Name: Costume Hat of the Sun God
@@ -196782,6 +196841,79 @@ Body:
          bonus2 bSubRace,RC_Player_Human,7;
       }
       /*Todo : When refine value is 9 removes the effect of [Masquerade-Ignorance] when using either Elvira Candy or Elvira Candy (YE)*/
+  - Id: 450440
+    AegisName: Entwined_Armor
+    Name: Entwined Magical Armor
+    Type: Armor
+    Weight: 2000
+    Defense: 158
+    Slots: 1
+    Locations:
+      Armor: true
+    ArmorLevel: 2
+    EquipLevelMin: 220
+    Refineable: true
+    Gradable: true
+    Script: |
+      .@g = getenchantgrade();
+      .@r = getrefine();
+      bonus bBaseAtk,120+15*(.@r/2);
+      if (.@r>=7) {
+         bonus bLongAtkRate,5;
+         bonus bShortAtkRate,5;
+         bonus bAspdRate,10;
+         if (.@r>=9) {
+            bonus bPAtk,3;
+            if (.@r>=10) {
+               bonus bBaseAtk,25;
+               bonus bDef,100;
+            }
+         }
+      }
+      if (.@g>=ENCHANTGRADE_D) {
+         bonus bDelayrate,-5;
+         bonus bPow,3;
+         bonus bCon,3;
+         if (.@g>=ENCHANTGRADE_C) {
+            bonus2 bAddRace2,RC2_Destroyed_Valkyrie_Realm,15;
+         }
+      }
+  - Id: 450441
+    AegisName: Entwined_Robe
+    Name: Entwined Magical Robe
+    Type: Armor
+    Weight: 1200
+    Defense: 126
+    Slots: 1
+    Locations:
+      Armor: true
+    ArmorLevel: 2
+    EquipLevelMin: 220
+    Refineable: true
+    Gradable: true
+    Script: |
+      .@g = getenchantgrade();
+      .@r = getrefine();
+      bonus bMatk,120+15*(.@r/2);
+      if (.@r>=7) {
+         bonus2 bMagicAtkEle,Ele_All,5;
+         bonus bVariableCastrate,-10;
+         if (.@r>=9) {
+            bonus bSMatk,3;
+            if (.@r>=10) {
+               bonus bMatk,25;
+               bonus bDef,100;
+            }
+         }
+      }
+      if (.@g>=ENCHANTGRADE_D) {
+         bonus bDelayrate,-5;
+         bonus bSpl,3;
+         bonus bCon,3;
+         if (.@g>=ENCHANTGRADE_C) {
+            bonus2 bMagicAddRace2,RC2_Destroyed_Valkyrie_Realm,7;
+         }
+      }
   - Id: 460002
     AegisName: Aries_Shield_J
     Name: Aries Shield
@@ -206353,6 +206485,387 @@ Body:
              }
          }
       }
+  - Id: 470333
+    AegisName: Entwined_Boots
+    Name: Entwined Magical Boots
+    Type: Armor
+    Weight: 900
+    Defense: 84
+    Slots: 1
+    Locations:
+      Shoes: true
+    ArmorLevel: 2
+    EquipLevelMin: 220
+    Refineable: true
+    Gradable: true
+    Script: |
+      .@g = getenchantgrade();
+      .@r = getrefine();
+      bonus bMdef,25;
+      bonus bDef,250;
+      bonus bCritical,5;
+      bonus bHit,25;
+      if (.@r>=7) {
+         bonus bLongAtkRate,7;
+         bonus bShortAtkRate,7;
+         if (.@r>=9) {
+            bonus bPAtk,3;
+            if (.@r>=10) {
+               bonus bAspdRate,7;
+               bonus bDef,50;
+            }
+         }
+      }
+      if (.@g>=ENCHANTGRADE_D) {
+         bonus bMRes,25;
+         bonus bRes,25;
+         if (.@g>=ENCHANTGRADE_C) {
+            bonus bFixedCast,-1000;
+            bonus2 bAddRace2,RC2_Destroyed_Valkyrie_Realm,15;
+         }
+      }
+  - Id: 470334
+    AegisName: Entwined_Shoes
+    Name: Entwined Magical Shoes
+    Type: Armor
+    Weight: 500
+    Defense: 67
+    Slots: 1
+    Locations:
+      Shoes: true
+    ArmorLevel: 2
+    EquipLevelMin: 220
+    Refineable: true
+    Gradable: true
+    Script: |
+      .@g = getenchantgrade();
+      .@r = getrefine();
+      bonus bMdef,40;
+      bonus bDef,150;
+      bonus bFlee,35;
+      if (.@r>=7) {
+         bonus2 bMagicAtkEle,Ele_All,7;
+         if (.@r>=9) {
+            bonus bSMatk,3;
+            if (.@r>=10) {
+               bonus bVariableCastrate,-7;
+               bonus bDef,50;
+            }
+         }
+      }
+      if (.@g>=ENCHANTGRADE_D) {
+         bonus bMRes,25;
+         bonus bRes,25;
+         if (.@g>=ENCHANTGRADE_C) {
+            bonus bFixedCast,-1000;
+            bonus2 bMagicAddRace2,RC2_Destroyed_Valkyrie_Realm,10;
+         }
+      }
+  - Id: 470335
+    AegisName: Dimension_B_Greave
+    Name: Dimension World Battle Greaves
+    Type: Armor
+    Weight: 1200
+    Defense: 100
+    Slots: 1
+    Locations:
+      Shoes: true
+    ArmorLevel: 2
+    EquipLevelMin: 260
+    Refineable: true
+    Gradable: true
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoCart: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+    Script: |
+      .@g = getenchantgrade();
+      .@r = getrefine();
+      bonus bMaxHPrate,-10;
+      bonus bPow,7;
+      bonus bCon,7;
+      bonus bVariableCastrate,-(.@r/2);
+      if (.@r>=7) {
+         bonus bAspdRate,10;
+         if (.@r>=9) {
+            bonus bShortAtkRate,10;
+            bonus bPAtk,5;
+            if (.@r>=11) {
+               bonus bShortAtkRate,10;
+               bonus bFixedCast,-1000;
+               bonus bVariableCastrate,-5;
+            }
+         }
+      }
+      if (.@g>=ENCHANTGRADE_D) {
+         bonus bBaseAtk,25;
+         bonus bPow,5;
+         bonus bCon,5;
+         if (.@g>=ENCHANTGRADE_C) {
+            bonus bPAtk,3;
+            bonus bAtkRate,3;
+            if (.@g>=ENCHANTGRADE_B) {
+               bonus bPAtk,3;
+               bonus bAtkRate,5;
+               if (.@g>=ENCHANTGRADE_A) {
+                  bonus bShortAtkRate,15;
+                  bonus2 bAddRace2,RC2_Encroached_Gephenia,15;
+               }
+            }
+         }
+      }
+  - Id: 470336
+    AegisName: Dimension_H_Boots
+    Name: Dimension World Hunting Boots
+    Type: Armor
+    Weight: 1200
+    Defense: 100
+    Slots: 1
+    Locations:
+      Shoes: true
+    ArmorLevel: 2
+    EquipLevelMin: 260
+    Refineable: true
+    Gradable: true
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoCart: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+    Script: |
+      .@g = getenchantgrade();
+      .@r = getrefine();
+      bonus bMaxHPrate,-10;
+      bonus bPow,7;
+      bonus bCon,7;
+      bonus bVariableCastrate,-(.@r/2);
+      if (.@r>=7) {
+         bonus bAspdRate,10;
+         if (.@r>=9) {
+            bonus bLongAtkRate,10;
+            bonus bPAtk,5;
+            if (.@r>=11) {
+               bonus bLongAtkRate,10;
+               bonus bFixedCast,-1000;
+               bonus bVariableCastrate,-5;
+            }
+         }
+      }
+      if (.@g>=ENCHANTGRADE_D) {
+         bonus bBaseAtk,25;
+         bonus bPow,5;
+         bonus bCon,5;
+         if (.@g>=ENCHANTGRADE_C) {
+            bonus bPAtk,3;
+            bonus bAtkRate,3;
+            if (.@g>=ENCHANTGRADE_B) {
+               bonus bPAtk,3;
+               bonus bAtkRate,5;
+               if (.@g>=ENCHANTGRADE_A) {
+                  bonus bLongAtkRate,15;
+                  bonus2 bAddRace2,RC2_Encroached_Gephenia,15;
+               }
+            }
+         }
+      }
+  - Id: 470337
+    AegisName: Dimension_S_Shoes
+    Name: Dimension World Spell Shoes
+    Type: Armor
+    Weight: 1200
+    Defense: 100
+    Slots: 1
+    Locations:
+      Shoes: true
+    ArmorLevel: 2
+    EquipLevelMin: 260
+    Refineable: true
+    Gradable: true
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoCart: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+    Script: |
+      .@g = getenchantgrade();
+      .@r = getrefine();
+      bonus bSpl,7;
+      bonus bCon,7;
+      bonus bUseSPrate,10;
+      bonus bVariableCastrate,-(.@r/2);
+      if (.@r>=7) {
+         bonus bAspdRate,10;
+         if (.@r>=9) {
+            bonus2 bMagicAtkEle,Ele_Neutral,15;
+            bonus2 bMagicAtkEle,Ele_Poison,15;
+            bonus2 bMagicAtkEle,Ele_Dark,15;
+            bonus bSMatk,5;
+            if (.@r>=11) {
+               bonus2 bMagicAtkEle,Ele_Fire,15;
+               bonus2 bMagicAtkEle,Ele_Earth,15;
+               bonus2 bMagicAtkEle,Ele_Water,15;
+               bonus2 bMagicAtkEle,Ele_Wind,15;
+               bonus bFixedCast,-1000;
+               bonus bVariableCastrate,-5;
+            }
+         }
+      }
+      if (.@g>=ENCHANTGRADE_D) {
+         bonus bMatk,25;
+         bonus bSpl,5;
+         bonus bCon,5;
+         if (.@g>=ENCHANTGRADE_C) {
+            bonus bSMatk,3;
+            bonus bMatkRate,3;
+            if (.@g>=ENCHANTGRADE_B) {
+               bonus bSMatk,3;
+               bonus bMatkRate,5;
+               if (.@g>=ENCHANTGRADE_A) {
+                  bonus2 bMagicAtkEle,Ele_Poison,15;
+                  bonus2 bMagicAtkEle,Ele_Dark,15;
+                  bonus2 bMagicAtkEle,Ele_Neutral,15;
+                  bonus2 bMagicAtkEle,Ele_Water,15;
+                  bonus2 bMagicAtkEle,Ele_Wind,15;
+                  bonus2 bMagicAtkEle,Ele_Earth,15;
+                  bonus2 bMagicAtkEle,Ele_Fire,15;
+                  bonus2 bMagicAddRace2,RC2_Encroached_Gephenia,10;
+               }
+            }
+         }
+      }
+  - Id: 470338
+    AegisName: Dimension_M_Shoes
+    Name: Dimension World Magic Shoes
+    Type: Armor
+    Weight: 1200
+    Defense: 100
+    Slots: 1
+    Locations:
+      Shoes: true
+    ArmorLevel: 2
+    EquipLevelMin: 260
+    Refineable: true
+    Gradable: true
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoCart: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+    Script: |
+      .@g = getenchantgrade();
+      .@r = getrefine();
+      bonus bSpl,7;
+      bonus bCon,7;
+      bonus bUseSPrate,10;
+      bonus bVariableCastrate,-(.@r/2);
+      if (.@r>=7) {
+         bonus bAspdRate,10;
+         if (.@r>=9) {
+            bonus2 bMagicAtkEle,Ele_Holy,15;
+            bonus2 bMagicAtkEle,Ele_Fire,15;
+            bonus2 bMagicAtkEle,Ele_Neutral,15;
+            bonus bSMatk,5;
+            if (.@r>=11) {
+               bonus2 bMagicAtkEle,Ele_Undead,15;
+               bonus2 bMagicAtkEle,Ele_Wind,15;
+               bonus2 bMagicAtkEle,Ele_Ghost,15;
+               bonus2 bMagicAtkEle,Ele_Dark,15;
+               bonus bFixedCast,-1000;
+               bonus bVariableCastrate,-5;
+            }
+         }
+      }
+      if (.@g>=ENCHANTGRADE_D) {
+         bonus bMatk,25;
+         bonus bSpl,5;
+         bonus bCon,5;
+         if (.@g>=ENCHANTGRADE_C) {
+            bonus bSMatk,3;
+            bonus bMatkRate,3;
+            if (.@g>=ENCHANTGRADE_B) {
+               bonus bSMatk,3;
+               bonus bMatkRate,5;
+               if (.@g>=ENCHANTGRADE_A) {
+                  bonus2 bMagicAtkEle,Ele_Undead,15;
+                  bonus2 bMagicAtkEle,Ele_Fire,15;
+                  bonus2 bMagicAtkEle,Ele_Neutral,15;
+                  bonus2 bMagicAtkEle,Ele_Wind,15;
+                  bonus2 bMagicAtkEle,Ele_Ghost,15;
+                  bonus2 bMagicAtkEle,Ele_Holy,15;
+                  bonus2 bMagicAtkEle,Ele_Dark,15;
+                  bonus2 bMagicAddRace2,RC2_Encroached_Gephenia,10;
+               }
+            }
+         }
+      }
+  - Id: 470339
+    AegisName: Dimension_E_Boots
+    Name: Dimension World Executioner Boots
+    Type: Armor
+    Weight: 1200
+    Defense: 100
+    Slots: 1
+    Locations:
+      Shoes: true
+    ArmorLevel: 2
+    EquipLevelMin: 260
+    Refineable: true
+    Gradable: true
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoCart: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+    Script: |
+      .@g = getenchantgrade();
+      .@r = getrefine();
+      bonus bCritical,3;
+      bonus bMaxHPrate,-10;
+      bonus bPow,5;
+      bonus bCrt,5;
+      bonus bVariableCastrate,-(.@r/2);
+      if (.@r>=7) {
+         bonus bAspdRate,10;
+         if (.@r>=9) {
+            bonus bCritAtkRate,5;
+            bonus bPAtk,5;
+            if (.@r>=11) {
+               bonus bCritAtkRate,10;
+               bonus bFixedCast,-1000;
+               bonus bCritical,5;
+            }
+         }
+      }
+      if (.@g>=ENCHANTGRADE_D) {
+         bonus bCritical,10;
+         bonus bPow,3;
+         bonus bCrt,3;
+         if (.@g>=ENCHANTGRADE_C) {
+            bonus bCritAtkRate,10;
+            bonus bCRate,4;
+            bonus bAtkRate,3;
+            if (.@g>=ENCHANTGRADE_B) {
+               bonus bPAtk,4;
+               bonus bAtkRate,5;
+               if (.@g>=ENCHANTGRADE_A) {
+                  bonus bShortAtkRate,8;
+                  bonus bLongAtkRate,8;
+                  bonus2 bAddRace2,RC2_Encroached_Gephenia,12;
+               }
+            }
+         }
+      }
   - Id: 480000
     AegisName: Atker_Manteau
     Name: Attacker Booster Manteau
@@ -207525,7 +208038,7 @@ Body:
       }
   - Id: 480082
     AegisName: C_Sandalphon_Wing_TW
-    Name: Costume Sandalphon Wing    # !todo check english name
+    Name: Costume Sandalphon Wings
     Type: Armor
     Locations:
       Costume_Garment: true
@@ -208651,7 +209164,7 @@ Body:
     View: 123
   - Id: 480159
     AegisName: Snowflower_Manteau
-    Name: Snowflower Manteau
+    Name: Snow Flower Manteau
     Type: Armor
     Weight: 900
     Defense: 70
@@ -214498,7 +215011,7 @@ Body:
       }
   - Id: 480523
     AegisName: aegis_480523
-    Name: Costume Libra Wings    # !todo check english name
+    Name: Costume Libra Wings
     Type: Armor
     Locations:
       Costume_Garment: true
@@ -214678,6 +215191,91 @@ Body:
       Costume_Garment: true
     ArmorLevel: 1
     View: 258
+  - Id: 480545
+    AegisName: Entwined_Manteau
+    Name: Entwined Magical Manteau
+    Type: Armor
+    Weight: 1200
+    Defense: 92
+    Slots: 1
+    Locations:
+      Garment: true
+    ArmorLevel: 2
+    EquipLevelMin: 220
+    Refineable: true
+    Gradable: true
+    Script: |
+      .@g = getenchantgrade();
+      .@r = getrefine();
+      bonus bMaxHP,4500;
+      bonus bMaxSP,150;
+      bonus bCritical,5;
+      bonus bHit,25;
+      if (.@r>=7) {
+         bonus bAspdRate,10;
+         if (.@r>=9) {
+            bonus bPow,3;
+            if (.@r>=10) {
+               bonus bVariableCastrate,-5;
+            }
+         }
+      }
+      if (.@g>=ENCHANTGRADE_D) {
+         bonus bLongAtkRate,10;
+         bonus bShortAtkRate,10;
+         if (.@g>=ENCHANTGRADE_C) {
+            bonus2 bAddRace2,RC2_Destroyed_Valkyrie_Realm,15;
+         }
+      }
+  - Id: 480546
+    AegisName: Entwined_Muffler
+    Name: Entwined Magical Muffler
+    Type: Armor
+    Weight: 700
+    Defense: 73
+    Slots: 1
+    Locations:
+      Garment: true
+    ArmorLevel: 2
+    EquipLevelMin: 220
+    Refineable: true
+    Gradable: true
+    Script: |
+      .@g = getenchantgrade();
+      .@r = getrefine();
+      bonus bMaxHP,2500;
+      bonus bMaxSP,250;
+      bonus bFlee,35;
+      if (.@r>=7) {
+         bonus bVariableCastrate,-10;
+         if (.@r>=9) {
+            bonus bSpl,3;
+            if (.@r>=10) {
+               bonus bAspdRate,5;
+            }
+         }
+      }
+      if (.@g>=ENCHANTGRADE_D) {
+         bonus2 bMagicAtkEle,Ele_All,10;
+         if (.@g>=ENCHANTGRADE_C) {
+            bonus2 bMagicAddRace2,RC2_Destroyed_Valkyrie_Realm,10;
+         }
+      }
+  - Id: 480565
+    AegisName: C_CLB_HM_Noni
+    Name: Costume Riding Noni Bag    # !todo check english name
+    Type: Armor
+    Locations:
+      Costume_Garment: true
+    ArmorLevel: 1
+    View: 264
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoCart: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
   - Id: 490004
     AegisName: Atker_Ring
     Name: Attacker Booster Ring
@@ -214971,6 +215569,7 @@ Body:
     AegisName: Grace_Magic_Ring
     Name: Grace Magic Ring
     Type: Armor
+    Buy: 20
     Weight: 0
     Defense: 10
     Slots: 1
@@ -230590,7 +231189,7 @@ Body:
       }
   - Id: 510172
     AegisName: Time_Gap_SS_Dagger2
-    Name: Time Gap Kurojin (B)    # !todo check english name
+    Name: Time Gap Kurojin (B)
     Type: Weapon
     SubType: Dagger
     Weight: 1000
@@ -235636,7 +236235,7 @@ Body:
       }
   - Id: 540096
     AegisName: Time_Gap_EM_S_Book
-    Name: Time Gap Elemental Spellbook    # !todo check english name
+    Name: Time Gap Elemental Spell Book
     Type: Weapon
     SubType: Book
     Weight: 1800
@@ -252960,7 +253559,7 @@ Body:
       }
   - Id: 640011
     AegisName: Up_Iron_Staff
-    Name: Patent Iron Staff
+    Name: Patent Aeon Staff
     Type: Weapon
     SubType: 2hStaff
     Weight: 1000
@@ -258287,7 +258886,7 @@ Body:
       }
   - Id: 700108
     AegisName: Time_Gap_WH_Bow
-    Name: Time Gap Wind Bow    # !todo check english name
+    Name: Time Gap Wind Bow
     Type: Weapon
     SubType: Bow
     Weight: 2100
@@ -262516,7 +263115,7 @@ Body:
       }
   - Id: 1270000
     AegisName: S_Spell_M_Pendant
-    Name: Spell Master Pendant Shadow    # !todo check english name
+    Name: Spell Master Shadow Pendant
     Type: ShadowGear
     Locations:
       Shadow_Left_Accessory: true
@@ -262537,7 +263136,7 @@ Body:
       }
   - Id: 1270001
     AegisName: S_Sorcery_M_Armor
-    Name: Sorcery Master Armor Shadow    # !todo check english name
+    Name: Sorcery Master Shadow Armor
     Type: ShadowGear
     Locations:
       Shadow_Armor: true
@@ -262558,7 +263157,7 @@ Body:
       }
   - Id: 1270002
     AegisName: S_Sorcery_M_Shoes
-    Name: Sorcery Master Shoes Shadow    # !todo check english name
+    Name: Sorcery Master Shadow Shoes
     Type: ShadowGear
     Locations:
       Shadow_Shoes: true
@@ -262579,7 +263178,7 @@ Body:
       }
   - Id: 1270003
     AegisName: S_Sorcery_M_Earring
-    Name: Sorcery Master Earrings Shadow    # !todo check english name
+    Name: Sorcery Master Shadow Earring
     Type: ShadowGear
     Locations:
       Shadow_Right_Accessory: true
@@ -262600,7 +263199,7 @@ Body:
       }
   - Id: 1270004
     AegisName: S_Sorcery_M_Pendant
-    Name: Sorcery Master Pendant Shadow    # !todo check english name
+    Name: Sorcery Master Shadow Pendant
     Type: ShadowGear
     Locations:
       Shadow_Left_Accessory: true
@@ -262619,3 +263218,629 @@ Body:
       if (.@r>=10) {
          bonus bSMatk,3;
       }
+  - Id: 1270005
+    AegisName: S_Sword_M_Armor
+    Name: Sword Master Shadow Armor
+    Type: ShadowGear
+    Locations:
+      Shadow_Armor: true
+    EquipLevelMin: 200
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bMaxHP,.@r*10;
+      bonus bAtkRate,3;
+      bonus bBaseAtk,7;
+      bonus bShortAtkRate,2*(.@r/3);
+      if (.@r>=10) {
+         bonus bPAtk,3;
+      }
+  - Id: 1270006
+    AegisName: S_Sword_M_Shoes
+    Name: Sword Master Shadow Shoes
+    Type: ShadowGear
+    Locations:
+      Shadow_Shoes: true
+    EquipLevelMin: 200
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bMaxHP,.@r*10;
+      bonus bAtkRate,3;
+      bonus bBaseAtk,7;
+      bonus bShortAtkRate,2*(.@r/3);
+      if (.@r>=10) {
+         bonus bPAtk,3;
+      }
+  - Id: 1270007
+    AegisName: S_Sword_M_Earring
+    Name: Sword Master Shadow Earring
+    Type: ShadowGear
+    Locations:
+      Shadow_Right_Accessory: true
+    EquipLevelMin: 200
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bMaxHP,.@r*10;
+      bonus bAtkRate,3;
+      bonus bBaseAtk,7;
+      bonus bShortAtkRate,2*(.@r/3);
+      if (.@r>=10) {
+         bonus bPAtk,3;
+      }
+  - Id: 1270008
+    AegisName: S_Sword_M_Pendant
+    Name: Sword Master Shadow Pendant
+    Type: ShadowGear
+    Locations:
+      Shadow_Left_Accessory: true
+    EquipLevelMin: 200
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bMaxHP,.@r*10;
+      bonus bAtkRate,3;
+      bonus bBaseAtk,7;
+      bonus bShortAtkRate,2*(.@r/3);
+      if (.@r>=10) {
+         bonus bPAtk,3;
+      }
+  - Id: 1270009
+    AegisName: S_Bow_M_Armor
+    Name: Bow Master Shadow Armor
+    Type: ShadowGear
+    Locations:
+      Shadow_Armor: true
+    EquipLevelMin: 200
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bMaxHP,.@r*10;
+      bonus bAtkRate,3;
+      bonus bBaseAtk,7;
+      bonus bLongAtkRate,2*(.@r/3);
+      if (.@r>=10) {
+         bonus bPAtk,3;
+      }
+  - Id: 1270010
+    AegisName: S_Bow_M_Shoes
+    Name: Bow Master Shadow Shoes
+    Type: ShadowGear
+    Locations:
+      Shadow_Shoes: true
+    EquipLevelMin: 200
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bMaxHP,.@r*10;
+      bonus bAtkRate,3;
+      bonus bBaseAtk,7;
+      bonus bLongAtkRate,2*(.@r/3);
+      if (.@r>=10) {
+         bonus bPAtk,3;
+      }
+  - Id: 1270011
+    AegisName: S_Bow_M_Earring
+    Name: Bow Master Shadow Earring
+    Type: ShadowGear
+    Locations:
+      Shadow_Right_Accessory: true
+    EquipLevelMin: 200
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bMaxHP,.@r*10;
+      bonus bAtkRate,3;
+      bonus bBaseAtk,7;
+      bonus bLongAtkRate,2*(.@r/3);
+      if (.@r>=10) {
+         bonus bPAtk,3;
+      }
+  - Id: 1270012
+    AegisName: S_Bow_M_Pendant
+    Name: Bow Master Shadow Pendant
+    Type: ShadowGear
+    Locations:
+      Shadow_Left_Accessory: true
+    EquipLevelMin: 200
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bMaxHP,.@r*10;
+      bonus bAtkRate,3;
+      bonus bBaseAtk,7;
+      bonus bLongAtkRate,2*(.@r/3);
+      if (.@r>=10) {
+         bonus bPAtk,3;
+      }
+  - Id: 1270013
+    AegisName: S_Fatal_M_Armor
+    Name: Fatal Master Shadow Armor
+    Type: ShadowGear
+    Locations:
+      Shadow_Armor: true
+    EquipLevelMin: 200
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bMaxHP,.@r*10;
+      bonus bCRate,1;
+      bonus bCritical,1;
+      bonus bCritAtkRate,2*(.@r/3);
+      if (.@r>=10) {
+         bonus bPAtk,1;
+         bonus bCritical,3;
+      }
+  - Id: 1270014
+    AegisName: S_Fatal_M_Shoes
+    Name: Fatal Master Shadow Shoes
+    Type: ShadowGear
+    Locations:
+      Shadow_Shoes: true
+    EquipLevelMin: 200
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bMaxHP,.@r*10;
+      bonus bCRate,1;
+      bonus bCritical,1;
+      bonus bCritAtkRate,2*(.@r/3);
+      if (.@r>=10) {
+         bonus bPAtk,1;
+         bonus bCritical,3;
+      }
+  - Id: 1270015
+    AegisName: S_Fatal_M_Earring
+    Name: Fatal Master Shadow Earring
+    Type: ShadowGear
+    Locations:
+      Shadow_Right_Accessory: true
+    EquipLevelMin: 200
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bMaxHP,.@r*10;
+      bonus bCRate,1;
+      bonus bCritical,1;
+      bonus bCritAtkRate,2*(.@r/3);
+      if (.@r>=10) {
+         bonus bPAtk,1;
+         bonus bCritical,3;
+      }
+  - Id: 1270016
+    AegisName: S_Fatal_M_Pendant
+    Name: Fatal Master Shadow Pendant
+    Type: ShadowGear
+    Locations:
+      Shadow_Left_Accessory: true
+    EquipLevelMin: 200
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bMaxHP,.@r*10;
+      bonus bCRate,1;
+      bonus bCritical,1;
+      bonus bCritAtkRate,2*(.@r/3);
+      if (.@r>=10) {
+         bonus bPAtk,1;
+         bonus bCritical,3;
+      }
+  - Id: 1270023
+    AegisName: S_DK_DS_Earring
+    Name: Dragonic Spear Shadow Earring
+    Type: ShadowGear
+    Jobs:
+      Knight: true
+    Classes:
+      Fourth: true
+    Locations:
+      Shadow_Right_Accessory: true
+    EquipLevelMin: 200
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bMaxHP,.@r*10;
+      bonus2 bSkillAtk,"DK_DRAGONIC_PIERCE",5+(.@r/3);
+      bonus bCritical,(.@r/2);
+      bonus bBaseAtk,4*(.@r/2);
+  - Id: 1270024
+    AegisName: S_DK_DS_Pendant
+    Name: Dragonic Spear Shadow Pendant
+    Type: ShadowGear
+    Jobs:
+      Knight: true
+    Classes:
+      Fourth: true
+    Locations:
+      Shadow_Left_Accessory: true
+    EquipLevelMin: 200
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bMaxHP,.@r*10;
+      bonus2 bSkillAtk,"DK_DRAGONIC_PIERCE",5+(.@r/3);
+      bonus bCritical,(.@r/2);
+      bonus bBaseAtk,4*(.@r/2);
+  - Id: 1270025
+    AegisName: S_DK_MB_Armor
+    Name: Madness Breath Shadow Armor
+    Type: ShadowGear
+    Jobs:
+      Knight: true
+    Classes:
+      Fourth: true
+    Locations:
+      Shadow_Armor: true
+    EquipLevelMin: 200
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bMaxHP,.@r*10;
+      bonus2 bSkillAtk,"DK_MADNESS_CRUSHER",8+2*(.@r/3);
+      bonus bBaseAtk,10*(.@r/2);
+  - Id: 1270026
+    AegisName: S_DK_MB_Shoes
+    Name: Madness Breath Shadow Shoes
+    Type: ShadowGear
+    Jobs:
+      Knight: true
+    Classes:
+      Fourth: true
+    Locations:
+      Shadow_Shoes: true
+    EquipLevelMin: 200
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bMaxHP,.@r*10;
+      bonus2 bSkillAtk,"DK_DRAGONIC_BREATH",8+2*(.@r/3);
+      bonus bBaseAtk,10*(.@r/2);
+  - Id: 1270027
+    AegisName: S_BO_AC_Earring
+    Name: Acidified Shadow Earring
+    Type: ShadowGear
+    Jobs:
+      Alchemist: true
+    Classes:
+      Fourth: true
+    Locations:
+      Shadow_Right_Accessory: true
+    EquipLevelMin: 200
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bMaxHP,.@r*10;
+      bonus2 bSkillAtk,"BO_ACIDIFIED_ZONE_FIRE",8+2*(.@r/3);
+      bonus2 bSkillAtk,"BO_ACIDIFIED_ZONE_GROUND",8+2*(.@r/3);
+      bonus bBaseAtk,10*(.@r/2);
+  - Id: 1270028
+    AegisName: S_BO_AC_Pendant
+    Name: Acidified Shadow Pendant
+    Type: ShadowGear
+    Jobs:
+      Alchemist: true
+    Classes:
+      Fourth: true
+    Locations:
+      Shadow_Left_Accessory: true
+    EquipLevelMin: 200
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bMaxHP,.@r*10;
+      bonus2 bSkillAtk,"BO_ACIDIFIED_ZONE_WIND",8+2*(.@r/3);
+      bonus2 bSkillAtk,"BO_ACIDIFIED_ZONE_WATER",8+2*(.@r/3);
+      bonus bBaseAtk,10*(.@r/2);
+  - Id: 1270029
+    AegisName: S_BO_TH_Armor
+    Name: Thorns Shadow Armor
+    Type: ShadowGear
+    Jobs:
+      Alchemist: true
+    Classes:
+      Fourth: true
+    Locations:
+      Shadow_Armor: true
+    EquipLevelMin: 200
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bMaxHP,.@r*10;
+      bonus2 bSkillAtk,"BO_MAYHEMIC_THORNS",5+(.@r/3);
+      bonus bCritical,(.@r/2);
+      bonus bBaseAtk,4*(.@r/2);
+  - Id: 1270030
+    AegisName: S_BO_TH_Shoes
+    Name: Thorns Shadow Shoes
+    Type: ShadowGear
+    Jobs:
+      Alchemist: true
+    Classes:
+      Fourth: true
+    Locations:
+      Shadow_Shoes: true
+    EquipLevelMin: 200
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bMaxHP,.@r*10;
+      bonus2 bSkillAtk,"BO_MAYHEMIC_THORNS",5+(.@r/3);
+      bonus bCritical,(.@r/2);
+      bonus bBaseAtk,4*(.@r/2);
+  - Id: 1270031
+    AegisName: S_SU_HRC_Earring
+    Name: Hyunrok Cannon Shadow Earring
+    Type: ShadowGear
+    Jobs:
+      Summoner: true
+    Classes:
+      Fourth: true
+    Locations:
+      Shadow_Right_Accessory: true
+    EquipLevelMin: 200
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bMaxHP,.@r*10;
+      bonus2 bSkillAtk,"SH_HYUN_ROK_CANNON",5+(.@r/3);
+      bonus bMatk,10*(.@r/2);
+  - Id: 1270032
+    AegisName: S_SU_HRC_Pendant
+    Name: Hyunrok Cannon Shadow Pendant
+    Type: ShadowGear
+    Jobs:
+      Summoner: true
+    Classes:
+      Fourth: true
+    Locations:
+      Shadow_Left_Accessory: true
+    EquipLevelMin: 200
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bMaxHP,.@r*10;
+      bonus2 bSkillAtk,"SH_HYUN_ROK_CANNON",5+(.@r/3);
+      bonus bMatk,10*(.@r/2);
+  - Id: 1270033
+    AegisName: S_SU_BSP_Armor
+    Name: Hyunrok Breeze Spirit Shadow Armor
+    Type: ShadowGear
+    Jobs:
+      Summoner: true
+    Classes:
+      Fourth: true
+    Locations:
+      Shadow_Armor: true
+    EquipLevelMin: 200
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bMaxHP,.@r*10;
+      bonus2 bSkillAtk,"SH_HYUN_ROK_SPIRIT_POWER",8+2*(.@r/3);
+      bonus bMatk,7*(.@r/2);
+  - Id: 1270034
+    AegisName: S_SU_BSP_Shoes
+    Name: Hyunrok Breeze Spirit Shadow Shoes
+    Type: ShadowGear
+    Jobs:
+      Summoner: true
+    Classes:
+      Fourth: true
+    Locations:
+      Shadow_Shoes: true
+    EquipLevelMin: 200
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bMaxHP,.@r*10;
+      bonus2 bSkillAtk,"SH_HYUN_ROKS_BREEZE",8+2*(.@r/3);
+      bonus bMatk,7*(.@r/2);
+  - Id: 1270035
+    AegisName: S_MT_TL_Earring
+    Name: Triple Shadow Earring
+    Type: ShadowGear
+    Jobs:
+      Blacksmith: true
+    Classes:
+      Fourth: true
+    Locations:
+      Shadow_Right_Accessory: true
+    EquipLevelMin: 200
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bMaxHP,.@r*10;
+      bonus2 bSkillAtk,"MT_TRIPLE_LASER",5+(.@r/3);
+      bonus bCritical,(.@r/2);
+      bonus bBaseAtk,4*(.@r/2);
+  - Id: 1270036
+    AegisName: S_MT_TL_Pendant
+    Name: Triple Shadow Pendant
+    Type: ShadowGear
+    Jobs:
+      Blacksmith: true
+    Classes:
+      Fourth: true
+    Locations:
+      Shadow_Left_Accessory: true
+    EquipLevelMin: 200
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bMaxHP,.@r*10;
+      bonus2 bSkillAtk,"MT_TRIPLE_LASER",5+(.@r/3);
+      bonus bCritical,(.@r/2);
+      bonus bBaseAtk,4*(.@r/2);
+  - Id: 1270037
+    AegisName: S_MT_SC_Armor
+    Name: Spark Cannonade Shadow Armor
+    Type: ShadowGear
+    Jobs:
+      Blacksmith: true
+    Classes:
+      Fourth: true
+    Locations:
+      Shadow_Armor: true
+    EquipLevelMin: 200
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bMaxHP,.@r*10;
+      bonus2 bSkillAtk,"MT_SPARK_BLASTER",8+2*(.@r/3);
+      bonus bBaseAtk,10*(.@r/2);
+  - Id: 1270038
+    AegisName: S_MT_SC_Shoes
+    Name: Spark Cannonade Shadow Shoes
+    Type: ShadowGear
+    Jobs:
+      Blacksmith: true
+    Classes:
+      Fourth: true
+    Locations:
+      Shadow_Shoes: true
+    EquipLevelMin: 200
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bMaxHP,.@r*10;
+      bonus2 bSkillAtk,"MT_ENERGY_CANNONADE",8+2*(.@r/3);
+      bonus bBaseAtk,10*(.@r/2);
+  - Id: 1270039
+    AegisName: S_IG_RS_Earring
+    Name: Radiant Shadow Earring
+    Type: ShadowGear
+    Jobs:
+      Crusader: true
+    Classes:
+      Fourth: true
+    Locations:
+      Shadow_Right_Accessory: true
+    EquipLevelMin: 200
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bMaxHP,.@r*10;
+      bonus2 bSkillAtk,"IG_RADIANT_SPEAR",5+(.@r/3);
+      bonus bCritical,(.@r/2);
+      bonus bBaseAtk,4*(.@r/2);
+  - Id: 1270040
+    AegisName: S_IG_RS_Pendant
+    Name: Radiant Shadow Pendant
+    Type: ShadowGear
+    Jobs:
+      Crusader: true
+    Classes:
+      Fourth: true
+    Locations:
+      Shadow_Left_Accessory: true
+    EquipLevelMin: 200
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bMaxHP,.@r*10;
+      bonus2 bSkillAtk,"IG_RADIANT_SPEAR",5+(.@r/3);
+      bonus bCritical,(.@r/2);
+      bonus bBaseAtk,4*(.@r/2);
+  - Id: 1270041
+    AegisName: S_IG_SS_Armor
+    Name: Shield Shooter Shadow Armor
+    Type: ShadowGear
+    Jobs:
+      Crusader: true
+    Classes:
+      Fourth: true
+    Locations:
+      Shadow_Armor: true
+    EquipLevelMin: 200
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bMaxHP,.@r*10;
+      bonus2 bSkillAtk,"IG_SHIELD_SHOOTING",5+(.@r/3);
+      bonus bBaseAtk,10*(.@r/2);
+  - Id: 1270042
+    AegisName: S_IG_SS_Shoes
+    Name: Shield Shooter Shadow Shoes
+    Type: ShadowGear
+    Jobs:
+      Crusader: true
+    Classes:
+      Fourth: true
+    Locations:
+      Shadow_Shoes: true
+    EquipLevelMin: 200
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bMaxHP,.@r*10;
+      bonus2 bSkillAtk,"IG_SHIELD_SHOOTING",5+(.@r/3);
+      bonus bBaseAtk,10*(.@r/2);
+  - Id: 1270043
+    AegisName: S_SOA_TS_Earring
+    Name: Talisman of Red Blue Shadow Earring
+    Type: ShadowGear
+    Jobs:
+      SoulLinker: true
+    Classes:
+      Fourth: true
+    Locations:
+      Shadow_Right_Accessory: true
+    EquipLevelMin: 200
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bMaxHP,.@r*10;
+      bonus2 bSkillAtk,"SOA_TALISMAN_OF_RED_PHOENIX",8+2*(.@r/3);
+      bonus bMatk,7*(.@r/2);
+  - Id: 1270044
+    AegisName: S_SOA_TS_Pendant
+    Name: Talisman of Red Blue Shadow Pendant
+    Type: ShadowGear
+    Jobs:
+      SoulLinker: true
+    Classes:
+      Fourth: true
+    Locations:
+      Shadow_Left_Accessory: true
+    EquipLevelMin: 200
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bMaxHP,.@r*10;
+      bonus2 bSkillAtk,"SOA_TALISMAN_OF_BLUE_DRAGON",8+2*(.@r/3);
+      bonus bMatk,7*(.@r/2);
+  - Id: 1270045
+    AegisName: S_SOA_MS_Armor
+    Name: Exorcism of Malicious Soul Shadow Armor
+    Type: ShadowGear
+    Jobs:
+      SoulLinker: true
+    Classes:
+      Fourth: true
+    Locations:
+      Shadow_Armor: true
+    EquipLevelMin: 200
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bMaxHP,.@r*10;
+      bonus2 bSkillAtk,"SOA_EXORCISM_OF_MALICIOUS_SOUL",5+(.@r/3);
+      bonus bMatk,10*(.@r/2);
+  - Id: 1270046
+    AegisName: S_SOA_MS_Shoes
+    Name: Exorcism of Malicious Soul Shadow Shoes
+    Type: ShadowGear
+    Jobs:
+      SoulLinker: true
+    Classes:
+      Fourth: true
+    Locations:
+      Shadow_Shoes: true
+    EquipLevelMin: 200
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bMaxHP,.@r*10;
+      bonus2 bSkillAtk,"SOA_EXORCISM_OF_MALICIOUS_SOUL",5+(.@r/3);
+      bonus bMatk,10*(.@r/2);
