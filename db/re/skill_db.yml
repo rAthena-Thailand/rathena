@@ -817,7 +817,29 @@ Body:
     Hit: Single
     HitCount: 1
     Element: Fire
-    SplashArea: 2
+    SplashArea:
+      - Level: 1
+        Area: 2
+      - Level: 2
+        Area: 2
+      - Level: 3
+        Area: 2
+      - Level: 4
+        Area: 2
+      - Level: 5
+        Area: 2
+      - Level: 6
+        Area: 2
+      - Level: 7
+        Area: 2
+      - Level: 8
+        Area: 2
+      - Level: 9
+        Area: 2
+      - Level: 10
+        Area: 2
+      - Level: 11
+        Area: 3
     CopyFlags:
       Skill:
         Plagiarism: true
@@ -11647,7 +11669,7 @@ Body:
     Description: Flying Kick
     MaxLevel: 7
     Type: Weapon
-    TargetType: Support
+    TargetType: Attack
     DamageFlags:
       NoDamage: true
     Range: 9
@@ -18520,8 +18542,8 @@ Body:
     Hit: Single
     CastTime: 800
     AfterCastActDelay: 2000
-    Duration1: 17000
-    Duration2: 120000
+    Duration1: 10000
+    Duration2: 10000
     FixedCastTime: 200
     Requires:
       SpCost: 40
@@ -18540,7 +18562,7 @@ Body:
     CastTime: 800
     AfterCastActDelay: 2000
     Duration1: 10000
-    Duration2: 18000
+    Duration2: 10000
     FixedCastTime: 200
     Requires:
       SpCost: 40
