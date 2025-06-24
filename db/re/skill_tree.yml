@@ -8207,6 +8207,13 @@ Body:
             Level: 5
           - Name: HN_NAPALM_VULCAN_STRIKE
             Level: 5
+      - Name: HN_OVERCOMING_CRISIS
+        MaxLevel: 5
+        Requires:
+          - Name: HN_SELFSTUDY_TATICS
+            Level: 5
+          - Name: HN_SELFSTUDY_SOCERY
+            Level: 5
   - Job: Spirit_Handler
     Inherit:
       Summoner: true
@@ -8312,6 +8319,20 @@ Body:
             Level: 1
           - Name: SH_MYSTICAL_CREATURE_MASTERY
             Level: 10
+      - Name: SH_CHUL_HO_BATTERING
+        MaxLevel: 7
+        Requires:
+          - Name: SH_MYSTICAL_CREATURE_MASTERY
+            Level: 7
+          - Name: SH_CHUL_HO_SONIC_CLAW
+            Level: 5
+      - Name: SH_HYUN_ROK_SPIRIT_POWER
+        MaxLevel: 7
+        Requires:
+          - Name: SH_MYSTICAL_CREATURE_MASTERY
+            Level: 7
+          - Name: SH_HYUN_ROKS_BREEZE
+            Level: 5
   - Job: Sky_Emperor
     Inherit:
       Novice: true

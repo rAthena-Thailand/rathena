@@ -564,7 +564,7 @@ function	script	F_Tower_Monster	{
 		areamonster .@map$,93,351,103,387,"Goblin",1122,10,.@label$;
 		areamonster .@map$,93,351,103,387,"Goblin",1123,5,.@label$;
 		areamonster .@map$,93,351,103,387,"Goblin",1124,5,.@label$;
-		areamonster .@map$,93,351,103,387,"Gobin",1125,5,.@label$;
+		areamonster .@map$,93,351,103,387,"Goblin",1125,5,.@label$;
 		areamonster .@map$,93,351,103,387,"Goblin",1126,5,.@label$;
 		break;
 	case 28:
@@ -603,7 +603,7 @@ function	script	F_Tower_Monster	{
 	case 33:
 		areamonster .@map$,181,267,191,303,"Kobold Leader",1296,1,.@label$;
 		areamonster .@map$,181,267,191,303,"Kobold",1133,15,.@label$;
-		areamonster .@map$,181,267,191,303,"Kobold_Archer",1282,15,.@label$;
+		areamonster .@map$,181,267,191,303,"Kobold Archer",1282,15,.@label$;
 		areamonster .@map$,181,267,191,303,"Kobold",1134,10,.@label$;
 		areamonster .@map$,181,267,191,303,"Kobold",1135,5,.@label$;
 		break;
@@ -725,7 +725,7 @@ function	script	F_Tower_Monster	{
 		break;
 	case 54:
 		areamonster .@map$,267,351,277,387,"Chepet",1250,10,.@label$;
-		areamonster .@map$,267,351,277,387,"Mariontte",1143,10,.@label$;
+		areamonster .@map$,267,351,277,387,"Marionette",1143,10,.@label$;
 		areamonster .@map$,267,351,277,387,"Miyabi Doll",1404,10,.@label$;
 		break;
 	case 55:
@@ -801,7 +801,7 @@ function	script	F_Tower_Monster	{
 		areamonster .@map$,267,180,277,216,"Giant Hornet",1303,2,.@label$;
 		break;
 	case 65:
-		areamonster .@map$,352,180,362,216,"Atros",1785,1,.@label$;
+		areamonster .@map$,352,180,362,216,"Atroce",1785,1,.@label$;
 		areamonster .@map$,352,180,362,216,"Galion",1783,20,.@label$;
 		break;
 	case 66:
@@ -964,7 +964,7 @@ function	script	F_Tower_Monster	{
 	case 91:
 		areamonster .@map$,9,96,19,132,"Cecil Damon",1638,10,.@label$;
 		areamonster .@map$,9,96,19,132,"Bow Master",1830,10,.@label$;
-		areamonster .@map$,9,96,19,132,"Kavac",1656,30,.@label$;
+		areamonster .@map$,9,96,19,132,"Kavach Icarus",1656,30,.@label$;
 		break;
 	case 92:
 		areamonster .@map$,93,96,103,132,"Kathryne Keyron",1639,15,.@label$;
@@ -1188,7 +1188,7 @@ function	script	F_Tower_Warp	{
 
 // Levels 1-25
 //============================================================
-1@tower,50,360,0	script	เปลวเพลิงอำมฤต#	844,{
+1@tower,50,360,0	script	Immortal Brazier#	844,{
 	mes "- มีข้อความถูกแกะสลักไว้ที่คบเพลิง -";
 	mes "ผู้ใดก็ตามที่โปรย Ashes of the Darkness ในสถานที่นี้ จะก้าวเข้าใกล้สู่ Naght Sieger ราชาผู้ยิ่งใหญ่แห่งความมืดมิด...";
 	next;
