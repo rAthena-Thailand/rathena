@@ -9409,18 +9409,33 @@ struct Damage battle_calc_magic_attack(block_list *src,block_list *target,uint16
 						skillratio += -100 + 850 + 1250 * skill_lv;
 						skillratio += 70 * pc_checkskill( sd, SS_ANTENPOU ) * skill_lv;
 						skillratio += 5 * sstatus->spl;
+
+						if( sc != nullptr && sc->hasSCE( SC_FIRE_CHARM_POWER ) ){
+							skillratio += 8500;
+						}
+
 						RE_LVL_DMOD(100);
 						break;
 					case SS_REIKETSUHOU:
 						skillratio += -100 + 250 + 550 * skill_lv;
 						skillratio += 40 * pc_checkskill( sd, SS_ANTENPOU ) * skill_lv;
 						skillratio += 5 * sstatus->spl;
+
+						if( sc != nullptr && sc->hasSCE( SC_WATER_CHARM_POWER ) ){
+							skillratio += 7000;
+						}
+
 						RE_LVL_DMOD(100);
 						break;
 					case SS_KINRYUUHOU:
 						skillratio += -100 + 300 + 400 * skill_lv;
 						skillratio += 15 * pc_checkskill( sd, SS_ANTENPOU ) * skill_lv;
 						skillratio += 5 * sstatus->spl;
+
+						if( sc != nullptr && sc->hasSCE( SC_GROUND_CHARM_POWER ) ){
+							skillratio += 5500;
+						}
+
 						RE_LVL_DMOD(100);
 						break;
 					case SS_ANKOKURYUUAKUMU:
@@ -9432,6 +9447,11 @@ struct Damage battle_calc_magic_attack(block_list *src,block_list *target,uint16
 						skillratio += -100 + 600 + 1300 * skill_lv;
 						skillratio += 70 * pc_checkskill( sd, SS_ANTENPOU ) * skill_lv;
 						skillratio += 5 * sstatus->spl;
+
+						if( sc != nullptr && sc->hasSCE( SC_WIND_CHARM_POWER ) ){
+							skillratio += 8500;
+						}
+
 						RE_LVL_DMOD(100);
 						break;
 					case SS_ANTENPOU:
@@ -11737,6 +11757,7 @@ static const struct _battle_data {
 	{ "flooritem_lifetime",                 &battle_config.flooritem_lifetime,              60000,  1000,   INT_MAX,        },
 	{ "item_auto_get",                      &battle_config.item_auto_get,                   0,      0,      1,              },
 	{ "first_attack_loot_bonus",            &battle_config.first_attack_loot_bonus,         30,     0,      100,            },
+	{ "mvp_to_loot_priority",               &battle_config.mvp_to_loot_priority,            0,      0,      1,              },
 	{ "item_first_get_time",                &battle_config.item_first_get_time,             3000,   0,      INT_MAX,        },
 	{ "item_second_get_time",               &battle_config.item_second_get_time,            2000,   0,      INT_MAX,        },
 	{ "item_third_get_time",                &battle_config.item_third_get_time,             2000,   0,      INT_MAX,        },
@@ -12212,8 +12233,6 @@ static const struct _battle_data {
 	{ "feature.roulette",                   &battle_config.feature_roulette,                1,      0,      1,              },
 	{ "feature.roulette_bonus_reward",      &battle_config.feature_roulette_bonus_reward,   1,      0,      1,              },
 	{ "monster_hp_bars_info",               &battle_config.monster_hp_bars_info,            1,      0,      1,              },
-	{ "min_body_style",                     &battle_config.min_body_style,                  0,      0,      SHRT_MAX,       },
-	{ "max_body_style",                     &battle_config.max_body_style,                  1,      0,      SHRT_MAX,       },
 	{ "save_body_style",                    &battle_config.save_body_style,                 1,      0,      1,              },
 	{ "monster_eye_range_bonus",            &battle_config.mob_eye_range_bonus,             0,      0,      10,             },
 	{ "monster_stuck_warning",              &battle_config.mob_stuck_warning,               0,      0,      1,              },
