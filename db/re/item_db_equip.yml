@@ -56443,7 +56443,6 @@ Body:
       Head_Mid: true
     ArmorLevel: 1
     EquipLevelMin: 1
-    Refineable: true
     View: 873
     Trade:
       NoDrop: true
@@ -86456,7 +86455,6 @@ Body:
       Head_Mid: true
     ArmorLevel: 1
     EquipLevelMin: 20
-    Refineable: true
     View: 779
   - Id: 18621
     AegisName: Gangster_Mask_A
@@ -87201,7 +87199,6 @@ Body:
       Head_Mid: true
     ArmorLevel: 1
     EquipLevelMin: 20
-    Refineable: true
     View: 813
     Script: |
       bonus2 bResEff,Eff_Stun,1000;
@@ -87526,7 +87523,6 @@ Body:
       Head_Mid: true
     ArmorLevel: 1
     EquipLevelMin: 1
-    Refineable: true
     View: 828
     Script: |
       bonus bMaxSP,15;
@@ -91810,7 +91806,6 @@ Body:
     Locations:
       Head_Mid: true
     ArmorLevel: 1
-    Refineable: true
     View: 1072
     Script: |
       bonus bMdef,7;
@@ -93115,7 +93110,6 @@ Body:
       Head_Mid: true
     ArmorLevel: 1
     EquipLevelMin: 10
-    Refineable: true
     View: 1250
     Script: |
       bonus2 bAddRace,RC_Angel,5;
@@ -93232,7 +93226,6 @@ Body:
     Locations:
       Head_Mid: true
     ArmorLevel: 1
-    Refineable: true
     View: 875
     Script: |
       bonus2 bSubRace,RC_All,4;
@@ -93566,7 +93559,6 @@ Body:
       Head_Mid: true
     ArmorLevel: 1
     EquipLevelMin: 50
-    Refineable: true
     View: 1366
     Script: |
       bonus bHit,10;
@@ -94203,7 +94195,6 @@ Body:
       Head_Mid: true
     ArmorLevel: 1
     EquipLevelMin: 70
-    Refineable: true
     View: 1423
     Script: |
       bonus bMaxSP,50;
@@ -94419,7 +94410,6 @@ Body:
       Head_Mid: true
     ArmorLevel: 1
     EquipLevelMin: 1
-    Refineable: true
     View: 873
     Script: |
       bonus bAspd,1;
@@ -95060,7 +95050,6 @@ Body:
       Head_Mid: true
     ArmorLevel: 1
     EquipLevelMin: 40
-    Refineable: true
     View: 400
     Script: |
       bonus bBaseAtk,5;
@@ -96367,7 +96356,6 @@ Body:
     Locations:
       Head_Mid: true
     ArmorLevel: 1
-    Refineable: true
     View: 873
   - Id: 19242
     AegisName: Cat_Lace_Hairband_K
@@ -259961,7 +259949,7 @@ Body:
       bonus2 bSkillAtk,"HW_NAPALMVULCAN",15*(.@r/3);
       if (.@r>=7) {
          bonus2 bSkillAtk,"WL_SOULEXPANSION",20;
-         bonus2 bMagicAddEle,Ele_Ghost,15;
+         bonus2 bMagicAtkEle,Ele_Ghost,15;
       }
       if (.@r>=9) {
          bonus5 bAutoSpell,"MG_SOULSTRIKE",10,150,BF_LONG,1;
@@ -261465,7 +261453,7 @@ Body:
     EquipLevelMin: 100
     Refineable: true
     Script: |
-      bonus2 bAddClass,Class_All,5;
+      bonus bAtkRate,5;
       .@r = getrefine();
       bonus bBaseAtk,.@r*3;
       bonus bBaseAtk,min(BaseLevel,180)/15*3;
@@ -261531,7 +261519,7 @@ Body:
       bonus bLongAtkRate,4*(.@r/3);
       if (.@r>=7) {
          bonus2 bSkillAtk,"RL_R_TRIP",20;
-         bonus2 bSkillUseSPrate,"RL_R_TRIP",10;
+         bonus2 bSkillUseSPrate,"RL_R_TRIP",-10;
       }
       if (.@r>=9) {
          bonus2 bSkillAtk,"RL_R_TRIP",15;
