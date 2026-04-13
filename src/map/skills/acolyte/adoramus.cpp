@@ -3,7 +3,7 @@
 
 #include "adoramus.hpp"
 
-#include <config/const.hpp>
+#include <config/core.hpp>
 
 #include "map/map.hpp"
 #include "map/pc.hpp"
@@ -28,4 +28,11 @@ int64 SkillAdoramus::splashDamage(block_list* src, block_list* target, uint16 sk
 		return 0; // No damage should happen if the target is on Land Protector
 
 	return SkillImplRecursiveDamageSplash::splashDamage(src, target, skill_lv, tick, flag);
+}
+
+void SkillAdoramus::modifyElement(const Damage& dmg, const block_list& src, const block_list& target, uint16 skill_lv, int32& element, int32 flag) const {
+	const status_change* sc = status_get_sc(&src);
+
+	if (sc != nullptr && sc->hasSCE(SC_ANCILLA))
+		element = ELE_NEUTRAL;
 }
