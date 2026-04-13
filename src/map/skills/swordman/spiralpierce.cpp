@@ -3,7 +3,6 @@
 
 #include "spiralpierce.hpp"
 
-#include <config/const.hpp>
 #include <config/core.hpp>
 
 #include "map/mob.hpp"
@@ -11,6 +10,13 @@
 #include "map/status.hpp"
 
 SkillSpiralPierce::SkillSpiralPierce() : WeaponSkillImpl(LK_SPIRALPIERCE) {
+}
+
+void SkillSpiralPierce::modifyDamageData(Damage& dmg, const block_list& src, const block_list& target, uint16 skill_lv) const {
+	const map_session_data* sd = BL_CAST(BL_PC, &src);
+
+	if (sd == nullptr)
+		dmg.flag = (dmg.flag&~(BF_RANGEMASK|BF_WEAPONMASK))|BF_LONG|BF_MISC;
 }
 
 void SkillSpiralPierce::calculateSkillRatio(const Damage *wd, const block_list *src, const block_list *target, uint16 skill_lv, int32 &skillratio, int32 mflag) const {
@@ -30,4 +36,9 @@ void SkillSpiralPierce::applyAdditionalEffects(block_list *src, block_list *targ
 
 	if( dstsd || ( dstmd && !status_bl_has_mode(target,MD_STATUSIMMUNE) ) ) //Does not work on status immune
 		sc_start(src,target,SC_ANKLE,100,0,skill_get_time2(getSkillId(),skill_lv));
+}
+
+void SkillSpiralPierce::modifyElement(const Damage& dmg, const block_list& src, const block_list& target, uint16 skill_lv, int32& element, int32 flag) const {
+	if (src.type != BL_PC)
+		element = ELE_NEUTRAL; // forced neutral for monsters
 }

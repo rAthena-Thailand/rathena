@@ -3,7 +3,7 @@
 
 #include "spiralpiercemax.hpp"
 
-#include <config/const.hpp>
+#include <config/core.hpp>
 
 #include "map/clif.hpp"
 #include "map/mob.hpp"
@@ -11,14 +11,6 @@
 #include "map/status.hpp"
 
 SkillSpiralPierceMax::SkillSpiralPierceMax() : WeaponSkillImpl(HN_SPIRAL_PIERCE_MAX) {
-}
-
-void SkillSpiralPierceMax::applyAdditionalEffects(block_list *src, block_list *target, uint16 skill_lv, t_tick tick, int32 attack_type, enum damage_lv dmg_lv) const {
-	map_session_data* dstsd = BL_CAST( BL_PC, target );
-	mob_data *dstmd = BL_CAST(BL_MOB, target);
-
-	if( dstsd || ( dstmd && !status_bl_has_mode(target,MD_STATUSIMMUNE) ) ) //Does not work on status immune
-		sc_start(src,target,SC_ANKLE,100,0,skill_get_time2(getSkillId(),skill_lv));
 }
 
 void SkillSpiralPierceMax::calculateSkillRatio(const Damage *wd, const block_list *src, const block_list *target, uint16 skill_lv, int32 &skillratio, int32 mflag) const {

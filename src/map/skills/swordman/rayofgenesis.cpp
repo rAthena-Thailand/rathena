@@ -7,19 +7,14 @@
 
 #include "map/battle.hpp"
 #include "map/clif.hpp"
-#include "map/map.hpp"
 #include "map/status.hpp"
 
 SkillRayOfGenesis::SkillRayOfGenesis() : SkillImplRecursiveDamageSplash(LG_RAYOFGENESIS) {
 }
 
 void SkillRayOfGenesis::castendNoDamageId(block_list* src, block_list* target, uint16 skill_lv, t_tick tick, int32& flag) const {
-	int32 starget = BL_CHAR|BL_SKILL;
-
-	skill_area_temp[1] = 0;
 	clif_skill_nodamage(src,*target,getSkillId(),skill_lv);
-	map_foreachinrange(skill_area_sub, target, skill_get_splash(getSkillId(), skill_lv), starget,
-		src, getSkillId(), skill_lv, tick, flag|BCT_ENEMY|SD_SPLASH|1, skill_castend_damage_id);
+	skill_castend_damage_id(src, target, getSkillId(), skill_lv, tick, flag);
 }
 
 void SkillRayOfGenesis::calculateSkillRatio(const Damage* wd, const block_list* src, const block_list* target, uint16 skill_lv, int32& skillratio, int32 mflag) const {
@@ -36,4 +31,11 @@ void SkillRayOfGenesis::applyAdditionalEffects(block_list* src, block_list* targ
 	// 50% chance to cause Blind on Undead and Demon monsters.
 	if ( battle_check_undead(tstatus->race, tstatus->def_ele) || tstatus->race == RC_DEMON )
 		sc_start(src,target, SC_BLIND, 50, skill_lv, skill_get_time(getSkillId(),skill_lv));
+}
+
+void SkillRayOfGenesis::modifyElement(const Damage& dmg, const block_list& src, const block_list& target, uint16 skill_lv, int32& element, int32 flag) const {
+	const status_change* sc = status_get_sc(&src);
+
+	if (sc != nullptr && sc->hasSCE(SC_INSPIRATION))
+		element = ELE_NEUTRAL;
 }

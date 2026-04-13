@@ -32,6 +32,8 @@ class SkillImpl;
 extern struct eri* skill_timer_ers;
 extern DBMap* bowling_db;
 
+extern char dir_ka;
+
 #ifndef TIMERSKILL_INTERVAL
 	#define TIMERSKILL_INTERVAL	150
 #endif
@@ -289,7 +291,7 @@ struct s_skill_db {
 
 	uint16 unit_id;								///< Unit ID. @see enum e_skill_unit_id
 	uint16 unit_id2;							///< Alternate unit ID. @see enum e_skill_unit_id
-	int32 unit_layout_type[MAX_SKILL_LEVEL];	///< Layout type. -1 is special layout, others are square with lenght*width: (val*2+1)^2
+	int32 unit_layout_type[MAX_SKILL_LEVEL];	///< Layout type. -1 is special layout, others are square with length*width: (val*2+1)^2
 	int32 unit_range[MAX_SKILL_LEVEL];			///< Unit cell effect range
 	int16 unit_interval;						///< Interval
 	int32 unit_target;							///< Unit target.
