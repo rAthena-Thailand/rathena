@@ -133619,6 +133619,11 @@ Body:
     Type: ShadowGear
     Locations:
       Shadow_Right_Accessory: true
+    Trade:
+      NoDrop: true
+      NoSell: true
+      NoMail: true
+      NoAuction: true
     Refineable: true
     Script: |
       .@r = getrefine();
@@ -133635,11 +133640,13 @@ Body:
     AegisName: S_FullPene_Pendant
     Name: Full Penetration Shadow Pendant
     Type: ShadowGear
-    Jobs:
-      All: true
-      Novice: false
     Locations:
       Shadow_Left_Accessory: true
+    Trade:
+      NoDrop: true
+      NoSell: true
+      NoMail: true
+      NoAuction: true
     Refineable: true
     Script: |
       .@r = getrefine();
@@ -133658,6 +133665,11 @@ Body:
     Type: ShadowGear
     Locations:
       Shadow_Armor: true
+    Trade:
+      NoDrop: true
+      NoSell: true
+      NoMail: true
+      NoAuction: true
     Refineable: true
     Script: |
       .@r = getrefine();
@@ -133674,11 +133686,13 @@ Body:
     AegisName: S_FullPene_Shoes
     Name: Full Penetration Shadow Shoes
     Type: ShadowGear
-    Jobs:
-      All: true
-      Novice: false
     Locations:
       Shadow_Shoes: true
+    Trade:
+      NoDrop: true
+      NoSell: true
+      NoMail: true
+      NoAuction: true
     Refineable: true
     Script: |
       .@r = getrefine();
@@ -178473,6 +178487,22 @@ Body:
       Costume_Head_Top: true
     ArmorLevel: 1
     View: 2673
+  - Id: 400799
+    AegisName: C_JP_EV18
+    Name: Costume Kumamon Bald Person    # !todo check english name
+    Type: Armor
+    Locations:
+      Costume_Head_Top: true
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoCart: true
+      NoSell: true
+      NoMail: true
+      NoAuction: true
+      NoGuildStorage: true
+    ArmorLevel: 1
+    View: 2675
   - Id: 400801
     AegisName: C_FumiHausu_Doll
     Name: Costume Fumi Hausu Doll
@@ -180688,6 +180718,46 @@ Body:
       Costume_Head_Top: true
     ArmorLevel: 1
     View: 2814
+  - Id: 401294
+    AegisName: aegis_401294 
+    Name: Costume Tulip Hairpin (Yellow)    # !todo check english name
+    Type: Armor
+    Locations:
+      Costume_Head_Top: true
+    ArmorLevel: 1
+    View: 499
+  - Id: 401295
+    AegisName: C_Nymph_Ear 
+    Name: Costume Nymph's Ear
+    Type: Armor
+    Locations:
+      Costume_Head_Mid: true
+    ArmorLevel: 1
+    View: 2818
+  - Id: 401300
+    AegisName: C_LG_Feather_Hat 
+    Name: Costume Light Green Feather Hat    # !todo check english name
+    Type: Armor
+    Locations:
+      Costume_Head_Top: true
+    ArmorLevel: 1
+    View: 2819
+  - Id: 401303
+    AegisName: C_Ruck_Keeper 
+    Name: Costume Ruck Keeper
+    Type: Armor
+    Locations:
+      Costume_Head_Top: true
+    ArmorLevel: 1
+    View: 2822
+  - Id: 401320
+    AegisName: aegis_401320
+    Name: Costume Astrologer's Tricorne (Blue)    # !todo check english name
+    Type: Armor
+    Locations:
+      Costume_Head_Top: true
+    ArmorLevel: 1
+    View: 2663
   - Id: 410000
     AegisName: Resonate_Taego_J
     Name: Ancient Resonance
@@ -183276,10 +183346,16 @@ Body:
     View: 2343
   - Id: 410224
     AegisName: C_Pope_Ribbon_R
-    Name: Costume Red Ribbon
+    Name: Costume Pope Ribbon (Red)    # !todo check english name
     Type: Armor
     Locations:
       Costume_Head_Mid: true
+    Trade:
+      NoDrop: true
+      NoSell: true
+      NoMail: true
+      NoAuction: true
+      NoGuildStorage: true
     ArmorLevel: 1
     View: 2152
   - Id: 410226
@@ -189608,6 +189684,48 @@ Body:
       Costume_Head_Low: true
     ArmorLevel: 1
     View: 2716
+  - Id: 420647
+    AegisName: C_L_Knitting_Wave_BD
+    Name: Costume Loose Braided Waves (Bronze)    # !todo check english name
+    Type: Armor
+    Locations:
+      Costume_Head_Low: true
+    ArmorLevel: 1
+    View: 2756
+  - Id: 420648
+    AegisName: C_L_Knitting_Wave_RBD
+    Name: Costume Loose Braided Waves (Royal Bronze)    # !todo check english name
+    Type: Armor
+    Locations:
+      Costume_Head_Low: true
+    Trade:
+      NoDrop: true
+      NoSell: true
+      NoMail: true
+      NoAuction: true
+    ArmorLevel: 1
+    View: 2757
+  - Id: 420649
+    AegisName: C_L_Knitting_Wave_SV
+    Name: Costume Loose Braided Waves (Silver)    # !todo check english name
+    Type: Armor
+    Locations:
+      Costume_Head_Low: true
+    ArmorLevel: 1
+    View: 2758
+  - Id: 420650
+    AegisName: C_L_Knitting_Wave_RSV
+    Name: Costume Loose Braided Waves (Royal Silver)    # !todo check english name
+    Type: Armor
+    Locations:
+      Costume_Head_Low: true
+    Trade:
+      NoDrop: true
+      NoSell: true
+      NoMail: true
+      NoAuction: true
+    ArmorLevel: 1
+    View: 2759
   - Id: 420702
     AegisName: C_Eclipse_Muffler
     Name: Costume Eclipse Muffler
@@ -189738,6 +189856,30 @@ Body:
       Costume_Head_Low: true
     ArmorLevel: 1
     View: 2816
+  - Id: 420774
+    AegisName: aegis_420774
+    Name: Costume Poporin Bubble Pipe
+    Type: Armor
+    Locations:
+      Costume_Head_Low: true
+    ArmorLevel: 1
+    View: 2753
+  - Id: 420775
+    AegisName: C_Petal_Twin
+    Name: Costume Petal Twin
+    Type: Armor
+    Locations:
+      Costume_Head_Low: true
+    ArmorLevel: 1
+    View: 2820
+  - Id: 420776
+    AegisName: C_Petal_Twin_N
+    Name: Costume Petal Twin (No Decoration)
+    Type: Armor
+    Locations:
+      Costume_Head_Low: true
+    ArmorLevel: 1
+    View: 2821
   - Id: 430001
     AegisName: C_Helm_Of_Ra
     Name: Costume Hat of the Sun God
@@ -217709,18 +217851,6 @@ Body:
              }
          }
       }
-  - Id: 480555
-    AegisName: C_Lapine_Wing
-    Name: Costume Laphine Wings
-    Type: Armor
-    Locations:
-      Costume_Garment: true
-    Trade:
-      NoMail: true
-      NoAuction: true
-      NoGuildStorage: true
-    ArmorLevel: 1
-    View: 260
   - Id: 480456
     AegisName: C_Plant_Outing_Set
     Name: Costume Houseplant Outing Set
@@ -218983,6 +219113,18 @@ Body:
             bonus2 bMagicAddRace2,RC2_Destroyed_Valkyrie_Realm,10;
          }
       }
+  - Id: 480555
+    AegisName: C_Lapine_Wing
+    Name: Costume Laphine Wings
+    Type: Armor
+    Locations:
+      Costume_Garment: true
+    Trade:
+      NoMail: true
+      NoAuction: true
+      NoGuildStorage: true
+    ArmorLevel: 1
+    View: 260
   - Id: 480556
     AegisName: C_Blue_Rose_Parasol
     Name: Costume Blue Rose Parasol
@@ -218991,6 +219133,22 @@ Body:
       Costume_Garment: true
     ArmorLevel: 1
     View: 261
+  - Id: 480559
+    AegisName: C_JP_EV19
+    Name: Costume Kumamon Doll    # !todo check english name
+    Type: Armor
+    Locations:
+      Costume_Garment: true
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoCart: true
+      NoSell: true
+      NoMail: true
+      NoAuction: true
+      NoGuildStorage: true
+    ArmorLevel: 1
+    View: 262
   - Id: 480565
     AegisName: C_CLB_HM_Noni
     Name: Costume Riding Noni Bag    # !todo check english name
@@ -219756,6 +219914,26 @@ Body:
       Costume_Garment: true
     ArmorLevel: 1
     View: 301
+  - Id: 480772
+    AegisName: C_Angel_Gift
+    Name: Costume Angel's Gift
+    Type: Armor
+    Locations:
+      Costume_Garment: true
+    ArmorLevel: 1
+    View: 302
+    Script: |
+      hateffect HAT_EF_C_ANGEL_GIFT,true;
+    UnEquipScript: |
+      hateffect HAT_EF_C_ANGEL_GIFT,false;
+  - Id: 480773
+    AegisName: C_Sakura_Rod_PK
+    Name: Costume Blooming Staff Pink    # !todo check english name
+    Type: Armor
+    Locations:
+      Costume_Garment: true
+    ArmorLevel: 1
+    View: 303
   - Id: 490004
     AegisName: Atker_Ring
     Name: Attacker Booster Ring
